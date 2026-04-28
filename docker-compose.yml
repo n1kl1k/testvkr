@@ -27,14 +27,14 @@ services:
       - app-net
 
   frontend:
-  build:
-    context: ./fzo/fzo
-  container_name: react_frontend
-  restart: always
-  volumes:
-    - frontend_build:/app/dist
-  networks:
-    - app-net
+    build:
+      context: ./fzo/fzo
+    container_name: react_frontend
+    restart: always
+    volumes:
+      - frontend_build:/app/dist
+    networks:
+      - app-net
 
 nginx:
   image: nginx:alpine
