@@ -3,7 +3,7 @@ FROM maven:3.9-eclipse-temurin-25 AS build
 
 WORKDIR /build
 
-COPY pom.xml .
+COPY fzo.rusoil/pom.xml .
 RUN mvn dependency:go-offline
 
 COPY src ./src
