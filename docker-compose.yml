@@ -27,26 +27,28 @@ services:
       - app-net
 
   frontend:
-    build:
-      context: ./fzo/fzo
-    container_name: react_frontend
-    restart: always
-    networks:
-      - app-net
+  build:
+    context: ./fzo/fzo
+  container_name: react_frontend
+  restart: always
+  volumes:
+    - frontend_build:/app/dist
+  networks:
+    - app-net
 
-  nginx:
-    image: nginx:alpine
-    container_name: nginx_proxy
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - app-net
+nginx:
+  image: nginx:alpine
+  container_name: nginx_proxy
+  ports:
+    - "80:80"
+  volumes:
+    - frontend_build:/usr/share/nginx/html
+    - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+  depends_on:
+    - frontend
+    - backend
+  networks:
+    - app-net
 
 networks:
   app-net:
