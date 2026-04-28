@@ -27,6 +27,9 @@ services:
   frontend:
     build:
       context: ./fzo/fzo
+    container_name: react_frontend
+    ports:
+      - "80:80"
     restart: always
     depends_on:
       - backend
