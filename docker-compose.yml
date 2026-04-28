@@ -20,7 +20,7 @@ services:
 
   backend:
     build: 
-      context: ./fzo_be
+      context: ./vkr_be
     container_name: spring_backend
     restart: always
     depends_on:
