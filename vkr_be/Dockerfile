@@ -1,19 +1,23 @@
 # Сборка
-FROM maven:3.9-eclipse-temurin-25 AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
 WORKDIR /build
 
-COPY fzo.rusoil/pom.xml .
+# Копируем всё приложение
+COPY fzo.rusoil/ .
+
+# Скачиваем зависимости (ускоряет сборку)
 RUN mvn dependency:go-offline
 
-COPY fzo.rusoil/src ./src
+# Собираем проект
 RUN mvn clean package -DskipTests
 
 # Запуск
-FROM eclipse-temurin:25-jdk
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
+# Копируем jar из стадии сборки
 COPY --from=build /build/target/*.jar app.jar
 
 EXPOSE 8080
