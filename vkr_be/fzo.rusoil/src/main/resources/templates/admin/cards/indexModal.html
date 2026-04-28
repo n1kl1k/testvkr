@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Excel файлами</title>
+    <style>
+        tr{
+            vertical-align: top;
+        }
+        td{
+            font-size: 56;
+        }
+        .card{
+            padding: 20px;
+            text-color: white;
+            max-height: auto;
+            max-weight: auto;
+            background-color: blue;
+            border-radius: 50px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Карточки</h1>
+<div class ="card">
+    <tr th:each="card : ${list}" th:if="${not #lists.isEmpty(list)}">
+        <td th:text="${card.id}">1</td><br>
+        <td th:text="${card.cardTitle}">Название</td><br>
+        <td th:text="${card.profile}">Профиль</td><br>
+        <td th:text="${card.graduating}">Направление</td><br>
+        <td th:text="${card.contacts}">Контакты</td><br>
+        <td th:text="${card.duration}">Время обучения</td><br>
+        <td>
+            <a th:href="@{'/admin/cards/edit/' + ${card.id}}">Изменить</a>
+        </td>
+    </tr>
+</div>
+</body>
+</html>

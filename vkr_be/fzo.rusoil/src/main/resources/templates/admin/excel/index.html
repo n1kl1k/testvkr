@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Excel файлами</title>
+    <style>
+        /* ... существующие стили ... */
+
+        .active-badge {
+            background: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .file-card.active {
+            border: 2px solid #28a745;
+            background: #f8fff9;
+        }
+
+        .btn-set-active {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-set-active:hover {
+            background: #218838;
+        }
+
+        .btn-set-active:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📊 Управление Excel файлами</h1>
+
+    <div class="header-actions">
+        <a href="/admin">
+            <button>← Назад в админку</button>
+        </a>
+        <a href="/admin/excel/upload">
+            <button>📤 Загрузить новый файл</button>
+        </a>
+    </div>
+
+    <!-- Сообщения об успехе -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <!-- Сообщения об ошибках -->
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <div th:if="${#lists.isEmpty(files)}" class="empty-state">
+        <div>📁</div>
+        <h3>Нет загруженных файлов</h3>
+        <p>Загрузите свой первый Excel файл, чтобы начать работу</p>
+        <a href="/admin/excel/upload">
+            <button style="margin-top: 20px;">📤 Загрузить файл</button>
+        </a>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(files)}">
+        <h2>
+            Загруженные файлы
+            <span th:if="${activeFileId}" style="color: #28a745; font-size: 16px;">
+                    (✅ Активный файл отмечен зеленым)
+                </span>
+        </h2>
+
+        <div class="files-grid">
+            <div th:each="file : ${files}"
+                 class="file-card"
+                 th:classappend="${file.active} ? 'active' : ''">
+
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <h3 th:text="${file.originalFileName}"></h3>
+                    <span th:if="${file.active}" class="active-badge">АКТИВНЫЙ</span>
+                </div>
+
+                <div class="file-info">
+                    <div><strong>📈 Размер данных:</strong>
+                        <span th:text="${file.totalRows}"></span> строк ×
+                        <span th:text="${file.totalColumns}"></span> колонок
+                    </div>
+                    <div><strong>📑 Листов:</strong> <span th:text="${file.totalSheets}"></span></div>
+                    <div><strong>📅 Дата загрузки:</strong>
+                        <span th:text="${#temporals.format(file.uploadDate, 'dd.MM.yyyy HH:mm')}"></span>
+                    </div>
+                    <div th:if="${file.description}">
+                        <strong>📝 Описание:</strong>
+                        <span th:text="${file.description}"></span>
+                    </div>
+                    <div><strong>🆔 ID:</strong> <span th:text="${file.id}"></span></div>
+                </div>
+
+                <div class="file-actions">
+                    <a th:href="@{/admin/excel/set-active/{id}(id=${file.id})}">
+                        <button class="btn-set-active"
+                                th:disabled="${file.active}"
+                                th:text="${file.active} ? '✅ Активный' : '🎯 Сделать активным'">
+                        </button>
+                    </a>
+                    <a th:href="@{/admin/excel/delete/{id}(id=${file.id})}"
+                       onclick="return confirm('Удалить файл?')">
+                        <button class="btn-delete">🗑 Удалить</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Информация об активном файле -->
+        <div th:if="${activeFileId}" style="margin-top: 30px; padding: 15px; background: #e8f4fc; border-radius: 8px;">
+            <h3 style="color: #155724; margin-top: 0;">📢 Информация об активном файле</h3>
+            <p style="margin: 10px 0;">
+                <strong>Активный файл</strong> автоматически отображается на главной странице сайта.
+                Чтобы изменить активный файл, нажмите кнопку "🎯 Сделать активным" на нужном файле.
+            </p>
+            <p style="color: #666; font-size: 14px;">
+                💡 <strong>Совет:</strong> Загрузите новый файл и сделайте его активным, чтобы обновить данные на сайте.
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(function() {
+        var alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            alert.style.display = 'none';
+        });
+    }, 5000);
+
+    // Предотвращение повторной отправки формы
+    document.querySelectorAll('form').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            var submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Обработка...';
+            }
+        });
+    });
+</script>
+</body>
+</html>

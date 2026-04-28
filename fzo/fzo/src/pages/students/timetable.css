@@ -1,0 +1,147 @@
+.ui-wrapper {
+  padding: 20px;
+  background: #f1f4f8;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+}
+
+.title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+}
+
+/* TOOLBAR */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.toolbar input,
+.toolbar select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* LEGEND */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.legend-item {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: white;
+}
+
+/* TABLE */
+.table-container {
+  overflow: auto;
+  background: white;
+  border-radius: 10px;
+}
+
+.data-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* ЯЧЕЙКИ */
+.data-table td {
+  padding: 2px;
+  font-size: 11px;
+  line-height: 1;
+  color: #000;
+  border: 1px solid #000;
+}
+
+/* ПЕРВАЯ КОЛОНКА */
+.data-table td:first-child {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+/* ВСЕ ДНИ */
+.data-table td:not(:first-child) {
+  width: 36px;
+}
+
+/* ШАПКА (выравнивание дат) */
+.data-table tr:nth-child(1) td,
+.data-table tr:nth-child(2) td,
+.data-table tr:nth-child(3) td,
+.data-table tr:nth-child(4) td {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* CONTENT */
+.cell-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ЦВЕТА */
+.cell-session { background: #00c853; }
+.cell-exam { background: #ff3d00; color: #fff; }
+.cell-gos { background: #ff6d00; }
+.cell-vkr { background: #7c4dff; color: #fff; }
+.cell-zn { background: #ff9100; }
+.cell-su { background: #e040fb; }
+.cell-practice-study { background: #d1c4e9; }
+.cell-practice-prod { background: #b39ddb; }
+.cell-nir { background: #a5d6a7; }
+.cell-holiday { background: #eeeeee; }
+.cell-holiday-red { background: #bdbdbd; }
+.cell-equal { background: #f5f5f5; }
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+}
+/* Кнопка скачивания */
+.ui-wrapper {
+  position: relative;
+}
+
+.download-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #2c7da0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background 0.2s ease;
+  z-index: 10;
+  font-size: 14px;
+}
+
+.download-btn:hover {
+  background: #1f5e7a;
+}
+
+.download-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.title {
+  margin-right: 160px; /* чтобы текст не наезжал на кнопку */
+}

@@ -1,0 +1,134 @@
+
+
+.document-wrapper {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.document-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.document-header {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2c4a76 100%);
+  padding: 25px 40px;
+  text-align: center;
+}
+
+.document-title {
+  color: #fff;
+  font-size: 26px;
+  margin: 0;
+}
+
+.document-subtitle {
+  color: #e0e6eda8;
+  margin-top: 10px;
+}
+
+.document-content {
+  padding: 40px;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 20px;
+  background: #f1f3f5;
+  border: none;
+  text-align: left;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.faq-question.active {
+  background: #e0e6f5;
+}
+
+.faq-answer {
+  max-height: 0;
+  font-size: 20px;
+  overflow: hidden;
+  transition: 0.3s;
+}
+
+.faq-answer.active {
+  max-height: 1000px;
+  padding: 20px;
+  color:black;
+}
+
+.highlight {
+  background: rgba(30,58,95,0.1);
+  border-left: 4px solid #1E3A5F;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.important-note {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.warning-note {
+  background: #f8d7da;
+  border: 2px solid #dc3545;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.budget-info {
+  background: #d4edda;
+  border: 2px solid #28a745;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.contact-info {
+  margin-top: 30px;
+  padding: 20px;
+  background: #e3f2fd;
+  border-radius: 10px;
+}
+.contact-info h3{
+  color:black;
+}
+.contact-links {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.contact-link {
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  text-decoration: none;
+  color: black;
+}
+
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  background: #1E3A5F;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}

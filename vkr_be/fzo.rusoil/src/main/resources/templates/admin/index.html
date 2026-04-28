@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ панель</title>
+</head>
+<style>
+    body {
+        font-family: sans-serif;
+        background-color: #466dd8;
+        margin: 0;
+        padding: 0;
+    }
+
+    .content-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+        color: black;
+        margin-bottom: 40px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .container-item {
+        margin: 10px;
+    }
+
+    .container-item a {
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+    .container-item button {
+        border-radius: 15px;
+        padding: 30px 60px;
+        font-size: 25px;
+        background-color: white;
+        border: 2px solid #2a4ba3;
+        color: #2a4ba3;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .container-item button:hover {
+        background-color: #2a4ba3;
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
+</head>
+<body>
+
+<section class="content-section">
+    <h1>Предлагаемые разделы</h1>
+
+    <div class="container">
+        <div class="container-item">
+            <a href="/admin/news/index"><button>Раздел новостей</button></a>
+        </div>
+        <div class="container-item">
+            <a href="/admin/excel"><button>Раздел таблицы</button></a>
+        </div>
+        <div class="container-item">
+            <a href="/admin/cards/index"><button>Раздел карточек</button></a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

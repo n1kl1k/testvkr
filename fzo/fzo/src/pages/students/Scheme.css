@@ -1,0 +1,128 @@
+/* src/pages/students/Scheme.css */
+.campus-map-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  background: #f9fafb;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.campus-map-container h2 {
+  text-align: center;
+  color: #1e3a5f;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+.map-wrapper {
+  position: relative;
+  background: white;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.campus-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.info-panel {
+  margin-top: 20px;
+  min-height: 80px;
+}
+
+.selected-info {
+  background: white;
+  border-left: 4px solid #3b82f6;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.selected-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.selected-info p {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.selected-info.placeholder p {
+  color: #94a3b8;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.legend {
+  margin-top: 30px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.legend h3 {
+  margin: 0 0 12px 0;
+  font-size: 1rem;
+  color: #1e3a5f;
+  font-weight: 600;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .campus-map-container {
+    padding: 12px;
+  }
+  .legend-items {
+    gap: 12px;
+  }
+}
+
+/* Подсказка при наведении (кастомная) */
+.hover-tooltip {
+  position: absolute;
+  background: #1e293b;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  transition: all 0.1s ease;
+}

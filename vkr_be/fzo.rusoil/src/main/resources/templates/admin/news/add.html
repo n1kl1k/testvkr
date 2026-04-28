@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить новость</title>
+
+    <!-- Quill -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <style>
+        body {
+            background: #446693;
+            font-family: sans-serif;
+            padding: 40px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .editor-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        #editorShort {
+            height: 150px;
+            margin-bottom: 20px;
+        }
+
+        #editorFull {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1E3A5F;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Добавить новость</h2>
+
+    <form th:action="@{/admin/news/save}" method="post" onsubmit="prepareData()">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+        <input type="text" name="title" placeholder="Заголовок" required>
+
+        <!-- Скрытое поле для краткого текста (будет заполнено из редактора) -->
+        <input type="hidden" name="shortText" id="shortTextHidden">
+
+        <label class="editor-label">Краткий текст (с форматированием):</label>
+        <div id="editorShort"></div>
+
+        <!-- Скрытое поле для полного текста -->
+        <input type="hidden" name="fullText" id="fullTextHidden">
+
+        <label class="editor-label">Полный текст (с форматированием):</label>
+        <div id="editorFull"></div>
+
+        <button type="submit">💾 Сохранить</button>
+    </form>
+</div>
+
+<script>
+    // Инициализация редактора для краткого текста
+    var shortQuill = new Quill('#editorShort', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ color: [] }],
+                [{ list: 'ordered'}, { list: 'bullet' }],
+                ['link']
+            ]
+        }
+    });
+
+    // Инициализация редактора для полного текста
+    var fullQuill = new Quill('#editorFull', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ color: [] }],
+                [{ list: 'ordered'}, { list: 'bullet' }],
+                ['link']
+            ]
+        }
+    });
+
+    function prepareData() {
+        document.getElementById('shortTextHidden').value = shortQuill.root.innerHTML;
+        document.getElementById('fullTextHidden').value = fullQuill.root.innerHTML;
+    }
+</script>
+
+</body>
+</html>

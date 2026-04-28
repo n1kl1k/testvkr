@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Образовательные программы</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        .card { border-radius: 20px; overflow: hidden; }
+        .badge-custom {
+            background-color: #0d6efd;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .btn-edit {
+            background-color: #ffc107;
+            border: none;
+        }
+        .btn-edit:hover {
+            background-color: #e0a800;
+        }
+        /* Обеспечиваем прокрутку внутри модальных окон */
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>📚 Образовательные программы</h1>
+        <button type="button" class="btn btn-primary" id="openCreateModal">➕ Создать карточку</button>
+    </div>
+    <div class="row" id="cardsContainer">
+        <!-- карточки загружаются сюда через JS -->
+    </div>
+</div>
+
+<!-- Модальное окно для деталей -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detailsModalTitle"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="detailsModalBody"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для формы (создание/редактирование) -->
+<div class="modal fade" id="formModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content" id="formModalContent">
+            <!-- сюда загружается форма через AJAX -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const apiBase = '/api/cards';
+    let currentEditId = null;
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+    }
+
+    function showDetails(cardId) {
+        fetch(`${apiBase}/${cardId}/details`)
+            .then(res => res.ok ? res.json() : Promise.reject('Ошибка загрузки деталей'))
+            .then(data => {
+                document.getElementById('detailsModalTitle').innerText = data.title || '';
+                let html = `
+                    <p><strong>Профиль:</strong> ${escapeHtml(data.profile)}</p>
+                    <p><strong>Выпускающая кафедра:</strong> ${escapeHtml(data.graduating)}</p>
+                    <p><strong>Контакты:</strong> ${escapeHtml(data.contacts)}</p>
+                    <p><strong>Срок обучения:</strong> ${escapeHtml(data.duration)}</p>
+                    <hr>
+                    <h6>📌 Дополнительная информация</h6>
+                    <p><strong>${escapeHtml(data.additionalTitle || '')}</strong><br>${escapeHtml(data.additionalInfo || '')}</p>
+                `;
+                if (data.activities?.length) {
+                    html += `<h6>🎯 Виды деятельности:</h6><ul>${data.activities.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>`;
+                }
+                if (data.partners?.length) {
+                    html += `<h6>🤝 Партнёры:</h6><ul>${data.partners.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`;
+                }
+                if (data.requirements?.length) {
+                    html += `<h6>📋 Требования:</h6><ul>${data.requirements.map(r => `<li>База: ${escapeHtml(r.basePlan || '—')}, СПО: ${escapeHtml(r.spoPlan || '—')}</li>`).join('')}</ul>`;
+                }
+                if (data.plans?.length) {
+                    html += `<h6>💰 План приёма:</h6><ul>${data.plans.map(p => `<li>Бюджет: ${p.budget || '—'}, Платно: ${p.paid || '—'}, Баллы: ${p.score || '—'}</li>`).join('')}</ul>`;
+                }
+                document.getElementById('detailsModalBody').innerHTML = html;
+                new bootstrap.Modal(document.getElementById('detailsModal')).show();
+            })
+            .catch(err => alert('Не удалось загрузить подробности: ' + err));
+    }
+
+    function loadForm(url, title, editId = null) {
+        currentEditId = editId;
+        fetch(url)
+            .then(res => res.ok ? res.text() : Promise.reject('HTTP ' + res.status))
+            .then(html => {
+                document.getElementById('formModalContent').innerHTML = html;
+                const modal = new bootstrap.Modal(document.getElementById('formModal'));
+                modal.show();
+
+                const form = document.getElementById('cardForm');
+                if (form) {
+                    // Удаляем старый обработчик, если есть, чтобы не навешивать несколько
+                    form.removeEventListener('submit', submitFormHandler);
+                    form.addEventListener('submit', submitFormHandler);
+                }
+                initDynamicFieldHandlers();
+            })
+            .catch(err => alert('Ошибка загрузки формы: ' + err));
+    }
+
+    function submitFormHandler(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+
+    const jsonObject = {};
+    // Простые поля
+    jsonObject.cardId = formData.get('cardId') ? parseInt(formData.get('cardId')) : null;
+    jsonObject.title = formData.get('title');
+    jsonObject.profile = formData.get('profile');
+    jsonObject.graduating = formData.get('graduating');
+    jsonObject.contacts = formData.get('contacts');
+    jsonObject.duration = formData.get('duration');
+    jsonObject.additionalTitle = formData.get('additionalTitle');
+    jsonObject.additionalInfo = formData.get('additionalInfo');
+
+    // activities (множественные поля с одинаковым именем)
+    jsonObject.activities = formData.getAll('activities').filter(v => v.trim() !== '');
+    // partners
+    jsonObject.partners = formData.getAll('partners').filter(v => v.trim() !== '');
+
+    // requirements – собираем пары (basePlan, spoPlan)
+    const basePlans = formData.getAll('requirementsBasePlan');
+    const spoPlans = formData.getAll('requirementsSpoPlan');
+    jsonObject.requirements = [];
+    for (let i = 0; i < basePlans.length; i++) {
+        if (basePlans[i].trim() !== '' || spoPlans[i].trim() !== '') {
+            jsonObject.requirements.push({
+                basePlan: basePlans[i],
+                spoPlan: spoPlans[i]
+            });
+        }
+    }
+
+    // plans – собираем тройки (budget, paid, score)
+    const budgets = formData.getAll('planBudget');
+    const paids = formData.getAll('planPaid');
+    const scores = formData.getAll('planScore');
+    jsonObject.plans = [];
+    for (let i = 0; i < budgets.length; i++) {
+        if (budgets[i] !== '' || paids[i] !== '' || scores[i] !== '') {
+            jsonObject.plans.push({
+                budget: budgets[i] ? parseInt(budgets[i]) : null,
+                paid: paids[i] ? parseInt(paids[i]) : null,
+                score: scores[i]
+            });
+        }
+    }
+
+    fetch('/api/cards/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jsonObject)
+    })
+    .then(response => {
+        if (response.ok) {
+            bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
+            loadCardsList(); // обновляем список
+        } else {
+            return response.text().then(text => { throw new Error(text); });
+        }
+    })
+    .catch(err => alert('Ошибка сохранения: ' + err));
+}
+
+    function initDynamicFieldHandlers() {
+        // Добавление активности
+        const addActivityBtn = document.querySelector('.add-activity');
+        if (addActivityBtn) {
+            addActivityBtn.onclick = () => addDynamicRow('activities-container', 'activities', 'Активность');
+        }
+        // Добавление партнёра
+        const addPartnerBtn = document.querySelector('.add-partner');
+        if (addPartnerBtn) {
+            addPartnerBtn.onclick = () => addDynamicRow('partners-container', 'partners', 'Партнёр');
+        }
+         const addRequirementBtn = document.querySelector('.add-requirement');
+    if (addRequirementBtn) {
+        addRequirementBtn.onclick = () => addRequirementRow();
+    }
+    const addPlanBtn = document.querySelector('.add-plan');
+    if (addPlanBtn) {
+        addPlanBtn.onclick = () => addPlanRow();
+    }
+    // удаление строк (универсально для всех)
+    document.querySelectorAll('.remove-row').forEach(btn => {
+        btn.onclick = () => btn.closest('.row, .input-group').remove();
+    });
+    }
+    function addRequirementRow() {
+    const container = document.querySelector('.requirements-container');
+    const newRow = document.createElement('div');
+    newRow.className = 'row mb-2 g-2';
+    newRow.innerHTML = `
+        <div class="col-sm-5">
+            <input type="text" name="requirementsBasePlan" class="form-control" placeholder="Базовый план">
+        </div>
+        <div class="col-sm-5">
+            <input type="text" name="requirementsSpoPlan" class="form-control" placeholder="СПО план">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
+        </div>
+    `;
+    container.appendChild(newRow);
+    newRow.querySelector('.remove-row').onclick = () => newRow.remove();
+}
+
+function addPlanRow() {
+    const container = document.querySelector('.plans-container');
+    const newRow = document.createElement('div');
+    newRow.className = 'row mb-2 g-2';
+    newRow.innerHTML = `
+        <div class="col-sm-3">
+            <input type="number" name="planBudget" class="form-control" placeholder="Бюджет">
+        </div>
+        <div class="col-sm-3">
+            <input type="number" name="planPaid" class="form-control" placeholder="Платно">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" name="planScore" class="form-control" placeholder="Баллы">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
+        </div>
+    `;
+    container.appendChild(newRow);
+    newRow.querySelector('.remove-row').onclick = () => newRow.remove();
+}
+    function addDynamicRow(containerClass, inputName, placeholder) {
+        const container = document.querySelector(`.${containerClass}`);
+        if (!container) return;
+        const newRow = document.createElement('div');
+        newRow.className = 'input-group mb-2';
+        newRow.innerHTML = `
+            <input type="text" name="${inputName}" class="form-control" placeholder="${placeholder}">
+            <button type="button" class="btn btn-danger remove-row">Удалить</button>
+        `;
+        container.appendChild(newRow);
+        newRow.querySelector('.remove-row').onclick = () => newRow.remove();
+    }
+
+    function loadCardsList() {
+        fetch(apiBase)
+            .then(res => res.ok ? res.json() : Promise.reject('Ошибка загрузки списка'))
+            .then(cards => {
+                const container = document.getElementById('cardsContainer');
+                if (!cards.length) {
+                    container.innerHTML = '<div class="alert alert-info">Нет доступных программ</div>';
+                    return;
+                }
+                container.innerHTML = '';
+                cards.forEach(card => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-6 col-lg-4 mb-4';
+                    col.innerHTML = `
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${escapeHtml(card.title)}</h5>
+                                <p class="card-text"><strong>Профиль:</strong> ${escapeHtml(card.profile)}</p>
+                                <p class="card-text"><small class="text-muted">⏱ ${escapeHtml(card.duration)}</small></p>
+                                <div class="d-flex justify-content-between mt-3">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="showDetails(${card.cardId})">Подробнее</button>
+                                    <button class="btn btn-sm btn-warning" onclick="loadForm('/admin/cards/${card.cardId}/edit', 'Редактирование', ${card.cardId})">✏️ Редактировать</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(col);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('cardsContainer').innerHTML = `<div class="alert alert-danger">Ошибка загрузки: ${err.message}</div>`;
+            });
+    }
+
+    document.getElementById('openCreateModal').onclick = () => {
+        loadForm('/admin/create-form', 'Создание карточки');
+    };
+
+    loadCardsList();
+</script>
+</body>
+</html>

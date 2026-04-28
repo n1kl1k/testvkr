@@ -1,0 +1,87 @@
+2026-04-27T23:03:06.267+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] com.fzo.fzo.rusoil.Application           : Starting Application using Java 25.0.1 with PID 21208 (C:\projVkr\vkr_be\fzo.rusoil\target\classes started by nikit in C:\projVkr\vkr_be)
+2026-04-27T23:03:06.277+05:00 DEBUG 21208 --- [fzo.rusoil] [restartedMain] com.fzo.fzo.rusoil.Application           : Running with Spring Boot v4.0.0, Spring v7.0.1
+2026-04-27T23:03:06.279+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] com.fzo.fzo.rusoil.Application           : No active profile set, falling back to 1 default profile: "default"
+2026-04-27T23:03:06.347+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-04-27T23:03:06.347+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-04-27T23:03:07.232+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-27T23:03:07.309+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 10 JPA repository interfaces.
+2026-04-27T23:03:08.133+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-04-27T23:03:08.156+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-27T23:03:08.157+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.14]
+2026-04-27T23:03:08.213+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1866 ms
+2026-04-27T23:03:08.438+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-27T23:03:08.509+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.1.8.Final
+2026-04-27T23:03:08.991+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-27T23:03:09.016+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-27T23:03:09.257+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7471b609
+2026-04-27T23:03:09.258+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-27T23:03:09.351+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/fzo_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 18.0
+	Default catalog/schema: fzo_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-27T23:03:10.404+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-27T23:03:10.625+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-27T23:03:10.725+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-27T23:03:11.555+05:00  WARN 21208 --- [fzo.rusoil] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-27T23:03:11.699+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userService
+2026-04-27T23:03:11.914+05:00 DEBUG 21208 --- [fzo.rusoil] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-04-27T23:03:12.075+05:00 DEBUG 21208 --- [fzo.rusoil] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 37 mappings in 'requestMappingHandlerMapping'
+2026-04-27T23:03:12.115+05:00 DEBUG 21208 --- [fzo.rusoil] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-04-27T23:03:12.162+05:00 DEBUG 21208 --- [fzo.rusoil] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-04-27T23:03:12.274+05:00 DEBUG 21208 --- [fzo.rusoil] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-04-27T23:03:12.493+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-04-27T23:03:12.503+05:00  INFO 21208 --- [fzo.rusoil] [restartedMain] com.fzo.fzo.rusoil.Application           : Started Application in 6.669 seconds (process running for 8.102)
+2026-04-27T23:03:23.126+05:00  INFO 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-27T23:03:23.127+05:00  INFO 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-27T23:03:23.128+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-04-27T23:03:23.128+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-04-27T23:03:23.129+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@4a7c4de9
+2026-04-27T23:03:23.129+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@3f360bc1
+2026-04-27T23:03:23.130+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-04-27T23:03:23.130+05:00  INFO 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-04-27T23:03:23.141+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /login
+2026-04-27T23:03:23.149+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] s.s.w.c.CsrfTokenRequestAttributeHandler : Wrote a CSRF token to the following request attributes: [_csrf, org.springframework.security.web.csrf.CsrfToken]
+2026-04-27T23:03:23.150+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.security.web.csrf.CsrfFilter         : Did not protect against CSRF since request did not match And [IsNotHttpMethod [TRACE, HEAD, GET, OPTIONS], Not [Or [PathPattern [/admin/excel/upload], PathPattern [/api/**]]]]
+2026-04-27T23:03:23.152+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] estMatcherDelegatingAuthorizationManager : Authorizing GET /login
+2026-04-27T23:03:23.153+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] estMatcherDelegatingAuthorizationManager : Checking authorization on GET /login using org.springframework.security.authorization.SingleResultAuthorizationManager@ad391d4
+2026-04-27T23:03:23.154+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /login
+2026-04-27T23:03:23.157+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/login", parameters={}
+2026-04-27T23:03:23.168+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.fzo.fzo.rusoil.controllers.ViewController#login()
+2026-04-27T23:03:23.197+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.w.s.v.ContentNegotiatingViewResolver : Selected 'text/html' given [text/html, application/xhtml+xml, image/avif, image/webp, image/apng, application/xml;q=0.9, */*;q=0.8, application/signed-exchange;v=b3;q=0.7]
+2026-04-27T23:03:23.848+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-04-27T23:03:23.850+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-04-27T23:03:23.973+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /favicon.ico
+2026-04-27T23:03:23.973+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] s.s.w.c.CsrfTokenRequestAttributeHandler : Wrote a CSRF token to the following request attributes: [_csrf, org.springframework.security.web.csrf.CsrfToken]
+2026-04-27T23:03:23.973+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.security.web.csrf.CsrfFilter         : Did not protect against CSRF since request did not match And [IsNotHttpMethod [TRACE, HEAD, GET, OPTIONS], Not [Or [PathPattern [/admin/excel/upload], PathPattern [/api/**]]]]
+2026-04-27T23:03:23.973+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] estMatcherDelegatingAuthorizationManager : Authorizing GET /favicon.ico
+2026-04-27T23:03:23.974+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] estMatcherDelegatingAuthorizationManager : Checking authorization on GET /favicon.ico using org.springframework.security.authorization.SingleResultAuthorizationManager@ad391d4
+2026-04-27T23:03:23.974+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /favicon.ico
+2026-04-27T23:03:23.974+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/favicon.ico", parameters={}
+2026-04-27T23:03:23.981+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped to ResourceHttpRequestHandler [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+2026-04-27T23:03:23.984+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.w.s.r.ResourceHttpRequestHandler     : Resource not found
+2026-04-27T23:03:23.990+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico for request '/favicon.ico'.]
+2026-04-27T23:03:23.990+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 404 NOT_FOUND
+2026-04-27T23:03:23.991+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-04-27T23:03:24.000+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /error
+2026-04-27T23:03:24.000+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] estMatcherDelegatingAuthorizationManager : Authorizing GET /error
+2026-04-27T23:03:24.000+05:00 TRACE 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] estMatcherDelegatingAuthorizationManager : Checking authorization on GET /error using org.springframework.security.authorization.SingleResultAuthorizationManager@ad391d4
+2026-04-27T23:03:24.000+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /error
+2026-04-27T23:03:24.001+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2026-04-27T23:03:24.002+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.webmvc.autoconfigure.error.BasicErrorController#error(HttpServletRequest)
+2026-04-27T23:03:24.015+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json;q=0.8', given [image/avif, image/webp, image/apng, image/svg+xml, image/*, */*;q=0.8] and supported [application/json, application/*+json]
+2026-04-27T23:03:24.022+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Mon Apr 27 23:03:24 GMT+05:00 2026, status=404, error=Not Found, trace=org.springframewor (truncated)...]
+2026-04-27T23:03:24.074+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 404
+2026-04-27T23:03:24.074+05:00 DEBUG 21208 --- [fzo.rusoil] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-04-27T23:03:29.789+05:00  INFO 21208 --- [fzo.rusoil] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-27T23:03:29.795+05:00  INFO 21208 --- [fzo.rusoil] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-04-27T23:03:29.801+05:00  INFO 21208 --- [fzo.rusoil] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-27T23:03:29.804+05:00  INFO 21208 --- [fzo.rusoil] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-27T23:03:29.815+05:00  INFO 21208 --- [fzo.rusoil] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

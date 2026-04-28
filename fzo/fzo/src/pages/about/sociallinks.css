@@ -1,0 +1,351 @@
+        .social-wrapper {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .social-header {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2c4a76 100%);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-header::before {
+            content: "🔗";
+            font-size: 120px;
+            position: absolute;
+            top: 50%;
+            right: 50px;
+            transform: translateY(-50%);
+            opacity: 0.1;
+        }
+
+        .social-title {
+            color: #fff;
+            font-size: 42px;
+            font-weight: 800;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .social-subtitle {
+            color: #e0e6eda8;
+            font-size: 18px;
+            margin: 0;
+            font-weight: 300;
+        }
+
+        .social-content {
+            padding: 50px 40px;
+        }
+
+        /* Основная сетка соцсетей */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .social-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .social-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .social-card.vk:hover { border-color: #4C75A3; }
+        .social-card.telegram:hover { border-color: #0088cc; }
+        .social-card.youtube:hover { border-color: #FF0000; }
+        .social-card.rutube:hover { border-color: #FF3333; }
+
+        .social-card-header {
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .social-card.vk .social-card-header { background: linear-gradient(135deg, #4C75A3 0%, #5B7FAD 100%); }
+        .social-card.telegram .social-card-header { background: linear-gradient(135deg, #0088cc 0%, #00A2E8 100%); }
+        .social-card.youtube .social-card-header { background: linear-gradient(135deg, #FF0000 0%, #FF3333 100%); }
+        .social-card.rutube .social-card-header { background: linear-gradient(135deg, #FF3333 0%, #FF6666 100%); }
+
+        .social-icon {
+            font-size: 48px;
+            margin-right: 20px;
+        }
+
+        .social-card-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .social-card-body {
+            padding: 30px;
+        }
+
+        .social-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        .social-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E3A5F;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-link {
+            display: block;
+            text-align: center;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #1E3A5F 0%, #2c4a76 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 58, 95, 0.4);
+        }
+
+        .social-card.vk .social-link { background: linear-gradient(135deg, #4C75A3 0%, #5B7FAD 100%); }
+        .social-card.telegram .social-link { background: linear-gradient(135deg, #0088cc 0%, #00A2E8 100%); }
+        .social-card.youtube .social-link { background: linear-gradient(135deg, #FF0000 0%, #FF3333 100%); }
+        .social-card.rutube .social-link { background: linear-gradient(135deg, #FF3333 0%, #FF6666 100%); }
+
+        /* Баннер подписки */
+        .subscribe-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .subscribe-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .subscribe-text {
+            font-size: 16px;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .subscribe-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .subscribe-btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .subscribe-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Контактная информация */
+        .contact-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .contact-title {
+            color: #1E3A5F;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .contact-link::before {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .contact-link.email::before { content: '📧'; }
+        .contact-link.phone::before { content: '📞'; }
+
+        /* Кнопка наверх */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #1E3A5F;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        .scroll-top:hover {
+            background: #2c4a76;
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #1E3A5F;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            background: #2c4a76;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .social-wrapper {
+                padding: 15px;
+            }
+            
+            .social-content {
+                padding: 30px 20px;
+            }
+            
+            .social-title {
+                font-size: 32px;
+            }
+            
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-card-header {
+                padding: 20px;
+            }
+            
+            .subscribe-banner {
+                padding: 30px 20px;
+            }
+            
+            .subscribe-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .social-title {
+                font-size: 24px;
+            }
+            
+            .social-card-title {
+                font-size: 20px;
+            }
+            
+            .social-icon {
+                font-size: 36px;
+            }
+        }

@@ -1,0 +1,336 @@
+.library-body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-image: linear-gradient(to left, rgba(0,0,0,0.7), #1E3A5F ), url(pic/bG.webp);
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        .document-wrapper {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .document-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .document-header {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2c4a76 100%);
+            padding: 25px 40px;
+            text-align: center;
+            border-bottom: 3px solid #fff;
+        }
+
+        .approval {
+            color: #fff;
+            font-style: italic;
+            font-size: 16px;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .document-content h1{
+            padding: 40px;
+            color: black;
+        }
+
+        .document-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+
+        /* Главы */
+        .chapter {
+            margin-bottom: 40px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e0e0e0;
+        }
+
+        .chapter h2 {
+            background: linear-gradient(135deg, #1E3A5F 0%, #2c4a76 100%);
+            color: white;
+            padding: 20px 30px;
+            margin: 0;
+            font-size: 22px;
+            border-radius: 13px 13px 0 0;
+        }
+
+        /* Подглавы */
+        .subchapter {
+            margin: 20px 0;
+        }
+
+        .subchapter h3 {
+            
+            color: #1E3A5F;
+            padding: 15px 25px;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            border-radius: 8px;
+        }
+
+        /* Пункты */
+        .clause {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background-color 0.3s ease;
+        }
+
+        .clause:hover {
+            background-color: #f8f9fa;
+        }
+
+        .clause:last-child {
+            border-bottom: none;
+        }
+
+        .clause-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .clause-number {
+            background: #1E3A5F;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 14px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .clause h3 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .clause p {
+            margin: 8px 0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Разделители */
+        .divider {
+            text-align: center;
+            color: #bdc3c7;
+            margin: 20px 0;
+            padding: 0 30px;
+        }
+
+        /* Списки */
+        .obligations-list, .rights-list, .compensation-list, .terms-list {
+            margin: 12px 0;
+            padding-left: 20px;
+            color: black;
+        }
+
+        .obligations-list li, .rights-list li, .compensation-list li, .terms-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .obligations-list li::before {
+            content: "•";
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .rights-list li::before {
+            content: "✓";
+            color: #27ae60;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .compensation-list li::before {
+            content: "➤";
+            color: #f39c12;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .terms-list strong {
+            color: #1E3A5F;
+        }
+
+        /* Особые блоки */
+        .important {
+            background: rgba(255, 243, 205, 0.5);
+            border-left: 4px solid #f39c12;
+            padding: 12px 15px;
+            margin: 12px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .warning {
+            background: rgba(248, 215, 218, 0.5);
+            border-left: 4px solid #e74c3c;
+            padding: 12px 15px;
+            margin: 12px 0;
+            color: #721c24;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .note {
+            background: rgba(209, 236, 241, 0.5);
+            border-left: 4px solid #17a2b8;
+            padding: 10px 15px;
+            margin: 12px 0;
+            color: #0c5460;
+            font-style: italic;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Навигация */
+        .doc-nav {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(30, 58, 95, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .doc-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .doc-nav li {
+            color:black;
+            padding: 8px;
+        }
+        .doc-nav button{
+            border:none;
+            font-size: 12px;    
+            background: none;
+            color: white;
+        }
+        .doc-nav li:hover {
+            background-color: white;
+            padding: 8px;
+            border-radius: 10px;
+            color:black;
+        }
+        .doc-nav button:hover{
+            color:black;
+        }
+        .doc-nav a {
+
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 3px 0;
+        }
+
+        .doc-nav a:hover {
+            color: black;
+        }
+
+        /* Кнопка наверх */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background: #1E3A5F;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        .scroll-top:hover {
+            background: #2c4a76;
+            transform: translateY(-2px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .document-wrapper {
+                padding: 15px;
+            }
+            
+            .document-content {
+                padding: 20px;
+            }
+            
+            .document-title {
+                font-size: 22px;
+            }
+            
+            .chapter h2 {
+                font-size: 18px;
+                padding: 15px 20px;
+            }
+            
+            .clause {
+                padding: 15px;
+            }
+            
+            .doc-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .document-title {
+                font-size: 20px;
+            }
+            
+            .chapter h2 {
+                font-size: 16px;
+            }
+            
+            .clause {
+                padding: 12px;
+            }
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1E3A5F;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #2c4a76;
+        }

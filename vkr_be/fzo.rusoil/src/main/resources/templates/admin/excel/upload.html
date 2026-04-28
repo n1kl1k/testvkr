@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка Excel файла</title>
+    <style>
+        .error-message {
+            color: #d32f2f;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border: 1px solid #ffcdd2;
+        }
+        .success-message {
+            color: #388e3c;
+            background: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border: 1px solid #c8e6c9;
+        }
+    </style>
+</head>
+<body>
+<h1>Загрузка Excel файла</h1>
+
+<a href="/admin/excel">← Назад к списку файлов</a>
+
+<!-- Сообщения об ошибках -->
+<div th:if="${param.error}" class="error-message">
+    <strong>Ошибка:</strong> <span th:text="${param.error}"></span>
+</div>
+
+<!-- Уведомления -->
+<div th:if="${success}" class="success-message" th:text="${success}"></div>
+
+<form method="post" action="/admin/excel/upload" enctype="multipart/form-data"
+      style="margin-top: 30px; max-width: 500px;">
+
+    <!-- CSRF токен не нужен, т.к. мы отключили CSRF для этого пути -->
+
+    <div style="margin-bottom: 20px;">
+        <label><strong>Выберите файл:</strong></label><br>
+        <input type="file" name="file" accept=".xlsx,.xls,.csv" required
+               style="margin-top: 5px; padding: 10px; border: 2px dashed #3498db; width: 100%;
+                          box-sizing: border-box;">
+        <p style="color: #666; font-size: 14px; margin-top: 5px;">
+            Поддерживаемые форматы: .xlsx, .xls, .csv<br>
+            Максимальный размер: 10MB
+        </p>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <label><strong>Описание (необязательно):</strong></label><br>
+        <textarea name="description" rows="3"
+                  style="width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box;"
+                  placeholder="Введите описание файла..."></textarea>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+        <button type="submit"
+                style="background: #3498db; color: white; padding: 12px 24px;
+                           border: none; cursor: pointer; border-radius: 4px; font-size: 16px;">
+            📤 Загрузить файл
+        </button>
+        <button type="reset"
+                style="background: #f5f5f5; color: #333; padding: 12px 24px;
+                           border: 1px solid #ddd; cursor: pointer; border-radius: 4px;
+                           font-size: 16px; margin-left: 10px;">
+            Очистить
+        </button>
+    </div>
+</form>
+
+<script>
+    // Валидация размера файла
+    document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.size > 10 * 1024 * 1024) { // 10MB
+            alert('Файл слишком большой. Максимальный размер: 10MB');
+            e.target.value = '';
+        }
+    });
+</script>
+</body>
+</html>
