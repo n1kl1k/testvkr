@@ -36,7 +36,8 @@ services:
 
   frontend:
     build: 
-      context: ./fzo/fzo
+      context: .
+      dockerfile: fzo/Dockerfile
     container_name: react_frontend
     restart: always
     networks:
