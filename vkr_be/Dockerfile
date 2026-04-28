@@ -6,7 +6,7 @@ WORKDIR /build
 COPY fzo.rusoil/pom.xml .
 RUN mvn dependency:go-offline
 
-COPY src ./src
+COPY fzo.rusoil/src ./src
 RUN mvn clean package -DskipTests
 
 # Запуск
