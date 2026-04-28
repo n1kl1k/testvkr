@@ -1,7 +1,6 @@
 services:
   db:
     image: postgres:15
-    container_name: postgres_db
     restart: always
     environment:
       POSTGRES_DB: fzo_db
@@ -15,7 +14,6 @@ services:
   backend:
     build:
       context: ./vkr_be
-    container_name: spring_backend
     restart: always
     depends_on:
       - db
@@ -29,23 +27,8 @@ services:
   frontend:
     build:
       context: ./fzo/fzo
-    container_name: react_frontend
     restart: always
-    volumes:
-      - frontend_build:/app/dist
-    networks:
-      - app-net
-
-  nginx:
-    image: nginx:alpine
-    container_name: nginx_proxy
-    ports:
-      - "80:80"
-    volumes:
-      - frontend_build:/usr/share/nginx/html
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - frontend
       - backend
     networks:
       - app-net
@@ -55,4 +38,3 @@ networks:
 
 volumes:
   postgres_data:
-  frontend_build:
