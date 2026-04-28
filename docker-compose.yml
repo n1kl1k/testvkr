@@ -27,19 +27,18 @@ services:
       - app-net
 
   nginx:
-    image: nginx:alpine
-    container_name: nginx_proxy
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./fzo/fzo/dist:/usr/share/nginx/html
-    depends_on:
-      - backend
-    networks:
-      - app-net
+  image: nginx:alpine
+  container_name: nginx_proxy
+  restart: always
+  ports:
+    - "80:80"
+  volumes:
+    - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+  depends_on:
+    - frontend
+    - backend
+  networks:
+    - dev
 
 networks:
   app-net:
