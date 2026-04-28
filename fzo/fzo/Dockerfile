@@ -3,10 +3,10 @@ FROM node:22 AS build
 
 WORKDIR /app
 
-COPY fzo/fzo/package*.json ./
+COPY package*.json ./
 RUN npm install
 
-COPY fzo/fzo/ .
+COPY . .
 RUN npm run build
 
 # nginx stage
