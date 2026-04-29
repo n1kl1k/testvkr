@@ -2,8 +2,7 @@ services:
   db:
     image: postgres:15
     restart: always
-    ports:
-    - "5432:5432"
+    command: postgres -c log_statement=all -c log_connections=on -c log_disconnections=on
     environment:
       POSTGRES_DB: fzo_db
       POSTGRES_USER: postgres
