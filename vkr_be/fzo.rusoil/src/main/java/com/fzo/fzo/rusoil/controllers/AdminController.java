@@ -220,16 +220,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/cards/index")
-    public Set<WatchCardsDto> watchCards(){
-        return cardsService.getCardDetails();
-    }
 
-
-    @GetMapping("/{id}/details")
-    public WatchCardsDto getDetails(@PathVariable Long id) {
-        return cardsService.getCardById(id);
-    }
 
     @GetMapping("/create-form")
     public String createForm(Model model) {
@@ -237,19 +228,6 @@ public class AdminController {
         return "fragments/card-form :: form";
     }
 
-    @GetMapping("/cards/{id}/edit")
-    public String editForm(@PathVariable Long id, Model model) {
-        CreateCardsDto command = cardsService.getCards(id);
-        model.addAttribute("cardCommand", command);
-        return "fragments/card-form :: form";
-    }
-
-    @PostMapping("/save")
-    @ResponseBody
-    public ResponseEntity<Void> saveCardJson(@RequestBody CreateCardsDto command) {
-        cardsService.saveCards(command);
-        return ResponseEntity.ok().build();
-    }
     @GetMapping("/cards")
     public String cardsPage() {
         return "cards";
