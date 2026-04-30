@@ -23,7 +23,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/fzo_db
       SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: fvavsboskvsvp15asv
+      SPRING_DATASOURCE_PASSWORD: postgres
     networks:
       - app-net
 
