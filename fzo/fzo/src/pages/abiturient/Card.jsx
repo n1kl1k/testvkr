@@ -32,7 +32,7 @@ function CardsPage() {
         setIsModalOpen(true);
         setModalDetails(null);
 
-        fetch(`http://84.38.180.188:8080/api/cards/${id}/details`)
+        fetch(`/api/cards/${id}/details`)
             .then((res) => {
                 if (!res.ok) throw new Error("Ошибка загрузки");
                 return res.json();
