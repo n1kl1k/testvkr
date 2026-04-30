@@ -7,7 +7,7 @@ function NewsList() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://84.38.180.188:8080/api/news")
+    fetch("/api/news")
       .then((res) => {
         if (!res.ok) throw new Error("Ошибка загрузки");
         return res.json();

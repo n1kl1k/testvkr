@@ -14,7 +14,7 @@ function CardsPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        fetch("http://84.38.180.188:8080/api/cards")
+        fetch("/api/cards")
             .then((res) => {
                 if (!res.ok) throw new Error("Ошибка загрузки");
                 return res.json();

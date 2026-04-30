@@ -9,7 +9,7 @@ function SubscribeBox() {
     if (!email) return;
 
     try {
-      await fetch("http://84.38.180.188:8080/api/subscribe", {
+      await fetch("/api/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
