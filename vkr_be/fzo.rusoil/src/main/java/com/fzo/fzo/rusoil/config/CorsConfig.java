@@ -11,6 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")                       // разрешить все эндпоинты
                 .allowedOrigins("http://84.38.180.188") // ваш фронтенд (без порта 80)
+                .allowedOrigins("http://84.38.180.188/api")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
