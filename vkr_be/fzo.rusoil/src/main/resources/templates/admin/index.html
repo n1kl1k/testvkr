@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${title}">Админка</title>
+    
 
     <!-- Общие стили -->
     <style>
@@ -52,22 +53,8 @@
 
 <body>
 
-<!-- 🔥 NAVBAR -->
-<div class="navbar">
-    <div class="nav-left">
-        <a href="/admin/index">🏠 Главная</a>
-        <a href="/admin/news/index">📰 Новости</a>
-        <a href="/admin/cards/index">📚 Программы</a>
-    </div>
+<div th:replace="fragments/navbar :: navbar"></div>
 
-    <div>
-        <a href="/logout">
-            <button class="logout-btn">⛔ Выйти</button>
-        </a>
-    </div>
-</div>
-
-<!-- 🔥 СЮДА ВСТАВЛЯЕТСЯ СТРАНИЦА -->
 <div class="page-wrapper" th:insert="${content}"></div>
 
 </body>
