@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Админка</title>
+
+    <!-- Общие стили -->
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1E3A5F, #2c4a76);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            color: white;
+        }
+
+        .nav-left a {
+            color: white;
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .nav-left a:hover {
+            text-decoration: underline;
+        }
+
+        .logout-btn {
+            background: #f44336;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Контент не ломает твои страницы */
+        .page-wrapper {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🔥 NAVBAR -->
+<div class="navbar">
+    <div class="nav-left">
+        <a href="/admin">🏠 Главная</a>
+        <a href="/admin/news">📰 Новости</a>
+        <a href="/admin/cards">📚 Программы</a>
+    </div>
+
+    <div>
+        <a href="/logout">
+            <button class="logout-btn">⛔ Выйти</button>
+        </a>
+    </div>
+</div>
+
+<!-- 🔥 СЮДА ВСТАВЛЯЕТСЯ СТРАНИЦА -->
+<div class="page-wrapper" th:insert="${content}"></div>
+
+</body>
+</html>

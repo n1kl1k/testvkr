@@ -1,102 +1,86 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Админ – Новости</title>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="admin/layout :: *">
 
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1E3A5F, #2c4a76);
-            margin: 0;
-            color: #333;
-        }
+<th:block th:with="title='Новости'">
 
-        /* контейнер */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
+<div th:fragment="content">
 
-        /* header */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
 
-        .btn {
-            padding: 10px 20px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
 
-        .btn-add {
-            background: #4CAF50;
-            color: white;
-        }
+    .btn {
+        padding: 10px 20px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.3s;
+    }
 
-        .btn-logout {
-            background: #f44336;
-            color: white;
-        }
+    .btn-add {
+        background: #4CAF50;
+        color: white;
+    }
 
-        .btn:hover {
-            transform: translateY(-2px);
-        }
+    .btn-logout {
+        background: #f44336;
+        color: white;
+    }
 
-        /* таблица */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-        th {
-    background: #1E3A5F;
-    color: white;
-    padding: 15px;
-    text-align: center; /* явно задаём центрирование */
-}
+    th {
+        background: #1E3A5F;
+        color: white;
+        padding: 15px;
+        text-align: center;
+    }
 
-td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    text-align: center; /* значения – под заголовками */
-}
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        text-align: center;
+    }
 
-        tr:hover {
-            background: #f5f8ff;
-        }
+    tr:hover {
+        background: #f5f8ff;
+    }
 
-        /* кнопки действий */
-        .action a {
-            margin-right: 10px;
-            text-decoration: none;
-            font-weight: 600;
-        }
+    .action a {
+        margin-right: 10px;
+        text-decoration: none;
+        font-weight: 600;
+    }
 
-        .edit { color: #2196F3; }
-        .delete { color: #f44336; }
-    </style>
-
-</head>
-
-<body>
+    .edit { color: #2196F3; }
+    .delete { color: #f44336; }
+</style>
 
 <div class="container">
 
     <h1>📢 Новости</h1>
 
     <div class="top-bar">
-        <a href="/admin/news/add"><button class="btn btn-add">➕ Добавить</button></a>
-        <a href="/logout"><button class="btn btn-logout">⛔ Выйти</button></a>
+        <a href="/admin/news/add">
+            <button class="btn btn-add">➕ Добавить</button>
+        </a>
     </div>
 
     <table>
@@ -120,5 +104,6 @@ td {
 
 </div>
 
-</body>
+</div>
+</th:block>
 </html>
