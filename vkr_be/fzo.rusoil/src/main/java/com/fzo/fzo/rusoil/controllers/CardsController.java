@@ -13,7 +13,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/cards")
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class CardsController {
 
