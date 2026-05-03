@@ -40,7 +40,10 @@ public class AdminController {
     private final CardsService cardsService;
     private final EmailService emailService;
 
-
+    @GetMapping("/index")
+    public String index() {
+        return "admin/index";
+    }
     @GetMapping
     public String adminPanel(Model model) {
         model.addAttribute("list", newsRepo.findAll());
