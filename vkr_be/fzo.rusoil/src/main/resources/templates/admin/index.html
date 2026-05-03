@@ -55,7 +55,9 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
-<div class="page-wrapper" th:insert="${content}"></div>
+<div class="page-wrapper">
+    <div th:replace="${content}"></div>
+</div>
 
 </body>
 </html>

@@ -58,6 +58,7 @@ public class AdminController {
     @GetMapping("/news/index")
     public String newsIndex(Model model) {
         model.addAttribute("list", newsRepo.findAll());
+        model.addAttribute("content", "admin/news/index :: content");
         return "admin/news/index";
     }
 
