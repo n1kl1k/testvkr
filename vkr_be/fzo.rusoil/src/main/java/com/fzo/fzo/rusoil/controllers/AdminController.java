@@ -59,7 +59,7 @@ public class AdminController {
     public String newsIndex(Model model) {
         model.addAttribute("list", newsRepo.findAll());
         model.addAttribute("content", "admin/news/index :: content");
-        return "admin/news/index";
+        return "admin/index"; // ВАЖНО
     }
 
     @GetMapping("/news/add")
@@ -221,7 +221,11 @@ public class AdminController {
     }
 
 
-
+    @GetMapping("/cards")
+    public String cardsPage(Model model) {
+        model.addAttribute("content", "admin/cards :: content");
+        return "admin/index";
+    }
 
     @GetMapping("/create-form")
     public String createForm(Model model) {
