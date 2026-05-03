@@ -224,7 +224,7 @@ public class AdminController {
     @GetMapping("/cards")
     public String cardsPage(Model model) {
         model.addAttribute("content", "admin/cards :: content");
-        return "admin/index";
+        return "admin/cards/index";
     }
 
     @GetMapping("/create-form")
