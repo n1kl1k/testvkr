@@ -233,10 +233,6 @@ public class AdminController {
         return "fragments/card-form :: form";
     }
 
-    @GetMapping("/cards")
-    public String cardsPage() {
-        return "cards";
-    }
 
 }
 
