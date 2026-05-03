@@ -44,16 +44,13 @@ public class AdminController {
     @GetMapping
     public String adminPanel(Model model) {
         model.addAttribute("list", newsRepo.findAll());
+        model.addAttribute("content", "admin/home :: content"); // 👈 добавь
         return "admin/index";
     }
-        @GetMapping("/login")
+    
+    @GetMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @GetMapping("/")
-    public String index() {
-        return "index";
     }
     @GetMapping("/news/index")
     public String newsIndex(Model model) {
