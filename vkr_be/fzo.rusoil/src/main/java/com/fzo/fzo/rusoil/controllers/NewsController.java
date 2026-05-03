@@ -7,7 +7,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/news")
-@CrossOrigin(origins = "*") // разрешаем запросы с html сайта
 public class NewsController {
 
     private final NewsRepository repo;
