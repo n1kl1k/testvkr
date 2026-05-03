@@ -25,6 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> {})
                 // Отключаем CSRF для упрощения загрузки файлов
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/admin/excel/upload")
