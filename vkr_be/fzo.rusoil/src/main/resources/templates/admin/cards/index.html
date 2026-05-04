@@ -170,7 +170,7 @@ function loadForm(url, title, id = null) {
                         .then(data => fillForm(data));
                 }
                 bindFormSubmit();
-                initFormHandlers(); // важно!
+                bindDynamicFields();
             }, 50);
         });
 }
@@ -392,10 +392,6 @@ function bindDynamicFields() {
     });
 }
 
-/* =========================
-   СТАРТ
-========================= */
-loadCardsList();
 </script>
 </div>
 </th:block>
