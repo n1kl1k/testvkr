@@ -106,21 +106,44 @@ function getList(containerId) {
 }
 
 /* ---------------- ОТПРАВКА ФОРМЫ ---------------- */
-function submitCard() {
+document.getElementById('cardForm').onsubmit = function (e) {
+    e.preventDefault();
+
+    const form = e.target;
 
     const data = {
-        cardId: document.getElementById('cardId')?.value || null,
-        title: document.getElementById('title').value,
-        profile: document.getElementById('profile').value,
-        graduating: document.getElementById('graduating').value,
-        contacts: document.getElementById('contacts').value,
-        duration: document.getElementById('duration').value,
+        cardId: form.querySelector('[name="cardId"]').value || null,
+        title: form.querySelector('[name="title"]').value,
+        profile: form.querySelector('[name="profile"]').value,
+        graduating: form.querySelector('[name="graduating"]').value,
+        contacts: form.querySelector('[name="contacts"]').value,
+        duration: form.querySelector('[name="duration"]').value,
+        additionalTitle: form.querySelector('[name="additionalTitle"]').value,
+        additionalInfo: form.querySelector('[name="additionalInfo"]').value,
 
-        activities: getList('activities'),
-        partners: getList('partners')
+        activities: [...form.querySelectorAll('[name="activities"]')]
+            .map(i => i.value)
+            .filter(v => v),
+
+        partners: [...form.querySelectorAll('[name="partners"]')]
+            .map(i => i.value)
+            .filter(v => v),
+
+        requirements: [...form.querySelectorAll('.requirements-container .row')]
+            .map(row => ({
+                basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
+                spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
+            })),
+
+        plans: [...form.querySelectorAll('.plans-container .row')]
+            .map(row => ({
+                budget: row.querySelector('[name="planBudget"]').value,
+                paid: row.querySelector('[name="planPaid"]').value,
+                score: row.querySelector('[name="planScore"]').value
+            }))
     };
 
-    fetch(apiBase + '/save', {
+    fetch('/api/cards/save', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -138,8 +161,11 @@ function submitCard() {
 
         loadCardsList();
     })
-    .catch(() => alert('Ошибка сохранения'));
-}
+    .catch(err => {
+        console.error(err);
+        alert('Ошибка сохранения');
+    });
+};
 
 /* ---------------- ЗАГРУЗКА СПИСКА КАРТОЧЕК ---------------- */
 function loadCardsList() {
