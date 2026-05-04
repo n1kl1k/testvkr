@@ -68,106 +68,21 @@
 
 <script>
 const apiBase = '/api/cards';
+let currentEditId = null;
 
-/* ---------------- ЗАГРУЗКА ФОРМЫ ---------------- */
-function loadForm(url) {
-    fetch(url)
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('formModalContent').innerHTML = html;
-
-            const modal = new bootstrap.Modal(document.getElementById('formModal'));
-            modal.show();
-        })
-        .catch(() => alert('Ошибка загрузки формы'));
+/* =========================
+   HTML escape
+========================= */
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m =>
+        m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'
+    );
 }
 
-/* ---------------- ДОБАВЛЕНИЕ ПОЛЕЙ ---------------- */
-function addField(containerId) {
-    const div = document.createElement('div');
-    div.className = "input-group mb-2";
-
-    div.innerHTML = `
-        <input class="form-control">
-        <button type="button" class="btn btn-danger">✖</button>
-    `;
-
-    div.querySelector('button').onclick = () => div.remove();
-
-    document.getElementById(containerId).appendChild(div);
-}
-
-/* ---------------- СБОР СПИСКОВ ---------------- */
-function getList(containerId) {
-    const inputs = document.querySelectorAll(`#${containerId} input`);
-    return Array.from(inputs)
-        .map(i => i.value.trim())
-        .filter(v => v.length > 0);
-}
-
-/* ---------------- ОТПРАВКА ФОРМЫ ---------------- */
-document.getElementById('cardForm').onsubmit = function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-
-    const data = {
-        cardId: form.querySelector('[name="cardId"]').value || null,
-        title: form.querySelector('[name="title"]').value,
-        profile: form.querySelector('[name="profile"]').value,
-        graduating: form.querySelector('[name="graduating"]').value,
-        contacts: form.querySelector('[name="contacts"]').value,
-        duration: form.querySelector('[name="duration"]').value,
-        additionalTitle: form.querySelector('[name="additionalTitle"]').value,
-        additionalInfo: form.querySelector('[name="additionalInfo"]').value,
-
-        activities: [...form.querySelectorAll('[name="activities"]')]
-            .map(i => i.value)
-            .filter(v => v),
-
-        partners: [...form.querySelectorAll('[name="partners"]')]
-            .map(i => i.value)
-            .filter(v => v),
-
-        requirements: [...form.querySelectorAll('.requirements-container .row')]
-            .map(row => ({
-                basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
-                spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
-            })),
-
-        plans: [...form.querySelectorAll('.plans-container .row')]
-            .map(row => ({
-                budget: row.querySelector('[name="planBudget"]').value,
-                paid: row.querySelector('[name="planPaid"]').value,
-                score: row.querySelector('[name="planScore"]').value
-            }))
-    };
-
-    fetch('/api/cards/save', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(res => {
-        if (!res.ok) throw new Error();
-
-        alert('Сохранено ✅');
-
-        bootstrap.Modal
-            .getInstance(document.getElementById('formModal'))
-            .hide();
-
-        loadCardsList();
-    })
-    .catch(err => {
-        console.error(err);
-        alert('Ошибка сохранения');
-    });
-};
-
-/* ---------------- ЗАГРУЗКА СПИСКА КАРТОЧЕК ---------------- */
+/* =========================
+   Загрузка карточек
+========================= */
 function loadCardsList() {
     fetch(apiBase)
         .then(res => res.ok ? res.json() : Promise.reject())
@@ -182,13 +97,12 @@ function loadCardsList() {
                 col.innerHTML = `
                     <div class="card h-100 card-hover">
                         <div class="card-body">
-                            <h5 class="card-title">${escapeHtml(card.title)}</h5>
-                            <p><strong>Профиль:</strong> ${escapeHtml(card.profile)}</p>
-                            <p><small>⏱ ${escapeHtml(card.duration)}</small></p>
-
-                            <div class="d-flex justify-content-between mt-3">
+                            <h5>${escapeHtml(card.title)}</h5>
+                            <p>${escapeHtml(card.profile)}</p>
+                            <small>${escapeHtml(card.duration)}</small>
+                            <div class="mt-3">
                                 <button class="btn btn-sm btn-outline-primary"
-                                        onclick="showDetails(${card.cardId})">
+                                    onclick="showDetails(${card.cardId})">
                                     Подробнее
                                 </button>
                             </div>
@@ -198,62 +112,124 @@ function loadCardsList() {
 
                 container.appendChild(col);
             });
-        })
-        .catch(() => alert('Ошибка загрузки карточек'));
+        });
 }
 
-/* ---------------- ДЕТАЛИ ---------------- */
-function showDetails(cardId) {
-    fetch(`${apiBase}/${cardId}/details`)
-        .then(res => res.ok ? res.json() : Promise.reject())
+/* =========================
+   Детали
+========================= */
+function showDetails(id) {
+    fetch(`${apiBase}/${id}/details`)
+        .then(res => res.json())
         .then(data => {
-            document.getElementById('detailsModalTitle').innerText = data.title || '';
+            document.getElementById('detailsModalTitle').innerText = data.title;
 
             let html = `
-                <p><strong>Профиль:</strong> ${escapeHtml(data.profile)}</p>
-                <p><strong>Кафедра:</strong> ${escapeHtml(data.graduating)}</p>
-                <p><strong>Контакты:</strong> ${escapeHtml(data.contacts)}</p>
-                <p><strong>Длительность:</strong> ${escapeHtml(data.duration)}</p>
-                <hr>
+                <p><b>Профиль:</b> ${escapeHtml(data.profile)}</p>
+                <p><b>Кафедра:</b> ${escapeHtml(data.graduating)}</p>
+                <p><b>Контакты:</b> ${escapeHtml(data.contacts)}</p>
+                <p><b>Срок:</b> ${escapeHtml(data.duration)}</p>
             `;
-
-            if (data.activities?.length) {
-                html += `<h6>🎯 Активности:</h6>
-                         <ul>${data.activities.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>`;
-            }
-
-            if (data.partners?.length) {
-                html += `<h6>🤝 Партнёры:</h6>
-                         <ul>${data.partners.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`;
-            }
 
             document.getElementById('detailsModalBody').innerHTML = html;
 
             new bootstrap.Modal(document.getElementById('detailsModal')).show();
+        });
+}
+
+/* =========================
+   Открытие формы
+========================= */
+function loadForm(url, title) {
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('formModalContent').innerHTML = html;
+
+            bindFormSubmit();   // 👈 ВАЖНО
+
+            new bootstrap.Modal(document.getElementById('formModal')).show();
+        });
+}
+
+/* =========================
+   КНОПКА СОЗДАТЬ
+========================= */
+document.getElementById('openCreateModal').onclick = () => {
+    loadForm('/admin/create-form', 'Создание карточки');
+};
+
+/* =========================
+   ОБРАБОТКА ФОРМЫ
+========================= */
+function bindFormSubmit() {
+    const form = document.getElementById('cardForm');
+
+    form.onsubmit = function (e) {
+        e.preventDefault();
+
+        const data = {
+            cardId: form.querySelector('[name="cardId"]').value || null,
+            title: form.querySelector('[name="title"]').value,
+            profile: form.querySelector('[name="profile"]').value,
+            graduating: form.querySelector('[name="graduating"]').value,
+            contacts: form.querySelector('[name="contacts"]').value,
+            duration: form.querySelector('[name="duration"]').value,
+            additionalTitle: form.querySelector('[name="additionalTitle"]').value,
+            additionalInfo: form.querySelector('[name="additionalInfo"]').value,
+
+            activities: [...form.querySelectorAll('[name="activities"]')]
+                .map(i => i.value)
+                .filter(v => v),
+
+            partners: [...form.querySelectorAll('[name="partners"]')]
+                .map(i => i.value)
+                .filter(v => v),
+
+            requirements: [...form.querySelectorAll('.requirements-container .row')]
+                .map(row => ({
+                    basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
+                    spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
+                })),
+
+            plans: [...form.querySelectorAll('.plans-container .row')]
+                .map(row => ({
+                    budget: row.querySelector('[name="planBudget"]').value,
+                    paid: row.querySelector('[name="planPaid"]').value,
+                    score: row.querySelector('[name="planScore"]').value
+                }))
+        };
+
+        fetch('/api/cards/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
         })
-        .catch(() => alert('Ошибка загрузки деталей'));
+        .then(res => {
+            if (!res.ok) throw new Error();
+
+            alert('Сохранено ✅');
+
+            bootstrap.Modal
+                .getInstance(document.getElementById('formModal'))
+                .hide();
+
+            loadCardsList();
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Ошибка сохранения');
+        });
+    };
 }
 
-/* ---------------- ЭКРАНИРОВАНИЕ ---------------- */
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, m =>
-        m === '&' ? '&amp;' :
-        m === '<' ? '&lt;' :
-        '&gt;'
-    );
-}
-
-/* ---------------- ИНИЦИАЛИЗАЦИЯ ---------------- */
-document.addEventListener('DOMContentLoaded', () => {
-    loadCardsList();
-
-    const createBtn = document.getElementById('openCreateModal');
-    if (createBtn) {
-        createBtn.onclick = () => loadForm('/admin/create-form');
-    }
-});
-</script>щт
+/* =========================
+   СТАРТ
+========================= */
+loadCardsList();
+</script>
 </div>
 </th:block>
 </html>
