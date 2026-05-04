@@ -7,9 +7,13 @@ import com.fzo.fzo.rusoil.service.CardsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/cards")
@@ -38,4 +42,20 @@ public class CardsController {
         return ResponseEntity.ok().build();
 }
 
+@PostMapping("/upload-image")
+public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    try {
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+        Path path = Paths.get("uploads/cards/" + filename);
+        Files.createDirectories(path.getParent());
+
+        Files.write(path, file.getBytes());
+
+        return ResponseEntity.ok("/uploads/cards/" + filename);
+
+    } catch (Exception e) {
+        return ResponseEntity.badRequest().body("Ошибка загрузки");
+    }
+}
 }

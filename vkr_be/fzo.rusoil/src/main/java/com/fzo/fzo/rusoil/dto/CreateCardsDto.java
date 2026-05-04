@@ -14,6 +14,7 @@ import java.util.Set;
 public class CreateCardsDto {
     private Long cardId;
     private String title;
+    private String img;
     private String profile;
     private String graduating;
     private String contacts;

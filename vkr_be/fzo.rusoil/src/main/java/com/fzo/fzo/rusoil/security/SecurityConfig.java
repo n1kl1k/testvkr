@@ -35,6 +35,7 @@ public class SecurityConfig {
                         // Разрешаем доступ к API и загрузке файлов
                         .requestMatchers("/admin/excel/**").hasRole("ADMIN")
                         .requestMatchers("/api/excel/**").permitAll() // или .hasRole("ADMIN")
+                        .requestMatchers("/uploads/**").permitAll()
 
                         // Разрешаем статические ресурсы
                         .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()

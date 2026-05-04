@@ -51,6 +51,7 @@ public class CardsService {
         dto.setGraduating(cards.getGraduating());
         dto.setContacts(cards.getContacts());
         dto.setDuration(cards.getDuration());
+        dto.setImg(cards.getImg());
 
         AdditionalInfo ai = cards.getAdditionalInfo();
         if(ai !=null){
@@ -128,6 +129,7 @@ public class CardsService {
         card.setGraduating(dto.getGraduating());
         card.setContacts(dto.getContacts());
         card.setDuration(dto.getDuration());
+        card.setImg(dto.getImg());
 
         AdditionalInfo ai = new AdditionalInfo();
         ai.setTitle(dto.getTitle());
@@ -200,6 +202,7 @@ public class CardsService {
         card.setGraduating(dto.getGraduating());
         card.setContacts(dto.getContacts());
         card.setDuration(dto.getDuration());
+        card.setImg(dto.getImg());
 
         AdditionalInfo ai = card.getAdditionalInfo();
         AdditionalInfo tempAi = card.getAdditionalInfo();

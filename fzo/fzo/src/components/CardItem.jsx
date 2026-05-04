@@ -2,7 +2,10 @@ function CardItem({ item, onOpenModal }) {
     return (
         <div className="card">
             <div className="card-image">
-                <img src={item.img || "/placeholder.png"} alt="" />
+                <img
+                    src={card.imagePath || "/no-image.png"}
+                    alt={card.title}
+                />
             </div>
 
             <div className="card-content">

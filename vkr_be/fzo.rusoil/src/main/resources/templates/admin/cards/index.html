@@ -194,33 +194,42 @@ document.addEventListener('DOMContentLoaded', () => {
 function bindFormSubmit() {
     const form = document.getElementById('cardForm');
 
-    form.onsubmit = function (e) {
-        e.preventDefault();
+    form.onsubmit = async function (e) {
+    e.preventDefault();
 
-        const data = {
-    cardId: form.querySelector('[name="cardId"]').value || null,
-    title: form.querySelector('[name="title"]').value,
-    profile: form.querySelector('[name="profile"]').value,
-    graduating: form.querySelector('[name="graduating"]').value,
-    contacts: form.querySelector('[name="contacts"]').value,
-    duration: form.querySelector('[name="duration"]').value,
-    additionalTitle: form.querySelector('[name="additionalTitle"]').value,
-    additionalInfo: form.querySelector('[name="additionalInfo"]').value,
+    let imagePath = form.querySelector('[name="imagePath"]')?.value || null;
 
-    activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
-    partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
+    const fileInput = document.getElementById('imageInput');
 
-    requirements: [...form.querySelectorAll('.requirements-container .row')].map(row => ({
-        basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
-        spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
-    })),
+    if (fileInput.files.length > 0) {
+        imagePath = await uploadImage(fileInput.files[0]);
+    }
 
-    plans: [...form.querySelectorAll('.plans-container .row')].map(row => ({
-        budget: row.querySelector('[name="planBudget"]').value,
-        paid: row.querySelector('[name="planPaid"]').value,
-        score: row.querySelector('[name="planScore"]').value
-    }))
-};
+    const data = {
+        cardId: form.querySelector('[name="cardId"]').value || null,
+        title: form.querySelector('[name="title"]').value,
+        profile: form.querySelector('[name="profile"]').value,
+        graduating: form.querySelector('[name="graduating"]').value,
+        contacts: form.querySelector('[name="contacts"]').value,
+        duration: form.querySelector('[name="duration"]').value,
+        additionalTitle: form.querySelector('[name="additionalTitle"]').value,
+        additionalInfo: form.querySelector('[name="additionalInfo"]').value,
+        imagePath: imagePath,
+
+        activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
+        partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
+
+        requirements: [...form.querySelectorAll('.requirements-container .row')].map(row => ({
+            basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
+            spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
+        })),
+
+        plans: [...form.querySelectorAll('.plans-container .row')].map(row => ({
+            budget: row.querySelector('[name="planBudget"]').value,
+            paid: row.querySelector('[name="planPaid"]').value,
+            score: row.querySelector('[name="planScore"]').value
+        }))
+    };
 
         fetch('/api/cards/save', {
             method: 'POST',
@@ -262,6 +271,14 @@ function deleteCard(id) {
 function editCard(id) {
     loadForm('/admin/create-form', 'Редактирование', id);
 }
+document.getElementById('imageInput').onchange = function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const preview = document.getElementById('previewImage');
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
+};
 function fillForm(data) {
     const form = document.getElementById('cardForm');
 
@@ -271,6 +288,11 @@ function fillForm(data) {
     form.querySelector('[name="graduating"]').value = data.graduating || '';
     form.querySelector('[name="contacts"]').value = data.contacts || '';
     form.querySelector('[name="duration"]').value = data.duration || '';
+    if (data.imagePath) {
+    const preview = document.getElementById('previewImage');
+    preview.src = data.imagePath;
+    preview.style.display = 'block';
+}
     form.querySelector('[name="additionalTitle"]').value = data.additionalTitle || '';
     form.querySelector('[name="additionalInfo"]').value = data.additionalInfo || '';
 
@@ -299,6 +321,19 @@ function fillForm(data) {
     data.plans?.forEach(p => {
         addPlanRow(p.budget, p.paid, p.score);
     });
+}
+async function uploadImage(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch('/api/cards/upload-image', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (!res.ok) throw new Error("Ошибка загрузки картинки");
+
+    return await res.text(); // путь
 }
 /* =========================
    ДИНАМИЧЕСКИЕ ПОЛЯ

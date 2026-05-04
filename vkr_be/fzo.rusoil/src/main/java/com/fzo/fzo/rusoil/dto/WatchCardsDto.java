@@ -17,6 +17,7 @@ public class WatchCardsDto {
     private String title;
     private String profile;
     private String graduating;
+    private String img;
     private String contacts;
     private String duration;
     private String additionalTitle;
