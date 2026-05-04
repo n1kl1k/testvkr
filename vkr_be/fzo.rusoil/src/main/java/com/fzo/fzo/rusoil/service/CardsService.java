@@ -96,6 +96,7 @@ public class CardsService {
         dto.setContacts(card.getContacts());
         dto.setDuration(card.getDuration());
 
+        dto.setImg(card.getImg());
         AdditionalInfo ai = card.getAdditionalInfo();
 
         if (ai!=null){
