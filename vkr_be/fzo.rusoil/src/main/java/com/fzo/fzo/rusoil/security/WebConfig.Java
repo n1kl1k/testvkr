@@ -17,8 +17,8 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class StaticConfig implements WebMvcConfigurer {
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/root/uploads/");
-    }
+public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/uploads/**")
+            .addResourceLocations("file:/app/uploads/"); // ✅ теперь правильно
+}
 }
