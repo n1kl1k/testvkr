@@ -64,4 +64,26 @@ public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         return ResponseEntity.status(500).build();
     }
 }
+@PostMapping("/upload-image")
+public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    try {
+        String uploadDir = "/app/uploads/cards/";
+        log.info("Начинаем загрузку файла. Dir: {}", uploadDir);
+        
+        // Создаём папку, если её нет
+        Files.createDirectories(Paths.get(uploadDir));
+        
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path path = Paths.get(uploadDir + filename);
+        log.info("Полный путь: {}", path.toString());
+        
+        Files.write(path, file.getBytes());
+        log.info("Файл успешно сохранён, размер: {} байт", file.getSize());
+        
+        return ResponseEntity.ok("/uploads/cards/" + filename);
+    } catch (Exception e) {
+        log.error("Ошибка при загрузке файла", e);
+        return ResponseEntity.badRequest().body("Ошибка загрузки: " + e.getMessage());
+    }
+}
 }
