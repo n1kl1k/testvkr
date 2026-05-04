@@ -133,7 +133,7 @@ public class CardsService {
         card.setImg(dto.getImg());
 
         AdditionalInfo ai = new AdditionalInfo();
-        ai.setTitle(dto.getTitle());
+        ai.setTitle(dto.getAdditionalTitle());
         ai.setInfo(dto.getAdditionalInfo());
 
         // связь
@@ -208,15 +208,7 @@ public class CardsService {
         AdditionalInfo ai = card.getAdditionalInfo();
         AdditionalInfo tempAi = card.getAdditionalInfo();
 
-        if (dto.getActivities() != null) {
-            for (String a : dto.getActivities()) {
-                Activity act = new Activity();
-                act.setActivity(a);
-                ai.addActivity(act);
-            }
-        }
-
-        ai.setTitle(dto.getTitle());
+        ai.setTitle(dto.getAdditionalTitle());
         ai.setInfo(dto.getAdditionalInfo());
 
         // ❗ ВАЖНО: очищаем старые данные
