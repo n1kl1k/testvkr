@@ -30,7 +30,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-    - ./uploads:/app/uploads
+      - ./uploads:/app/uploads
     networks:
       - app-net
 
