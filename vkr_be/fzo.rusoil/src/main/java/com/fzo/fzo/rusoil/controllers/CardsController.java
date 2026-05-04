@@ -44,14 +44,11 @@ public class CardsController {
 @PostMapping("/upload-image")
 public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
     try {
-        // ✅ Используем смонтированную папку
         String uploadDir = "/app/uploads/cards/";
-
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path path = Paths.get(uploadDir + filename);
         Files.createDirectories(path.getParent());
         Files.write(path, file.getBytes());
-
         return ResponseEntity.ok("/uploads/cards/" + filename);
     } catch (Exception e) {
         e.printStackTrace();
