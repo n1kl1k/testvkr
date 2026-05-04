@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Data
 @Setter
 @Getter
@@ -14,6 +16,7 @@ import java.util.Set;
 public class CreateCardsDto {
     private Long cardId;
     private String title;
+    @JsonProperty("imagePath")
     private String img;
     private String profile;
     private String graduating;

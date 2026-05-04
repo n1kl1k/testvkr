@@ -164,14 +164,18 @@ function loadForm(url, title, id = null) {
 
             // ЖДЁМ пока DOM вставится
             setTimeout(() => {
-                if (id) {
-                    fetch(`/api/cards/${id}/details`)
-                        .then(res => res.json())
-                        .then(data => fillForm(data));
-                }
-                bindFormSubmit();
-                bindDynamicFields();
-            }, 50);
+    const fileInput = document.getElementById('imageInput');
+    if (fileInput) {
+        fileInput.onchange = function () {
+            const file = this.files[0];
+            if (!file) return;
+
+            const preview = document.getElementById('previewImage');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        };
+    }
+}, 50);
         });
 }
 

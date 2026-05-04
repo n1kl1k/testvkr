@@ -1,5 +1,6 @@
 package com.fzo.fzo.rusoil.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fzo.fzo.rusoil.model.Plan;
 import lombok.Data;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class WatchCardsDto {
     private String title;
     private String profile;
     private String graduating;
+    @JsonProperty("imagePath")
     private String img;
     private String contacts;
     private String duration;
