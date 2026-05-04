@@ -32,3 +32,5 @@ function CardItem({ item, onOpenModal }) {
         </div>
     );
 }
+
+export default CardItem;
