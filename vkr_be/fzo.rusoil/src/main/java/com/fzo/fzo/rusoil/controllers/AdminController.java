@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import lombok.extern.slf4j.Slf4j;
+import java.util.UUID;
+import java.nio.file.*;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -232,6 +235,20 @@ public class AdminController {
         model.addAttribute("cardCommand", new CreateCardsDto());
         return "fragments/card-form :: form";
     }
+    @PostMapping("/upload-image")
+public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    try {
+        String uploadDir = "/app/uploads/cards/";
+        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+        Path path = Paths.get(uploadDir + filename);
+        Files.createDirectories(path.getParent());
+        Files.write(path, file.getBytes());
+        return ResponseEntity.ok("/uploads/cards/" + filename);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.badRequest().body("Ошибка загрузки");
+    }
+}
 
 
 }
