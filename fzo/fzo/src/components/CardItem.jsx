@@ -3,8 +3,12 @@ function CardItem({ item, onOpenModal }) {
         <div className="card">
             <div className="card-image">
                 <img
-                    src={card.imagePath || "/no-image.png"}
-                    alt={card.title}
+                    src={
+                        item.imagePath
+                            ? `http://84.38.180.188:8080${item.imagePath}`
+                            : "/no-image.png"
+                    }
+                    alt={item.title}
                 />
             </div>
 
@@ -12,22 +16,10 @@ function CardItem({ item, onOpenModal }) {
                 <h4 className="card-title">{item.title}</h4>
 
                 <div className="card_info">
-                    <p>
-                        <span className="card-label">Профиль:</span>
-                        {item.profile}
-                    </p>
-                    <p>
-                        <span className="card-label">Кафедра:</span>
-                        {item.graduating}
-                    </p>
-                    <p>
-                        <span className="card-label">Контакты:</span>
-                        {item.contacts}
-                    </p>
-                    <p>
-                        <span className="card-label">Срок:</span>
-                        {item.duration}
-                    </p>
+                    <p><b>Профиль:</b> {item.profile || "—"}</p>
+                    <p><b>Кафедра:</b> {item.graduating || "—"}</p>
+                    <p><b>Контакты:</b> {item.contacts || "—"}</p>
+                    <p><b>Срок:</b> {item.duration || "—"}</p>
                 </div>
 
                 <button
@@ -40,5 +32,3 @@ function CardItem({ item, onOpenModal }) {
         </div>
     );
 }
-
-export default CardItem;
