@@ -197,12 +197,12 @@ function bindFormSubmit() {
     form.onsubmit = async function (e) {
     e.preventDefault();
 
-    let imagePath = form.querySelector('[name="imagePath"]')?.value || null;
+    let img = form.querySelector('[name="img"]')?.value || null;
 
     const fileInput = document.getElementById('imageInput');
 
     if (fileInput.files.length > 0) {
-        imagePath = await uploadImage(fileInput.files[0]);
+        img = await uploadImage(fileInput.files[0]);
     }
 
     const data = {
@@ -214,7 +214,7 @@ function bindFormSubmit() {
         duration: form.querySelector('[name="duration"]').value,
         additionalTitle: form.querySelector('[name="additionalTitle"]').value,
         additionalInfo: form.querySelector('[name="additionalInfo"]').value,
-        imagePath: imagePath,
+        img: img,
 
         activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
         partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
@@ -288,9 +288,9 @@ function fillForm(data) {
     form.querySelector('[name="graduating"]').value = data.graduating || '';
     form.querySelector('[name="contacts"]').value = data.contacts || '';
     form.querySelector('[name="duration"]').value = data.duration || '';
-    if (data.imagePath) {
+    if (data.img) {
     const preview = document.getElementById('previewImage');
-    preview.src = data.imagePath;
+    preview.src = data.img;
     preview.style.display = 'block';
 }
     form.querySelector('[name="additionalTitle"]').value = data.additionalTitle || '';
