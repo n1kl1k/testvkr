@@ -5,7 +5,6 @@ WORKDIR /build
 
 COPY fzo.rusoil/ .
 
-RUN mvn dependency:go-offline
 RUN mvn clean package -DskipTests
 
 # Запуск
