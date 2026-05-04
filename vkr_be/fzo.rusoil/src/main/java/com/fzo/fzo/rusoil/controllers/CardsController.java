@@ -5,6 +5,8 @@ import com.fzo.fzo.rusoil.dto.WatchCardsDto;
 import com.fzo.fzo.rusoil.model.Cards;
 import com.fzo.fzo.rusoil.service.CardsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/cards")
 @RequiredArgsConstructor
@@ -45,14 +48,22 @@ public class CardsController {
 public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
     try {
         String uploadDir = "/app/uploads/cards/";
+        log.info("Начинаем загрузку файла. Dir: {}", uploadDir);
+        
+        // Создаём папку, если её нет
+        Files.createDirectories(Paths.get(uploadDir));
+        
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path path = Paths.get(uploadDir + filename);
-        Files.createDirectories(path.getParent());
+        log.info("Полный путь: {}", path.toString());
+        
         Files.write(path, file.getBytes());
+        log.info("Файл успешно сохранён, размер: {} байт", file.getSize());
+        
         return ResponseEntity.ok("/uploads/cards/" + filename);
     } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.badRequest().body("Ошибка загрузки");
+        log.error("Ошибка при загрузке файла", e);
+        return ResponseEntity.badRequest().body("Ошибка загрузки: " + e.getMessage());
     }
 }
 }
