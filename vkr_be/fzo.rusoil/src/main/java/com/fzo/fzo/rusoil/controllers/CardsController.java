@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Paths;
 import java.nio.file.*;
 import java.util.List;
 import java.util.Set;
@@ -45,9 +44,11 @@ public class CardsController {
 @PostMapping("/upload-image")
 public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
     try {
+        String uploadDir = "/root/uploads/cards/"; // 🔥 абсолютный путь
+
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-        Path path = Paths.get("uploads/cards/" + filename);
+        Path path = Paths.get(uploadDir + filename);
         Files.createDirectories(path.getParent());
 
         Files.write(path, file.getBytes());
@@ -55,6 +56,7 @@ public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile fi
         return ResponseEntity.ok("/uploads/cards/" + filename);
 
     } catch (Exception e) {
+        e.printStackTrace();
         return ResponseEntity.badRequest().body("Ошибка загрузки");
     }
 }

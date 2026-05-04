@@ -162,24 +162,32 @@ function loadForm(url, title, id = null) {
             const modal = new bootstrap.Modal(document.getElementById('formModal'));
             modal.show();
 
-            // ЖДЁМ пока DOM вставится
             setTimeout(() => {
 
-    if (fileInput) {
-        fileInput.onchange = function () {
-            const file = this.files[0];
-            if (!file) return;
+                const fileInput = document.getElementById('imageInput');
 
-            const preview = document.getElementById('previewImage');
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = 'block';
-        };
-    }
+                if (fileInput) {
+                    fileInput.onchange = function () {
+                        const file = this.files[0];
+                        if (!file) return;
 
-    bindFormSubmit();
-    bindDynamicFields();
+                        const preview = document.getElementById('previewImage');
+                        preview.src = URL.createObjectURL(file);
+                        preview.style.display = 'block';
+                    };
+                }
 
-}, 50);
+                bindFormSubmit();
+                bindDynamicFields();
+
+                // 👉 ЕСЛИ ЭТО EDIT
+                if (id) {
+                    fetch(`/api/cards/${id}/details`)
+                        .then(res => res.json())
+                        .then(data => fillForm(data));
+                }
+
+            }, 50);
         });
 }
 
@@ -203,64 +211,54 @@ function bindFormSubmit() {
     const form = document.getElementById('cardForm');
 
     form.onsubmit = async function (e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    let img = form.querySelector('[name="img"]')?.value || null;
+        const fileInput = document.getElementById('imageInput'); // 🔥 ДОБАВЬ
 
-    const fileInput = document.getElementById('imageInput');
+        let img = form.querySelector('[name="img"]')?.value || null;
 
-    if (fileInput.files.length > 0) {
-        img = await uploadImage(fileInput.files[0]);
-    }
+        if (fileInput && fileInput.files.length > 0) {
+            img = await uploadImage(fileInput.files[0]);
+        }
 
-    const data = {
-        cardId: form.querySelector('[name="cardId"]').value || null,
-        title: form.querySelector('[name="title"]').value,
-        profile: form.querySelector('[name="profile"]').value,
-        graduating: form.querySelector('[name="graduating"]').value,
-        contacts: form.querySelector('[name="contacts"]').value,
-        duration: form.querySelector('[name="duration"]').value,
-        additionalTitle: form.querySelector('[name="additionalTitle"]').value,
-        additionalInfo: form.querySelector('[name="additionalInfo"]').value,
-        img: img,
+        const data = {
+            cardId: form.querySelector('[name="cardId"]').value || null,
+            title: form.querySelector('[name="title"]').value,
+            profile: form.querySelector('[name="profile"]').value,
+            graduating: form.querySelector('[name="graduating"]').value,
+            contacts: form.querySelector('[name="contacts"]').value,
+            duration: form.querySelector('[name="duration"]').value,
+            additionalTitle: form.querySelector('[name="additionalTitle"]').value,
+            additionalInfo: form.querySelector('[name="additionalInfo"]').value,
+            img: img,
 
-        activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
-        partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
+            activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
+            partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
 
-        requirements: [...form.querySelectorAll('.requirements-container .row')].map(row => ({
-            basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
-            spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
-        })),
+            requirements: [...form.querySelectorAll('.requirements-container .row')].map(row => ({
+                basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
+                spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
+            })),
 
-        plans: [...form.querySelectorAll('.plans-container .row')].map(row => ({
-            budget: row.querySelector('[name="planBudget"]').value,
-            paid: row.querySelector('[name="planPaid"]').value,
-            score: row.querySelector('[name="planScore"]').value
-        }))
-    };
+            plans: [...form.querySelectorAll('.plans-container .row')].map(row => ({
+                budget: row.querySelector('[name="planBudget"]').value,
+                paid: row.querySelector('[name="planPaid"]').value,
+                score: row.querySelector('[name="planScore"]').value
+            }))
+        };
 
         fetch('/api/cards/save', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         })
         .then(res => {
             if (!res.ok) throw new Error();
-
-            alert('Сохранено ✅');
-
-            bootstrap.Modal
-                .getInstance(document.getElementById('formModal'))
-                .hide();
-
+            alert('Сохранено');
+            bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
             loadCardsList();
         })
-        .catch(err => {
-            console.error(err);
-            alert('Ошибка сохранения');
-        });
+        .catch(() => alert('Ошибка'));
     };
 }
 function deleteCard(id) {
