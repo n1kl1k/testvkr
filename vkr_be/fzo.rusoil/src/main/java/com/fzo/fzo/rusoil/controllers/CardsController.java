@@ -32,4 +32,9 @@ public class CardsController {
         cardsService.saveCards(command);
         return ResponseEntity.ok().build();
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        cardsService.deleteCard(id);
+        return ResponseEntity.ok().build();
+}
 }

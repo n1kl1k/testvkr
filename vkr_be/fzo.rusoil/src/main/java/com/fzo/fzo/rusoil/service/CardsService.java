@@ -257,6 +257,9 @@ public class CardsService {
             });
         }
     }
+    public void deleteCard(Long id) {
+    cardRepo.deleteById(id);
+}
 
 
 }
