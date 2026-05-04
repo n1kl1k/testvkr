@@ -1,519 +1,189 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <th:block th:with="title='Карточки'">
 
 <div th:fragment="content">
 
-<!-- head переносим сюда -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<style>
-    .card-hover:hover {
-        transform: translateY(-5px);
-        transition: 0.3s;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        cursor: pointer;
-    }
-    .card { border-radius: 20px; overflow: hidden; }
-    .badge-custom {
-        background-color: #0d6efd;
-        color: white;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-    }
-    .btn-edit {
-        background-color: #ffc107;
-        border: none;
-    }
-    .btn-edit:hover {
-        background-color: #e0a800;
-    }
-    .modal-body {
-        max-height: 70vh;
-        overflow-y: auto;
-    }
-</style>
-
-<!-- ТВОЙ HTML БЕЗ ИЗМЕНЕНИЙ -->
 <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between mb-4">
         <h1>📚 Образовательные программы</h1>
-        <button type="button" class="btn btn-primary" id="openCreateModal">➕ Создать карточку</button>
+        <button class="btn btn-primary" id="openCreateModal">➕ Создать</button>
     </div>
+
     <div class="row" id="cardsContainer"></div>
 </div>
 
-<!-- МОДАЛКИ БЕЗ ИЗМЕНЕНИЙ -->
-<div class="modal fade" id="detailsModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="detailsModalTitle"></h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="detailsModalBody"></div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="formModal" tabindex="-1" data-bs-backdrop="static">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+<div class="modal fade" id="formModal">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content" id="formModalContent"></div>
     </div>
 </div>
 
 <script>
 const apiBase = '/api/cards';
-let currentEditId = null;
 
-/* =========================
-   HTML escape
-========================= */
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, m =>
-        m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'
-    );
-}
-
-/* =========================
-   Загрузка карточек
-========================= */
+/* ========================= */
 function loadCardsList() {
     fetch(apiBase)
-        .then(res => res.ok ? res.json() : Promise.reject())
-        .then(cards => {
-            const container = document.getElementById('cardsContainer');
-            container.innerHTML = '';
+    .then(r => r.json())
+    .then(cards => {
 
-            cards.forEach(card => {
-                const col = document.createElement('div');
-                col.className = 'col-md-6 col-lg-4 mb-4';
+        const container = document.getElementById('cardsContainer');
+        container.innerHTML = '';
 
-                col.innerHTML = `
-    <div class="card h-100 card-hover">
-        <div class="card-body">
-            <h5>${escapeHtml(card.title)}</h5>
-            <p>${escapeHtml(card.profile)}</p>
-            <small>${escapeHtml(card.duration)}</small>
+        cards.forEach(card => {
+            container.innerHTML += `
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3">
 
-            <div class="mt-3 d-flex justify-content-between">
-                <button class="btn btn-sm btn-outline-primary"
-                    onclick="showDetails(${card.cardId})">
-                    Подробнее
-                </button>
+                        ${card.img ? `<img src="${card.img}" style="width:100%;height:200px;object-fit:cover;">` : ''}
 
-                <div>
-                    <button class="btn btn-sm btn-warning"
-                        onclick="editCard(${card.cardId})">
-                        ✏
-                    </button>
+                        <h5>${card.title}</h5>
 
-                    <button class="btn btn-sm btn-danger"
-                        onclick="deleteCard(${card.cardId})">
-                        🗑
-                    </button>
+                        <button onclick="editCard(${card.cardId})">✏</button>
+                        <button onclick="deleteCard(${card.cardId})">🗑</button>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-`;
-
-                container.appendChild(col);
-            });
-        });
-}
-
-/* =========================
-   Детали
-========================= */
-function showDetails(id) {
-    fetch(`${apiBase}/${id}/details`)
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('detailsModalTitle').innerText = data.title;
-
-            let html = `
-                <p><b>Профиль:</b> ${escapeHtml(data.profile)}</p>
-                <p><b>Кафедра:</b> ${escapeHtml(data.graduating)}</p>
-                <p><b>Контакты:</b> ${escapeHtml(data.contacts)}</p>
-                <p><b>Срок:</b> ${escapeHtml(data.duration)}</p>
             `;
-
-            document.getElementById('detailsModalBody').innerHTML = html;
-
-            new bootstrap.Modal(document.getElementById('detailsModal')).show();
         });
+
+    });
 }
 
-/* =========================
-   Открытие формы
-========================= */
-function loadForm(url, title, id = null) {
+/* ========================= */
+function loadForm(url, id=null) {
     fetch(url)
-        .then(res => res.text())
-        .then(html => {
-            document.getElementById('formModalContent').innerHTML = html;
+    .then(r => r.text())
+    .then(html => {
 
-            const modal = new bootstrap.Modal(document.getElementById('formModal'));
-            modal.show();
+        document.getElementById('formModalContent').innerHTML = html;
 
-            setTimeout(() => {
+        const modal = new bootstrap.Modal(document.getElementById('formModal'));
+        modal.show();
 
-                const fileInput = document.getElementById('imageInput');
+        setTimeout(() => {
 
-                if (fileInput) {
-                    fileInput.onchange = function () {
-                        const file = this.files[0];
-                        if (!file) return;
+            bindForm();
 
-                        const preview = document.getElementById('previewImage');
-                        preview.src = URL.createObjectURL(file);
-                        preview.style.display = 'block';
-                    };
-                }
+            if (id) {
+                fetch(`/api/cards/${id}/details`)
+                .then(r => r.json())
+                .then(fillForm);
+            }
 
-                bindFormSubmit();
-                bindDynamicFields();
-
-                // 👉 ЕСЛИ ЭТО EDIT
-                if (id) {
-                    fetch(`/api/cards/${id}/details`)
-                        .then(res => res.json())
-                        .then(data => fillForm(data));
-                }
-
-            }, 50);
-        });
+        }, 50);
+    });
 }
 
-/* =========================
-   КНОПКА СОЗДАТЬ
-========================= */
-document.addEventListener('DOMContentLoaded', () => {
+/* ========================= */
+function bindForm() {
 
-    document.getElementById('openCreateModal').onclick = () => {
-        loadForm('/admin/create-form', 'Создание карточки');
-    };
-
-    loadCardsList();
-
-});
-
-/* =========================
-   ОБРАБОТКА ФОРМЫ
-========================= */
-function bindFormSubmit() {
     const form = document.getElementById('cardForm');
 
-    form.onsubmit = async function (e) {
+    const fileInput = document.getElementById('imageInput');
+    const preview = document.getElementById('previewImage');
+
+    if (fileInput) {
+        fileInput.onchange = () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        };
+    }
+
+    form.onsubmit = async (e) => {
         e.preventDefault();
 
-        const fileInput = document.getElementById('imageInput'); // 🔥 ДОБАВЬ
-
-        let img = form.querySelector('[name="img"]')?.value || null;
+        let img = null;
 
         if (fileInput && fileInput.files.length > 0) {
             img = await uploadImage(fileInput.files[0]);
         }
 
         const data = {
-            cardId: form.querySelector('[name="cardId"]').value || null,
-            title: form.querySelector('[name="title"]').value,
-            profile: form.querySelector('[name="profile"]').value,
-            graduating: form.querySelector('[name="graduating"]').value,
-            contacts: form.querySelector('[name="contacts"]').value,
-            duration: form.querySelector('[name="duration"]').value,
-            additionalTitle: form.querySelector('[name="additionalTitle"]').value,
-            additionalInfo: form.querySelector('[name="additionalInfo"]').value,
-            img: img,
-
-            activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
-            partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
-
-            requirements: [...form.querySelectorAll('.requirements-container .row')].map(row => ({
-                basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
-                spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
-            })),
-
-            plans: [...form.querySelectorAll('.plans-container .row')].map(row => ({
-                budget: row.querySelector('[name="planBudget"]').value,
-                paid: row.querySelector('[name="planPaid"]').value,
-                score: row.querySelector('[name="planScore"]').value
-            }))
+            cardId: form.cardId.value || null,
+            title: form.title.value,
+            profile: form.profile.value,
+            graduating: form.graduating.value,
+            contacts: form.contacts.value,
+            duration: form.duration.value,
+            additionalTitle: form.additionalTitle.value,
+            additionalInfo: form.additionalInfo.value,
+            img: img
         };
 
         fetch('/api/cards/save', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
             body: JSON.stringify(data)
         })
-        .then(res => {
-            if (!res.ok) throw new Error();
-            alert('Сохранено');
+        .then(() => {
             bootstrap.Modal.getInstance(document.getElementById('formModal')).hide();
             loadCardsList();
-        })
-        .catch(() => alert('Ошибка'));
+        });
     };
 }
-function deleteCard(id) {
-    if (!confirm('Удалить карточку?')) return;
 
-    fetch(`/api/cards/${id}`, {
-        method: 'DELETE'
-    })
-    .then(res => {
-        if (!res.ok) throw new Error();
-        alert('Удалено');
-        loadCardsList();
-    })
-    .catch(() => alert('Ошибка удаления'));
-}
-function editCard(id) {
-    loadForm('/admin/create-form', 'Редактирование', id);
-
-    setTimeout(() => {
-        fetch(`/api/cards/${id}/details`)
-            .then(res => res.json())
-            .then(data => {
-                fillForm(data);
-            });
-    }, 100);
-}
-document.getElementById('imageInput').onchange = function () {
-    const file = this.files[0];
-    if (!file) return;
-
-    const preview = document.getElementById('previewImage');
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = 'block';
-};
+/* ========================= */
 function fillForm(data) {
+
     const form = document.getElementById('cardForm');
 
-    form.querySelector('[name="cardId"]').value = data.cardId || '';
-    form.querySelector('[name="title"]').value = data.title || '';
-    form.querySelector('[name="profile"]').value = data.profile || '';
-    form.querySelector('[name="graduating"]').value = data.graduating || '';
-    form.querySelector('[name="contacts"]').value = data.contacts || '';
-    form.querySelector('[name="duration"]').value = data.duration || '';
+    form.cardId.value = data.cardId || '';
+    form.title.value = data.title || '';
+    form.profile.value = data.profile || '';
+    form.graduating.value = data.graduating || '';
+    form.contacts.value = data.contacts || '';
+    form.duration.value = data.duration || '';
+    form.additionalTitle.value = data.additionalTitle || '';
+    form.additionalInfo.value = data.additionalInfo || '';
+
     if (data.img) {
-    const preview = document.getElementById('previewImage');
-    preview.src = data.img;
-    preview.style.display = 'block';
+        const preview = document.getElementById('previewImage');
+        preview.src = data.img;
+        preview.style.display = 'block';
+    }
 }
-    form.querySelector('[name="additionalTitle"]').value = data.additionalTitle || '';
-    form.querySelector('[name="additionalInfo"]').value = data.additionalInfo || '';
 
-    // очищаем
-    form.querySelector('.activities-container').innerHTML = '';
-    form.querySelector('.partners-container').innerHTML = '';
-    form.querySelector('.requirements-container').innerHTML = '';
-    form.querySelector('.plans-container').innerHTML = '';
-
-    // активности
-    data.activities?.forEach(a => {
-        addActivityRow(a);
-    });
-
-    // партнёры
-    data.partners?.forEach(p => {
-        addPartnerRow(p);
-    });
-
-    // требования
-    data.requirements?.forEach(r => {
-        addRequirementRow(r.basePlan, r.spoPlan);
-    });
-
-    // планы
-    data.plans?.forEach(p => {
-        addPlanRow(p.budget, p.paid, p.score);
-    });
+/* ========================= */
+function editCard(id) {
+    loadForm('/admin/create-form', id);
 }
+
+/* ========================= */
+function deleteCard(id) {
+    fetch(`/api/cards/${id}`, {method:'DELETE'})
+    .then(loadCardsList);
+}
+
+/* ========================= */
 async function uploadImage(file) {
-    const formData = new FormData();
-    formData.append("file", file);
+
+    const fd = new FormData();
+    fd.append("file", file);
 
     const res = await fetch('/api/cards/upload-image', {
-        method: 'POST',
-        body: formData
+        method:'POST',
+        body: fd
     });
 
-    if (!res.ok) throw new Error("Ошибка загрузки картинки");
-
-    return await res.text(); // путь
-}
-/* =========================
-   ДИНАМИЧЕСКИЕ ПОЛЯ
-========================= */
-function bindDynamicFields() {
-
-    const form = document.getElementById('cardForm');
-
-    /* --- АКТИВНОСТИ --- */
-    form.querySelector('.add-activity').onclick = () => {
-        const container = form.querySelector('.activities-container');
-
-        const div = document.createElement('div');
-        div.className = 'input-group mb-2';
-
-        div.innerHTML = `
-            <input type="text" name="activities" class="form-control" placeholder="Активность">
-            <button type="button" class="btn btn-danger remove-row">Удалить</button>
-        `;
-
-        container.appendChild(div);
-    };
-
-    /* --- ПАРТНЁРЫ --- */
-    form.querySelector('.add-partner').onclick = () => {
-        const container = form.querySelector('.partners-container');
-
-        const div = document.createElement('div');
-        div.className = 'input-group mb-2';
-
-        div.innerHTML = `
-            <input type="text" name="partners" class="form-control" placeholder="Партнёр">
-            <button type="button" class="btn btn-danger remove-row">Удалить</button>
-        `;
-
-        container.appendChild(div);
-    };
-
-    /* --- ТРЕБОВАНИЯ --- */
-    form.querySelector('.add-requirement').onclick = () => {
-        const container = form.querySelector('.requirements-container');
-
-        const div = document.createElement('div');
-        div.className = 'row mb-2 g-2';
-
-        div.innerHTML = `
-            <div class="col-sm-5">
-                <input type="text" name="requirementsBasePlan" class="form-control" placeholder="Базовый план">
-            </div>
-            <div class="col-sm-5">
-                <input type="text" name="requirementsSpoPlan" class="form-control" placeholder="СПО план">
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
-            </div>
-        `;
-
-        container.appendChild(div);
-    };
-
-    /* --- ПЛАНЫ --- */
-    form.querySelector('.add-plan').onclick = () => {
-        const container = form.querySelector('.plans-container');
-
-        const div = document.createElement('div');
-        div.className = 'row mb-2 g-2';
-
-        div.innerHTML = `
-            <div class="col-sm-3">
-                <input type="number" name="planBudget" class="form-control" placeholder="Бюджет">
-            </div>
-            <div class="col-sm-3">
-                <input type="number" name="planPaid" class="form-control" placeholder="Платно">
-            </div>
-            <div class="col-sm-4">
-                <input type="text" name="planScore" class="form-control" placeholder="Баллы">
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
-            </div>
-        `;
-
-        container.appendChild(div);
-    };
-
-    /* --- УДАЛЕНИЕ (универсально) --- */
-    form.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-row')) {
-            e.target.closest('.input-group, .row').remove();
-        }
-    });
-}
-function addActivityRow(value = '') {
-    const container = document.querySelector('.activities-container');
-
-    const div = document.createElement('div');
-    div.className = 'input-group mb-2';
-
-    div.innerHTML = `
-        <input type="text" name="activities" class="form-control" value="${value}">
-        <button type="button" class="btn btn-danger remove-row">Удалить</button>
-    `;
-
-    container.appendChild(div);
+    return await res.text();
 }
 
-function addPartnerRow(value = '') {
-    const container = document.querySelector('.partners-container');
+/* ========================= */
+document.addEventListener('DOMContentLoaded', () => {
 
-    const div = document.createElement('div');
-    div.className = 'input-group mb-2';
+    document.getElementById('openCreateModal').onclick =
+        () => loadForm('/admin/create-form');
 
-    div.innerHTML = `
-        <input type="text" name="partners" class="form-control" value="${value}">
-        <button type="button" class="btn btn-danger remove-row">Удалить</button>
-    `;
-
-    container.appendChild(div);
-}
-
-function addRequirementRow(base = '', spo = '') {
-    const container = document.querySelector('.requirements-container');
-
-    const div = document.createElement('div');
-    div.className = 'row mb-2 g-2';
-
-    div.innerHTML = `
-        <div class="col-sm-5">
-            <input type="text" name="requirementsBasePlan" class="form-control" value="${base}">
-        </div>
-        <div class="col-sm-5">
-            <input type="text" name="requirementsSpoPlan" class="form-control" value="${spo}">
-        </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
-        </div>
-    `;
-
-    container.appendChild(div);
-}
-
-function addPlanRow(budget = '', paid = '', score = '') {
-    const container = document.querySelector('.plans-container');
-
-    const div = document.createElement('div');
-    div.className = 'row mb-2 g-2';
-
-    div.innerHTML = `
-        <div class="col-sm-3">
-            <input type="number" name="planBudget" class="form-control" value="${budget}">
-        </div>
-        <div class="col-sm-3">
-            <input type="number" name="planPaid" class="form-control" value="${paid}">
-        </div>
-        <div class="col-sm-4">
-            <input type="text" name="planScore" class="form-control" value="${score}">
-        </div>
-        <div class="col-sm-2">
-            <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
-        </div>
-    `;
-
-    container.appendChild(div);
-}
-
+    loadCardsList();
+});
 </script>
+
 </div>
 </th:block>
 </html>
