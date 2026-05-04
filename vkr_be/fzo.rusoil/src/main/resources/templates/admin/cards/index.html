@@ -169,7 +169,7 @@ function loadForm(url, title, id = null) {
                         .then(res => res.json())
                         .then(data => fillForm(data));
                 }
-
+                bindFormSubmit();
                 initFormHandlers(); // важно!
             }, 50);
         });
@@ -178,9 +178,15 @@ function loadForm(url, title, id = null) {
 /* =========================
    КНОПКА СОЗДАТЬ
 ========================= */
-document.getElementById('openCreateModal').onclick = () => {
-    loadForm('/admin/create-form', 'Создание карточки');
-};
+document.addEventListener('DOMContentLoaded', () => {
+
+    document.getElementById('openCreateModal').onclick = () => {
+        loadForm('/admin/create-form', 'Создание карточки');
+    };
+
+    loadCardsList();
+
+});
 
 /* =========================
    ОБРАБОТКА ФОРМЫ
@@ -246,30 +252,15 @@ function deleteCard(id) {
     fetch(`/api/cards/${id}`, {
         method: 'DELETE'
     })
-    .then(() => {
-        alert('Удалено');
-        loadCardsList();
-    });
-}
-    if (!confirm('Удалить карточку?')) return;
-
-    fetch(`/api/cards/${id}`, {
-        method: 'DELETE'
-    })
     .then(res => {
         if (!res.ok) throw new Error();
+        alert('Удалено');
         loadCardsList();
     })
     .catch(() => alert('Ошибка удаления'));
 }
 function editCard(id) {
-    fetch(`/api/cards/${id}/details`)
-        .then(res => res.json())
-        .then(data => {
-            loadForm('/admin/create-form', () => {
-                fillForm(data); // 👈 теперь точно после загрузки
-            });
-        });
+    loadForm('/admin/create-form', 'Редактирование', id);
 }
 function fillForm(data) {
     const form = document.getElementById('cardForm');
