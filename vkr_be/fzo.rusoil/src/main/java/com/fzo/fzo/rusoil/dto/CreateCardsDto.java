@@ -16,14 +16,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CreateCardsDto {
     private Long cardId;
     private String title;
-    @JsonProperty("imagePath")
-    private String img;
+    private String img; // ← ВАЖНО
+
     private String profile;
     private String graduating;
     private String contacts;
     private String duration;
+
     private String additionalTitle;
     private String additionalInfo;
+
     private Set<String> activities;
     private Set<String> partners;
     private Set<RequirmentDto> requirements;

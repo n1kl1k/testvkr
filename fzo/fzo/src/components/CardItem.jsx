@@ -5,7 +5,7 @@ function CardItem({ item, onOpenModal }) {
                 <img
                     src={
                         item.imagePath
-                            ? `http://84.38.180.188:8080${item.img}`
+                            ? `http://84.38.180.188:8080${item.im}`
                             : "/no-image.png"
                     }
                     alt={item.title}

@@ -165,6 +165,7 @@ function loadForm(url, title, id = null) {
             // ЖДЁМ пока DOM вставится
             setTimeout(() => {
     const fileInput = document.getElementById('imageInput');
+
     if (fileInput) {
         fileInput.onchange = function () {
             const file = this.files[0];
@@ -175,6 +176,10 @@ function loadForm(url, title, id = null) {
             preview.style.display = 'block';
         };
     }
+
+    bindFormSubmit();
+    bindDynamicFields();
+
 }, 50);
         });
 }
