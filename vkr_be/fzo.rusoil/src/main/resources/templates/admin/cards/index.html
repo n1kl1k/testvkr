@@ -66,82 +66,168 @@
     </div>
 </div>
 
-<!-- 🔥 ВЕСЬ ТВОЙ JS БЕЗ ИЗМЕНЕНИЙ -->
 <script>
-    const apiBase = '/api/cards';
-    let currentEditId = null;
+const apiBase = '/api/cards';
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
-    }
+/* ---------------- ЗАГРУЗКА ФОРМЫ ---------------- */
+function loadForm(url) {
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('formModalContent').innerHTML = html;
 
-    function showDetails(cardId) {
-        fetch(`${apiBase}/${cardId}/details`)
-            .then(res => res.ok ? res.json() : Promise.reject('Ошибка загрузки деталей'))
-            .then(data => {
-                document.getElementById('detailsModalTitle').innerText = data.title || '';
-                let html = `
-                    <p><strong>Профиль:</strong> ${escapeHtml(data.profile)}</p>
-                    <p><strong>Выпускающая кафедра:</strong> ${escapeHtml(data.graduating)}</p>
-                    <p><strong>Контакты:</strong> ${escapeHtml(data.contacts)}</p>
-                    <p><strong>Срок обучения:</strong> ${escapeHtml(data.duration)}</p>
-                    <hr>
-                    <h6>📌 Дополнительная информация</h6>
-                    <p><strong>${escapeHtml(data.additionalTitle || '')}</strong><br>${escapeHtml(data.additionalInfo || '')}</p>
-                `;
-                if (data.activities?.length) {
-                    html += `<h6>🎯 Виды деятельности:</h6><ul>${data.activities.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>`;
-                }
-                if (data.partners?.length) {
-                    html += `<h6>🤝 Партнёры:</h6><ul>${data.partners.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`;
-                }
-                if (data.requirements?.length) {
-                    html += `<h6>📋 Требования:</h6><ul>${data.requirements.map(r => `<li>База: ${escapeHtml(r.basePlan || '—')}, СПО: ${escapeHtml(r.spoPlan || '—')}</li>`).join('')}</ul>`;
-                }
-                if (data.plans?.length) {
-                    html += `<h6>💰 План приёма:</h6><ul>${data.plans.map(p => `<li>Бюджет: ${p.budget || '—'}, Платно: ${p.paid || '—'}, Баллы: ${p.score || '—'}</li>`).join('')}</ul>`;
-                }
-                document.getElementById('detailsModalBody').innerHTML = html;
-                new bootstrap.Modal(document.getElementById('detailsModal')).show();
-            })
-            .catch(err => alert('Не удалось загрузить подробности: ' + err));
-    }
+            const modal = new bootstrap.Modal(document.getElementById('formModal'));
+            modal.show();
+        })
+        .catch(() => alert('Ошибка загрузки формы'));
+}
 
-    function loadCardsList() {
-        fetch(apiBase)
-            .then(res => res.ok ? res.json() : Promise.reject('Ошибка загрузки списка'))
-            .then(cards => {
-                const container = document.getElementById('cardsContainer');
-                container.innerHTML = '';
+/* ---------------- ДОБАВЛЕНИЕ ПОЛЕЙ ---------------- */
+function addField(containerId) {
+    const div = document.createElement('div');
+    div.className = "input-group mb-2";
 
-                cards.forEach(card => {
-                    const col = document.createElement('div');
-                    col.className = 'col-md-6 col-lg-4 mb-4';
-                    col.innerHTML = `
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">${escapeHtml(card.title)}</h5>
-                                <p><strong>Профиль:</strong> ${escapeHtml(card.profile)}</p>
-                                <p><small>⏱ ${escapeHtml(card.duration)}</small></p>
-                                <div class="d-flex justify-content-between mt-3">
-                                    <button class="btn btn-sm btn-outline-primary" onclick="showDetails(${card.cardId})">Подробнее</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(col);
-                });
-            });
-    }
+    div.innerHTML = `
+        <input class="form-control">
+        <button type="button" class="btn btn-danger">✖</button>
+    `;
 
-    document.getElementById('openCreateModal').onclick = () => {
-        loadForm('/admin/create-form', 'Создание карточки');
+    div.querySelector('button').onclick = () => div.remove();
+
+    document.getElementById(containerId).appendChild(div);
+}
+
+/* ---------------- СБОР СПИСКОВ ---------------- */
+function getList(containerId) {
+    const inputs = document.querySelectorAll(`#${containerId} input`);
+    return Array.from(inputs)
+        .map(i => i.value.trim())
+        .filter(v => v.length > 0);
+}
+
+/* ---------------- ОТПРАВКА ФОРМЫ ---------------- */
+function submitCard() {
+
+    const data = {
+        cardId: document.getElementById('cardId')?.value || null,
+        title: document.getElementById('title').value,
+        profile: document.getElementById('profile').value,
+        graduating: document.getElementById('graduating').value,
+        contacts: document.getElementById('contacts').value,
+        duration: document.getElementById('duration').value,
+
+        activities: getList('activities'),
+        partners: getList('partners')
     };
 
-    loadCardsList();
-</script>
+    fetch(apiBase + '/save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error();
 
+        alert('Сохранено ✅');
+
+        bootstrap.Modal
+            .getInstance(document.getElementById('formModal'))
+            .hide();
+
+        loadCardsList();
+    })
+    .catch(() => alert('Ошибка сохранения'));
+}
+
+/* ---------------- ЗАГРУЗКА СПИСКА КАРТОЧЕК ---------------- */
+function loadCardsList() {
+    fetch(apiBase)
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(cards => {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            cards.forEach(card => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4 mb-4';
+
+                col.innerHTML = `
+                    <div class="card h-100 card-hover">
+                        <div class="card-body">
+                            <h5 class="card-title">${escapeHtml(card.title)}</h5>
+                            <p><strong>Профиль:</strong> ${escapeHtml(card.profile)}</p>
+                            <p><small>⏱ ${escapeHtml(card.duration)}</small></p>
+
+                            <div class="d-flex justify-content-between mt-3">
+                                <button class="btn btn-sm btn-outline-primary"
+                                        onclick="showDetails(${card.cardId})">
+                                    Подробнее
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(col);
+            });
+        })
+        .catch(() => alert('Ошибка загрузки карточек'));
+}
+
+/* ---------------- ДЕТАЛИ ---------------- */
+function showDetails(cardId) {
+    fetch(`${apiBase}/${cardId}/details`)
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(data => {
+            document.getElementById('detailsModalTitle').innerText = data.title || '';
+
+            let html = `
+                <p><strong>Профиль:</strong> ${escapeHtml(data.profile)}</p>
+                <p><strong>Кафедра:</strong> ${escapeHtml(data.graduating)}</p>
+                <p><strong>Контакты:</strong> ${escapeHtml(data.contacts)}</p>
+                <p><strong>Длительность:</strong> ${escapeHtml(data.duration)}</p>
+                <hr>
+            `;
+
+            if (data.activities?.length) {
+                html += `<h6>🎯 Активности:</h6>
+                         <ul>${data.activities.map(a => `<li>${escapeHtml(a)}</li>`).join('')}</ul>`;
+            }
+
+            if (data.partners?.length) {
+                html += `<h6>🤝 Партнёры:</h6>
+                         <ul>${data.partners.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>`;
+            }
+
+            document.getElementById('detailsModalBody').innerHTML = html;
+
+            new bootstrap.Modal(document.getElementById('detailsModal')).show();
+        })
+        .catch(() => alert('Ошибка загрузки деталей'));
+}
+
+/* ---------------- ЭКРАНИРОВАНИЕ ---------------- */
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m =>
+        m === '&' ? '&amp;' :
+        m === '<' ? '&lt;' :
+        '&gt;'
+    );
+}
+
+/* ---------------- ИНИЦИАЛИЗАЦИЯ ---------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    loadCardsList();
+
+    const createBtn = document.getElementById('openCreateModal');
+    if (createBtn) {
+        createBtn.onclick = () => loadForm('/admin/create-form');
+    }
+});
+</script>щт
 </div>
 </th:block>
 </html>
