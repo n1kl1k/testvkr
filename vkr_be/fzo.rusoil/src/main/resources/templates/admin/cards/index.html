@@ -426,6 +426,78 @@ function bindDynamicFields() {
         }
     });
 }
+function addActivityRow(value = '') {
+    const container = document.querySelector('.activities-container');
+
+    const div = document.createElement('div');
+    div.className = 'input-group mb-2';
+
+    div.innerHTML = `
+        <input type="text" name="activities" class="form-control" value="${value}">
+        <button type="button" class="btn btn-danger remove-row">Удалить</button>
+    `;
+
+    container.appendChild(div);
+}
+
+function addPartnerRow(value = '') {
+    const container = document.querySelector('.partners-container');
+
+    const div = document.createElement('div');
+    div.className = 'input-group mb-2';
+
+    div.innerHTML = `
+        <input type="text" name="partners" class="form-control" value="${value}">
+        <button type="button" class="btn btn-danger remove-row">Удалить</button>
+    `;
+
+    container.appendChild(div);
+}
+
+function addRequirementRow(base = '', spo = '') {
+    const container = document.querySelector('.requirements-container');
+
+    const div = document.createElement('div');
+    div.className = 'row mb-2 g-2';
+
+    div.innerHTML = `
+        <div class="col-sm-5">
+            <input type="text" name="requirementsBasePlan" class="form-control" value="${base}">
+        </div>
+        <div class="col-sm-5">
+            <input type="text" name="requirementsSpoPlan" class="form-control" value="${spo}">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
+        </div>
+    `;
+
+    container.appendChild(div);
+}
+
+function addPlanRow(budget = '', paid = '', score = '') {
+    const container = document.querySelector('.plans-container');
+
+    const div = document.createElement('div');
+    div.className = 'row mb-2 g-2';
+
+    div.innerHTML = `
+        <div class="col-sm-3">
+            <input type="number" name="planBudget" class="form-control" value="${budget}">
+        </div>
+        <div class="col-sm-3">
+            <input type="number" name="planPaid" class="form-control" value="${paid}">
+        </div>
+        <div class="col-sm-4">
+            <input type="text" name="planScore" class="form-control" value="${score}">
+        </div>
+        <div class="col-sm-2">
+            <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
+        </div>
+    `;
+
+    container.appendChild(div);
+}
 
 </script>
 </div>
