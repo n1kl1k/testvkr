@@ -235,21 +235,6 @@ public class AdminController {
         model.addAttribute("cardCommand", new CreateCardsDto());
         return "fragments/card-form :: form";
     }
-    @PostMapping("/upload-image")
-public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
-    try {
-        String uploadDir = "/app/uploads/cards/";
-        String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        Path path = Paths.get(uploadDir + filename);
-        Files.createDirectories(path.getParent());
-        Files.write(path, file.getBytes());
-        return ResponseEntity.ok("/uploads/cards/" + filename);
-    } catch (Exception e) {
-        e.printStackTrace();
-        return ResponseEntity.badRequest().body("Ошибка загрузки");
-    }
-}
-
 
 }
 
