@@ -7,7 +7,7 @@
 </head>
 <body style="background: linear-gradient(135deg, #1E3A5F, #2c4a76); min-height:100vh;">
 
-<div th:replace="admin/layout :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-5">
     <div class="card p-4" style="max-width:600px; margin:auto;">
@@ -17,9 +17,7 @@
         <div th:if="${param.error}" class="alert alert-danger">
             ❌ <span th:text="${param.error}"></span>
         </div>
-        <div th:if="${success}" class="alert alert-success">
-            ✅ <span th:text="${success}"></span>
-        </div>
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
 
         <form th:action="@{/admin/excel/upload}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
@@ -36,4 +34,4 @@
     </div>
 </div>
 </body>
-</html>
+</html>grep "th:fragment" ~/testvkr/vkr_be/fzo.rusoil/src/main/resources/templates/fragments/navbar.html
