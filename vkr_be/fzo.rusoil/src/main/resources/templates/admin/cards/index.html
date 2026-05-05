@@ -310,6 +310,8 @@ function fillForm(data) {
         preview.src = data.img;
         preview.style.display = 'block';
 
+        const hint = document.getElementById('currentImgHint');
+        if (hint) hint.style.display = 'block';
         // Сохраняем путь в скрытое поле чтобы не потерять при сохранении без новой картинки
         let existingImg = form.querySelector('[name="existingImg"]');
         if (!existingImg) {
