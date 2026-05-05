@@ -36,7 +36,11 @@ export default function Timetable() {
 
   const loadFile = async () => {
     try {
-      const res = await fetch("/kal-graf-2025-2026 (1).xls");
+       const nameRes = await fetch("/api/excel/current-name");
+        if (!nameRes.ok) throw new Error("Файл не найден");
+        const filename = await nameRes.text();
+
+        const res = await fetch(`/${encodeURIComponent(filename)}`);
       const buffer = await res.arrayBuffer();
 
       // 👇 сохраняем Blob для скачивания
