@@ -9,6 +9,7 @@ public class StaticConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/app/uploads/");
+                .addResourceLocations("file:///app/uploads/")  // три слеша!
+                .setCachePeriod(3600);
     }
 }
