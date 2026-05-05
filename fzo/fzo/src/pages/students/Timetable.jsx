@@ -69,19 +69,22 @@ export default function Timetable() {
       });
 
       // ❗ ОГРАНИЧЕНИЕ СТРОК (13–164)
-      const START_ROW = 11;
-      const END_ROW = 163;
+      const START_ROW = 13;
+      const END_ROW = 165;
 
       const slicedData = normalized.slice(START_ROW, END_ROW);
 
-      // ✅ ПРОТЯГИВАЕМ "курс"
       let lastCourse = "";
-      const processedData = slicedData.map((row) => {
-        const r = [...row];
-        if (r[0]) lastCourse = r[0];
-        else r[0] = lastCourse;
-        return r;
-      });
+let lastFaculty = "";
+let lastGroup = "";
+
+const processedData = slicedData.map((row) => {
+  const r = [...row];
+  if (r[0]) lastCourse = r[0]; else r[0] = lastCourse;
+  if (r[1]) lastFaculty = r[1]; else r[1] = lastFaculty;
+  if (r[2]) lastGroup = r[2]; else r[2] = lastGroup;
+  return r;
+});
 
       // 📏 точное число колонок
       const range = XLSX.utils.decode_range(sheet["!ref"]);
