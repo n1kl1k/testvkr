@@ -17,7 +17,7 @@ public class Cards {
     @Column(length = 100)
     private String cardTitle;
 
-    @Column(length = 100)
+    @Column(length = 500)
     private String img;
 
     @Column(length = 250)

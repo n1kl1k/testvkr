@@ -46,24 +46,7 @@ public class CardsController {
         return ResponseEntity.ok().build();
 }
 
-@GetMapping("/uploads/cards/{filename}")
-public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-    try {
-        Path filePath = Paths.get("/app/uploads/cards/").resolve(filename).normalize();
-        Resource resource = new UrlResource(filePath.toUri());
-        if (resource.exists() && resource.isReadable()) {
-            String contentType = Files.probeContentType(filePath);
-            if (contentType == null) contentType = "application/octet-stream";
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .body(resource);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    } catch (Exception e) {
-        return ResponseEntity.status(500).build();
-    }
-}
+
 @PostMapping("/upload-image")
 public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
     try {
