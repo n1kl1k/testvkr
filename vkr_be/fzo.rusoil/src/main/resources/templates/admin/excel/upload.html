@@ -1,26 +1,39 @@
-<script>
-function uploadExcel() {
-    const file = document.getElementById('excelFileInput').files[0];
-    if (!file) { alert('Выберите файл'); return; }
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка Excel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background: linear-gradient(135deg, #1E3A5F, #2c4a76); min-height:100vh;">
 
-    // Проверяем расширение
-    if (!file.name.endsWith('.xls') && !file.name.endsWith('.xlsx')) {
-        alert('Только .xls или .xlsx файлы');
-        return;
-    }
+<div th:replace="admin/layout :: navbar"></div>
 
-    const formData = new FormData();
-    formData.append('file', file);
+<div class="container mt-5">
+    <div class="card p-4" style="max-width:600px; margin:auto;">
+        <h4>📊 Загрузить календарный график</h4>
+        <hr>
 
-    fetch('/api/excel/upload', { method: 'POST', body: formData })
-        .then(res => res.text())
-        .then(filename => {
-            document.getElementById('excelUploadResult').innerHTML =
-                `<div class="alert alert-success mt-2">✅ Загружен файл: <b>${filename}</b></div>`;
-        })
-        .catch(() => {
-            document.getElementById('excelUploadResult').innerHTML =
-                `<div class="alert alert-danger mt-2">Ошибка загрузки</div>`;
-        });
-}
-</script>
+        <div th:if="${param.error}" class="alert alert-danger">
+            ❌ <span th:text="${param.error}"></span>
+        </div>
+        <div th:if="${success}" class="alert alert-success">
+            ✅ <span th:text="${success}"></span>
+        </div>
+
+        <form th:action="@{/admin/excel/upload}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">Файл (.xls, .xlsx, .csv)</label>
+                <input type="file" name="file" accept=".xls,.xlsx,.csv" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Описание (необязательно)</label>
+                <input type="text" name="description" class="form-control" placeholder="Например: 2025-2026 учебный год">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Загрузить</button>
+            <a href="/admin/excel" class="btn btn-secondary w-100 mt-2">← Назад к списку</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>
