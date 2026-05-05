@@ -16,7 +16,6 @@ const searchablePages = [
   { title: "Вопросы к поступлению", path: "/abiturient/faq", keywords: "поступление вопросы абитуриенту" },
   { title: "Карточки специальностей", path: "/abiturient/card", keywords: "специальности карточки направления" },
   { title: "Общая информация", path: "/about/info", keywords: "факультет информация" },
-  //{ title: "Слова благодарности", path: "/about/gratitude", keywords: "благодарность спасибо" },
   { title: "Соц. сети", path: "/about/sociallinks", keywords: "соцсети социальные сети" },
 ];
 
@@ -29,6 +28,7 @@ function Header() {
   const searchRef = useRef(null);
   const navigate = useNavigate();
 
+  // Фильтрация поиска
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setSearchResults([]);
@@ -41,6 +41,7 @@ function Header() {
     setSearchResults(filtered.slice(0, 6));
   }, [searchQuery]);
 
+  // Закрыть поисковый дропдаун при клике вне
   useEffect(() => {
     function handleClickOutside(e) {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -69,6 +70,9 @@ function Header() {
     setMenuOpen(false);
   };
 
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false);
+
   const toggleMobileDropdown = (idx) => {
     setOpenDropdown(openDropdown === idx ? null : idx);
   };
@@ -76,49 +80,53 @@ function Header() {
   return (
     <header className="header">
       <div className="header-container">
-        {/* Логотип слева */}
-        <Link to="/" className="logo-link" onClick={() => setMenuOpen(false)}>
+        {/* Логотип */}
+        <Link to="/" className="logo-link" onClick={closeMenu}>
           <img src="/logo.JPG" alt="УГНТУ" className="logo" />
         </Link>
 
+        {/* Бургер-кнопка (видна только на мобильных) */}
+        <div className={`burger ${menuOpen ? "active" : ""}`} onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
 
-
-        {/* Меню по центру */}
+        {/* Меню навигации */}
         <nav className={`nav ${menuOpen ? "open" : ""}`}>
           <ul className="nav-menu">
-            <li><Link to="/" onClick={() => setMenuOpen(false)}>Главная</Link></li>
+            <li><Link to="/" onClick={closeMenu}>Главная</Link></li>
             <li className={`dropdown ${openDropdown === 0 ? "open" : ""}`}>
               <span className="dropdown-trigger" onClick={() => toggleMobileDropdown(0)}>Студенту ▼</span>
               <ul className="dropdown-menu">
-                <li><a href="https://ams.rusoil.net/pcs/?w_mnews">Личный кабинет</a></li>
-                <li><a href="https://lks.rusoil.net/schedule">Расписание</a></li>
-                <li><Link to="/students/timetable" onClick={() => setMenuOpen(false)}>График уч. процесса</Link></li>
-                <li><Link to="/students/bible" onClick={() => setMenuOpen(false)}>Библиотека</Link></li>
-                <li><Link to="/students/documents" onClick={() => setMenuOpen(false)}>Документы</Link></li>
-                <li><a href="https://rusoil.net/ru/page/studencheskie-olimpiady">Олимпиады</a></li>
-                <li><a href="https://oiledu.ru/">OILEDU</a></li>
-                <li><Link to="/students/studcity" onClick={() => setMenuOpen(false)}>Студгородок</Link></li>
+                <li><a href="https://ams.rusoil.net/pcs/?w_mnews" onClick={closeMenu}>Личный кабинет</a></li>
+                <li><a href="https://lks.rusoil.net/schedule" onClick={closeMenu}>Расписание</a></li>
+                <li><Link to="/students/timetable" onClick={closeMenu}>График уч. процесса</Link></li>
+                <li><Link to="/students/bible" onClick={closeMenu}>Библиотека</Link></li>
+                <li><Link to="/students/documents" onClick={closeMenu}>Документы</Link></li>
+                <li><a href="https://rusoil.net/ru/page/studencheskie-olimpiady" onClick={closeMenu}>Олимпиады</a></li>
+                <li><a href="https://oiledu.ru/" onClick={closeMenu}>OILEDU</a></li>
+                <li><Link to="/students/studcity" onClick={closeMenu}>Студгородок</Link></li>
               </ul>
             </li>
             <li className={`dropdown ${openDropdown === 1 ? "open" : ""}`}>
               <span className="dropdown-trigger" onClick={() => toggleMobileDropdown(1)}>Абитуриенту ▼</span>
               <ul className="dropdown-menu">
-                <li><Link to="/abiturient/faq" onClick={() => setMenuOpen(false)}>Вопросы к поступлению</Link></li>
-                <li><Link to="/abiturient/card" onClick={() => setMenuOpen(false)}>Карточки специальностей</Link></li>
+                <li><Link to="/abiturient/faq" onClick={closeMenu}>Вопросы к поступлению</Link></li>
+                <li><Link to="/abiturient/card" onClick={closeMenu}>Карточки специальностей</Link></li>
               </ul>
             </li>
             <li className={`dropdown ${openDropdown === 2 ? "open" : ""}`}>
               <span className="dropdown-trigger" onClick={() => toggleMobileDropdown(2)}>О факультете ▼</span>
               <ul className="dropdown-menu">
-                <li><Link to="/about/info" onClick={() => setMenuOpen(false)}>Общая информация</Link></li>
-                {/* <li><Link to="/about/gratitude" onClick={() => setMenuOpen(false)}>Слова благодарности</Link></li>  */}
-                <li><Link to="/about/sociallinks" onClick={() => setMenuOpen(false)}>Соц. сети</Link></li>
+                <li><Link to="/about/info" onClick={closeMenu}>Общая информация</Link></li>
+                <li><Link to="/about/sociallinks" onClick={closeMenu}>Соц. сети</Link></li>
               </ul>
             </li>
           </ul>
         </nav>
 
-        {/* Поиск справа */}
+        {/* Поиск */}
         <div className="search-wrapper" ref={searchRef}>
           <form onSubmit={handleSearchSubmit} className="search-form">
             <input
