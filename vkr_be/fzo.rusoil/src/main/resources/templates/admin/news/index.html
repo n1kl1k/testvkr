@@ -35,11 +35,6 @@
         color: white;
     }
 
-    .btn-logout {
-        background: #f44336;
-        color: white;
-    }
-
     table {
         width: 100%;
         border-collapse: collapse;
@@ -71,9 +66,10 @@
     .edit { color: #2196F3; }
     .delete { color: #f44336; }
 </style>
-<div th:replace="fragments/navbar :: navbar"></div>
-<div class="container">
 
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
     <h1>📢 Новости</h1>
 
     <div class="top-bar">
@@ -89,7 +85,6 @@
             <th>Дата</th>
             <th>Действия</th>
         </tr>
-
         <tr th:each="n : ${list}">
             <td th:text="${n.id}"></td>
             <td th:text="${n.title}"></td>
@@ -100,7 +95,8 @@
             </td>
         </tr>
     </table>
-
 </div>
 
 </div>
+</th:block>
+</html>
