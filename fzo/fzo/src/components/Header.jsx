@@ -80,19 +80,16 @@ function Header() {
   return (
     <header className="header">
       <div className="header-container">
-        {/* Логотип */}
         <Link to="/" className="logo-link" onClick={closeMenu}>
           <img src="/logo.JPG" alt="УГНТУ" className="logo" />
         </Link>
 
-        {/* Бургер-кнопка (видна только на мобильных) */}
         <div className={`burger ${menuOpen ? "active" : ""}`} onClick={toggleMenu}>
           <span></span>
           <span></span>
           <span></span>
         </div>
 
-        {/* Меню навигации */}
         <nav className={`nav ${menuOpen ? "open" : ""}`}>
           <ul className="nav-menu">
             <li><Link to="/" onClick={closeMenu}>Главная</Link></li>
@@ -126,7 +123,6 @@ function Header() {
           </ul>
         </nav>
 
-        {/* Поиск */}
         <div className="search-wrapper" ref={searchRef}>
           <form onSubmit={handleSearchSubmit} className="search-form">
             <input
