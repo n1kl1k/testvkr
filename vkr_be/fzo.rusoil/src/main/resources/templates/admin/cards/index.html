@@ -71,9 +71,6 @@
 <script>
 const apiBase = '/api/cards';
 
-/* =========================
-   HTML escape
-========================= */
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, m =>
@@ -81,20 +78,15 @@ function escapeHtml(str) {
     );
 }
 
-/* =========================
-   Загрузка карточек
-========================= */
 function loadCardsList() {
     fetch(apiBase)
         .then(res => res.json())
         .then(cards => {
             const container = document.getElementById('cardsContainer');
             container.innerHTML = '';
-
             cards.forEach(card => {
                 const col = document.createElement('div');
                 col.className = 'col-md-6 col-lg-4 mb-4';
-
                 col.innerHTML = `
                 <div class="card h-100 card-hover">
                     ${card.img ? `<img src="${card.img}" class="card-img-top" style="height:200px;object-fit:cover;">` : ''}
@@ -102,37 +94,46 @@ function loadCardsList() {
                         <h5>${escapeHtml(card.title)}</h5>
                         <p>${escapeHtml(card.profile)}</p>
                         <small>${escapeHtml(card.duration)}</small>
-
                         <div class="mt-3 d-flex justify-content-between">
-                            <button class="btn btn-sm btn-outline-primary"
-                                onclick="showDetails(${card.cardId})">
-                                Подробнее
-                            </button>
-
+                            <button class="btn btn-sm btn-outline-primary" onclick="showDetails(${card.cardId})">Подробнее</button>
                             <div>
-                                <button class="btn btn-sm btn-warning"
-                                    onclick="editCard(${card.cardId})">✏</button>
-
-                                <button class="btn btn-sm btn-danger"
-                                    onclick="deleteCard(${card.cardId})">🗑</button>
+                                <button class="btn btn-sm btn-warning" onclick="editCard(${card.cardId})">✏</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteCard(${card.cardId})">🗑</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                `;
+                </div>`;
                 container.appendChild(col);
             });
         });
 }
 
-/* =========================
-   Детали
-========================= */
+/* =====================
+   БАГ 1 ИСПРАВЛЕН: показываем все поля
+===================== */
 function showDetails(id) {
     fetch(`${apiBase}/${id}/details`)
         .then(res => res.json())
         .then(data => {
             document.getElementById('detailsModalTitle').innerText = data.title;
+
+            const activitiesHtml = data.activities && data.activities.length
+                ? `<p><b>Активности:</b> ${data.activities.map(a => escapeHtml(a)).join(', ')}</p>` : '';
+
+            const partnersHtml = data.partners && data.partners.length
+                ? `<p><b>Партнёры:</b> ${data.partners.map(p => escapeHtml(p)).join(', ')}</p>` : '';
+
+            const plansHtml = data.plans && data.plans.length
+                ? `<b>Планы приёма:</b><table class="table table-sm mt-1">
+                    <thead><tr><th>Бюджет</th><th>Платно</th><th>Баллы</th></tr></thead>
+                    <tbody>${data.plans.map(p => `<tr><td>${p.budget}</td><td>${p.paid}</td><td>${p.score}</td></tr>`).join('')}</tbody>
+                   </table>` : '';
+
+            const reqHtml = data.requirements && data.requirements.length
+                ? `<b>Требования:</b><table class="table table-sm mt-1">
+                    <thead><tr><th>Базовый план</th><th>СПО план</th></tr></thead>
+                    <tbody>${data.requirements.map(r => `<tr><td>${escapeHtml(r.basePlan)}</td><td>${escapeHtml(r.spoPlan)}</td></tr>`).join('')}</tbody>
+                   </table>` : '';
 
             document.getElementById('detailsModalBody').innerHTML = `
                 ${data.img ? `<img src="${data.img}" style="width:100%;margin-bottom:10px;">` : ''}
@@ -140,33 +141,32 @@ function showDetails(id) {
                 <p><b>Кафедра:</b> ${escapeHtml(data.graduating)}</p>
                 <p><b>Контакты:</b> ${escapeHtml(data.contacts)}</p>
                 <p><b>Срок:</b> ${escapeHtml(data.duration)}</p>
+                ${data.additionalTitle ? `<p><b>${escapeHtml(data.additionalTitle)}</b></p>` : ''}
+                ${data.additionalInfo ? `<p>${escapeHtml(data.additionalInfo)}</p>` : ''}
+                ${activitiesHtml}
+                ${partnersHtml}
+                ${plansHtml}
+                ${reqHtml}
             `;
 
             new bootstrap.Modal(document.getElementById('detailsModal')).show();
         });
 }
 
-/* =========================
-   Открытие формы
-========================= */
 function loadForm(url, id = null) {
     fetch(url)
         .then(res => res.text())
         .then(html => {
             document.getElementById('formModalContent').innerHTML = html;
-
             const modal = new bootstrap.Modal(document.getElementById('formModal'));
             modal.show();
 
             setTimeout(() => {
-
-                // ✅ безопасный onchange
                 const fileInput = document.getElementById('imageInput');
                 if (fileInput) {
                     fileInput.addEventListener('change', function () {
                         const file = this.files[0];
                         if (!file) return;
-
                         const preview = document.getElementById('previewImage');
                         preview.src = URL.createObjectURL(file);
                         preview.style.display = 'block';
@@ -174,40 +174,29 @@ function loadForm(url, id = null) {
                 }
 
                 bindFormSubmit();
-                //bindDynamicFields();
+                bindDynamicFields(); // БАГ 3 ИСПРАВЛЕН: раскомментировано
 
-                // ✅ загрузка данных при редактировании
                 if (id) {
                     fetch(`${apiBase}/${id}/details`)
                         .then(res => res.json())
                         .then(fillForm);
                 }
-
             }, 50);
         });
 }
 
-/* =========================
-   INIT
-========================= */
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('openCreateModal').onclick = () => {
-        loadForm('/admin/create-form');
-    };
+    document.getElementById('openCreateModal').onclick = () => loadForm('/admin/create-form');
     loadCardsList();
 });
 
-/* =========================
-   SUBMIT
-========================= */
 function bindFormSubmit() {
     const form = document.getElementById('cardForm');
-
     form.onsubmit = async function (e) {
         e.preventDefault();
 
         const fileInput = document.getElementById('imageInput');
-        let img = null;
+        let img = form.querySelector('[name="existingImg"]')?.value || null; // БАГ 2: берём существующий img
 
         if (fileInput && fileInput.files.length > 0) {
             img = await uploadImage(fileInput.files[0]);
@@ -223,15 +212,12 @@ function bindFormSubmit() {
             additionalTitle: form.querySelector('[name="additionalTitle"]').value,
             additionalInfo: form.querySelector('[name="additionalInfo"]').value,
             img: img,
-
             activities: [...form.querySelectorAll('[name="activities"]')].map(i => i.value),
             partners: [...form.querySelectorAll('[name="partners"]')].map(i => i.value),
-
             requirements: [...form.querySelectorAll('.requirements-container .row')].map(row => ({
                 basePlan: row.querySelector('[name="requirementsBasePlan"]').value,
                 spoPlan: row.querySelector('[name="requirementsSpoPlan"]').value
             })),
-
             plans: [...form.querySelectorAll('.plans-container .row')].map(row => ({
                 budget: row.querySelector('[name="planBudget"]').value,
                 paid: row.querySelector('[name="planPaid"]').value,
@@ -254,26 +240,58 @@ function bindFormSubmit() {
     };
 }
 
-/* =========================
-   EDIT / DELETE
-========================= */
-function editCard(id) {
-    loadForm('/admin/create-form', id);
+/* =====================
+   БАГ 3 ИСПРАВЛЕН: динамические кнопки
+===================== */
+function bindDynamicFields() {
+    const form = document.getElementById('cardForm');
+
+    form.querySelector('.add-activity')?.addEventListener('click', () => {
+        form.querySelector('.activities-container').insertAdjacentHTML('beforeend', `
+            <div class="input-group mb-2">
+                <input type="text" name="activities" class="form-control" placeholder="Активность">
+                <button type="button" class="btn btn-danger remove-row">Удалить</button>
+            </div>`);
+    });
+
+    form.querySelector('.add-partner')?.addEventListener('click', () => {
+        form.querySelector('.partners-container').insertAdjacentHTML('beforeend', `
+            <div class="input-group mb-2">
+                <input type="text" name="partners" class="form-control" placeholder="Партнёр">
+                <button type="button" class="btn btn-danger remove-row">Удалить</button>
+            </div>`);
+    });
+
+    form.querySelector('.add-requirement')?.addEventListener('click', () => {
+        form.querySelector('.requirements-container').insertAdjacentHTML('beforeend', `
+            <div class="row mb-2 g-2">
+                <div class="col-sm-5"><input type="text" name="requirementsBasePlan" class="form-control" placeholder="Базовый план"></div>
+                <div class="col-sm-5"><input type="text" name="requirementsSpoPlan" class="form-control" placeholder="СПО план"></div>
+                <div class="col-sm-2"><button type="button" class="btn btn-danger remove-row w-100">Удалить</button></div>
+            </div>`);
+    });
+
+    form.querySelector('.add-plan')?.addEventListener('click', () => {
+        form.querySelector('.plans-container').insertAdjacentHTML('beforeend', `
+            <div class="row mb-2 g-2">
+                <div class="col-sm-3"><input type="number" name="planBudget" class="form-control" placeholder="Бюджет"></div>
+                <div class="col-sm-3"><input type="number" name="planPaid" class="form-control" placeholder="Платно"></div>
+                <div class="col-sm-4"><input type="text" name="planScore" class="form-control" placeholder="Баллы"></div>
+                <div class="col-sm-2"><button type="button" class="btn btn-danger remove-row w-100">Удалить</button></div>
+            </div>`);
+    });
+
+    // Удаление строк (делегирование)
+    form.addEventListener('click', e => {
+        if (e.target.classList.contains('remove-row')) {
+            e.target.closest('.input-group, .row').remove();
+        }
+    });
 }
 
-function deleteCard(id) {
-    if (!confirm('Удалить карточку?')) return;
-
-    fetch(`${apiBase}/${id}`, { method: 'DELETE' })
-        .then(() => {
-            alert('Удалено');
-            loadCardsList();
-        });
-}
-
-/* =========================
-   FILL FORM
-========================= */
+/* =====================
+   БАГ 2 ИСПРАВЛЕН: fillForm сохраняет img
+===================== */
 function fillForm(data) {
     const form = document.getElementById('cardForm');
 
@@ -283,26 +301,86 @@ function fillForm(data) {
     form.querySelector('[name="graduating"]').value = data.graduating || '';
     form.querySelector('[name="contacts"]').value = data.contacts || '';
     form.querySelector('[name="duration"]').value = data.duration || '';
+    form.querySelector('[name="additionalTitle"]')?.value && (form.querySelector('[name="additionalTitle"]').value = data.additionalTitle || '');
+    form.querySelector('[name="additionalInfo"]') && (form.querySelector('[name="additionalInfo"]').value = data.additionalInfo || '');
 
     if (data.img) {
+        // Показываем превью
         const preview = document.getElementById('previewImage');
         preview.src = data.img;
         preview.style.display = 'block';
+
+        // Сохраняем путь в скрытое поле чтобы не потерять при сохранении без новой картинки
+        let existingImg = form.querySelector('[name="existingImg"]');
+        if (!existingImg) {
+            existingImg = document.createElement('input');
+            existingImg.type = 'hidden';
+            existingImg.name = 'existingImg';
+            form.appendChild(existingImg);
+        }
+        existingImg.value = data.img;
     }
+
+    // Заполняем активности
+    const actContainer = form.querySelector('.activities-container');
+    actContainer.innerHTML = '';
+    (data.activities || []).forEach(a => {
+        actContainer.insertAdjacentHTML('beforeend', `
+            <div class="input-group mb-2">
+                <input type="text" name="activities" value="${escapeHtml(a)}" class="form-control">
+                <button type="button" class="btn btn-danger remove-row">Удалить</button>
+            </div>`);
+    });
+
+    // Заполняем партнёров
+    const partContainer = form.querySelector('.partners-container');
+    partContainer.innerHTML = '';
+    (data.partners || []).forEach(p => {
+        partContainer.insertAdjacentHTML('beforeend', `
+            <div class="input-group mb-2">
+                <input type="text" name="partners" value="${escapeHtml(p)}" class="form-control">
+                <button type="button" class="btn btn-danger remove-row">Удалить</button>
+            </div>`);
+    });
+
+    // Заполняем требования
+    const reqContainer = form.querySelector('.requirements-container');
+    reqContainer.innerHTML = '';
+    (data.requirements || []).forEach(r => {
+        reqContainer.insertAdjacentHTML('beforeend', `
+            <div class="row mb-2 g-2">
+                <div class="col-sm-5"><input type="text" name="requirementsBasePlan" value="${escapeHtml(r.basePlan)}" class="form-control"></div>
+                <div class="col-sm-5"><input type="text" name="requirementsSpoPlan" value="${escapeHtml(r.spoPlan)}" class="form-control"></div>
+                <div class="col-sm-2"><button type="button" class="btn btn-danger remove-row w-100">Удалить</button></div>
+            </div>`);
+    });
+
+    // Заполняем планы
+    const planContainer = form.querySelector('.plans-container');
+    planContainer.innerHTML = '';
+    (data.plans || []).forEach(p => {
+        planContainer.insertAdjacentHTML('beforeend', `
+            <div class="row mb-2 g-2">
+                <div class="col-sm-3"><input type="number" name="planBudget" value="${p.budget}" class="form-control"></div>
+                <div class="col-sm-3"><input type="number" name="planPaid" value="${p.paid}" class="form-control"></div>
+                <div class="col-sm-4"><input type="text" name="planScore" value="${escapeHtml(p.score)}" class="form-control"></div>
+                <div class="col-sm-2"><button type="button" class="btn btn-danger remove-row w-100">Удалить</button></div>
+            </div>`);
+    });
 }
 
-/* =========================
-   UPLOAD
-========================= */
+function editCard(id) { loadForm('/admin/create-form', id); }
+
+function deleteCard(id) {
+    if (!confirm('Удалить карточку?')) return;
+    fetch(`${apiBase}/${id}`, { method: 'DELETE' })
+        .then(() => { alert('Удалено'); loadCardsList(); });
+}
+
 async function uploadImage(file) {
     const formData = new FormData();
     formData.append("file", file);
-
-    const res = await fetch(`${apiBase}/upload-image`, {
-        method: 'POST',
-        body: formData
-    });
-
+    const res = await fetch(`${apiBase}/upload-image`, { method: 'POST', body: formData });
     return await res.text();
 }
 </script>
