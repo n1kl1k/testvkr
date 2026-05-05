@@ -1,15 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="navbar">
-    <div class="navbar">
-        <div class="nav-left">
-            <a href="/admin">🏠 Главная</a>
-            <a href="/admin/news/index">📰 Новости</a>
-            <a href="/admin/cards/index">📚 Карточки</a>
-        </div>
+<style>
+.adm-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 56px;
+  background: #1E3A5F;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.adm-nav-brand {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 24px;
+  opacity: 0.95;
+}
+.adm-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.adm-nav-links a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.adm-nav-links a:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+.adm-logout {
+  background: rgba(231,76,60,0.85);
+  color: #fff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.adm-logout:hover { background: rgb(231,76,60); }
+</style>
 
-        <div>
-            <a href="/admin/login">
-                <button class="logout-btn">⛔ Выйти</button>
-            </a>
-        </div>
-    </div>
+<nav class="adm-nav">
+  <a href="/admin" class="adm-nav-brand">ФЗО Панель</a>
+  <div class="adm-nav-links">
+    <a href="/admin">Главная</a>
+    <a href="/admin/news/index">Новости</a>
+    <a href="/admin/cards/index">Карточки</a>
+    <a href="/admin/excel">Таблицы</a>
+  </div>
+  <a href="/logout" class="adm-logout">Выйти</a>
+</nav>
 </div>
+</html>
