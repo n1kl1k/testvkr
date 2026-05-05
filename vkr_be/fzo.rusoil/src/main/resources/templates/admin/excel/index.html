@@ -1,7 +1,3 @@
-Ошибка ясная:
-Error resolving fragment: "~{'admin/layout' :: navbar}"
-В layout.html нет фрагмента с именем navbar — там просто обычный div без th:fragment. Исправь шаблоны — убери navbar из них, используй layout через th:insert:
-bashcat > ~/testvkr/vkr_be/fzo.rusoil/src/main/resources/templates/admin/excel/index.html << 'EOF'
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -15,46 +11,24 @@ bashcat > ~/testvkr/vkr_be/fzo.rusoil/src/main/resources/templates/admin/excel/i
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 style="color:white;">📊 Календарные графики</h3>
+        <h3 style="color:white;">📊 Календарный график</h3>
         <a href="/admin/excel/upload" class="btn btn-primary">➕ Загрузить новый</a>
     </div>
 
     <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-    <div class="card p-3">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Файл</th>
-                    <th>Описание</th>
-                    <th>Дата загрузки</th>
-                    <th>Статус</th>
-                    <th>Действия</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="file : ${files}">
-                    <td th:text="${file.originalFileName}"></td>
-                    <td th:text="${file.description}"></td>
-                    <td th:text="${file.uploadDate}"></td>
-                    <td>
-                        <span th:if="${file.active}" class="badge bg-success">✅ Активный</span>
-                        <span th:unless="${file.active}" class="badge bg-secondary">Неактивный</span>
-                    </td>
-                    <td>
-                        <a th:unless="${file.active}" th:href="@{/admin/excel/set-active/{id}(id=${file.id})}"
-                           class="btn btn-sm btn-success">Сделать активным</a>
-                        <a th:href="@{/admin/excel/delete/{id}(id=${file.id})}"
-                           class="btn btn-sm btn-danger"
-                           onclick="return confirm('Удалить файл?')">🗑</a>
-                    </td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(files)}">
-                    <td colspan="5" class="text-center text-muted">Файлы не загружены</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="card p-4">
+        <div th:if="${currentFile != null}">
+            <p>📄 Текущий файл: <b th:text="${currentFile}"></b></p>
+            <a href="/admin/excel/delete"
+               class="btn btn-danger"
+               onclick="return confirm('Удалить файл с сайта?')">🗑 Удалить</a>
+        </div>
+        <div th:if="${currentFile == null}">
+            <p class="text-muted">Файл не загружен</p>
+            <a href="/admin/excel/upload" class="btn btn-primary">Загрузить файл</a>
+        </div>
     </div>
 </div>
 </body>

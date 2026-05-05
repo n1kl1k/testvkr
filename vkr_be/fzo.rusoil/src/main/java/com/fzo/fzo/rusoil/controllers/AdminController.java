@@ -1,45 +1,32 @@
 package com.fzo.fzo.rusoil.controllers;
 
 import com.fzo.fzo.rusoil.dto.CreateCardsDto;
-import com.fzo.fzo.rusoil.dto.WatchCardsDto;
-import com.fzo.fzo.rusoil.model.Cards;
-import com.fzo.fzo.rusoil.model.ExcelFile;
 import com.fzo.fzo.rusoil.model.News;
 import com.fzo.fzo.rusoil.repository.CardsRepository;
-import com.fzo.fzo.rusoil.repository.ExcelFileRepository;
 import com.fzo.fzo.rusoil.repository.NewsRepository;
 import com.fzo.fzo.rusoil.service.CardsService;
 import com.fzo.fzo.rusoil.service.EmailService;
-import com.fzo.fzo.rusoil.service.ExcelProcessingService;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.Logger;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import lombok.extern.slf4j.Slf4j;
-import java.util.UUID;
-import java.nio.file.*;
-
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.nio.file.*;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 @Slf4j
 public class AdminController {
+
+    private static final String PUBLIC_DIR = "/app/public/";
+    private static final String META_FILE = "/app/public/.current-excel-name";
+
     private final NewsRepository newsRepo;
     private final CardsRepository cardsRepo;
-    private final ExcelFileRepository excelFileRepo;
-    private final ExcelProcessingService excelProcessingService;
     private final CardsService cardsService;
     private final EmailService emailService;
 
@@ -47,17 +34,19 @@ public class AdminController {
     public String index() {
         return "admin/index";
     }
+
     @GetMapping
     public String adminPanel(Model model) {
         model.addAttribute("list", newsRepo.findAll());
-        model.addAttribute("content", "admin/home :: content"); // 👈 добавь
+        model.addAttribute("content", "admin/home :: content");
         return "admin/index";
     }
-    
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
     @GetMapping("/news/index")
     public String newsIndex(Model model) {
         model.addAttribute("list", newsRepo.findAll());
@@ -74,13 +63,12 @@ public class AdminController {
     public String saveNews(@RequestParam String title,
                            @RequestParam String shortText,
                            @RequestParam String fullText) {
-
         News news = new News();
         news.setTitle(title);
         news.setShortText(shortText);
         news.setFullText(fullText);
         newsRepo.save(news);
-        emailService.sendNewsToSubscribers(title, shortText,fullText);
+        emailService.sendNewsToSubscribers(title, shortText, fullText);
         return "redirect:/admin/news/index";
     }
 
@@ -95,12 +83,10 @@ public class AdminController {
                              @RequestParam String title,
                              @RequestParam String shortText,
                              @RequestParam String fullText) {
-
         News news = newsRepo.findById(id).orElseThrow();
         news.setTitle(title);
         news.setShortText(shortText);
         news.setFullText(fullText);
-
         newsRepo.save(news);
         return "redirect:/admin/news/index";
     }
@@ -111,35 +97,14 @@ public class AdminController {
         return "redirect:/admin/news/index";
     }
 
-
+    // ===== EXCEL (без БД) =====
 
     @GetMapping("/excel")
     public String excelManager(Model model) {
-        model.addAttribute("files", excelFileRepo.findAll());
-        // Находим активный файл для отображения в шаблоне
-        excelFileRepo.findByActiveTrue().ifPresent(activeFile -> {
-            model.addAttribute("activeFileId", activeFile.getId());
-        });
+        model.addAttribute("currentFile", getCurrentFileName());
         return "admin/excel/index";
     }
-    @GetMapping("/excel/test-api")
-    @ResponseBody
-    public String testApi() {
-        long count = excelFileRepo.count();
-        Optional<ExcelFile> activeFile = excelFileRepo.findByActiveTrue();
-        Optional<ExcelFile> latestFile = excelFileRepo.findFirstByOrderByUploadDateDesc();
 
-        return String.format(
-                "Всего файлов: %d<br>" +
-                        "Активный файл: %s<br>" +
-                        "Последний файл: %s<br>" +
-                        "<a href='/api/excel/active'>Проверить API /active</a><br>" +
-                        "<a href='/api/excel/latest'>Проверить API /latest</a>",
-                count,
-                activeFile.map(f -> f.getOriginalFileName()).orElse("нет"),
-                latestFile.map(f -> f.getOriginalFileName()).orElse("нет")
-        );
-    }
     @GetMapping("/excel/upload")
     public String uploadExcelPage() {
         return "admin/excel/upload";
@@ -147,82 +112,77 @@ public class AdminController {
 
     @PostMapping("/excel/upload")
     public String uploadExcelFile(@RequestParam("file") MultipartFile file,
-                                  @RequestParam(value = "description", required = false) String description,
                                   RedirectAttributes redirectAttributes) {
-
         try {
             if (file.isEmpty()) {
-                redirectAttributes.addAttribute("error", "Файл пустой");
+                redirectAttributes.addFlashAttribute("error", "Файл пустой");
                 return "redirect:/admin/excel/upload";
             }
 
-            if (file.getOriginalFilename() == null || file.getOriginalFilename().isEmpty()) {
-                redirectAttributes.addAttribute("error", "Имя файла отсутствует");
+            String filename = file.getOriginalFilename();
+            if (filename == null || filename.isEmpty()) {
+                redirectAttributes.addFlashAttribute("error", "Имя файла отсутствует");
                 return "redirect:/admin/excel/upload";
             }
 
-            String filename = file.getOriginalFilename().toLowerCase();
-            if (!filename.endsWith(".xlsx") && !filename.endsWith(".xls") && !filename.endsWith(".csv")) {
-                redirectAttributes.addAttribute("error", "Неподдерживаемый формат. Используйте .xlsx, .xls или .csv");
+            String lower = filename.toLowerCase();
+            if (!lower.endsWith(".xlsx") && !lower.endsWith(".xls") && !lower.endsWith(".csv")) {
+                redirectAttributes.addFlashAttribute("error", "Только .xlsx, .xls или .csv");
                 return "redirect:/admin/excel/upload";
             }
 
-            log.info("Начинаем обработку файла: {}", filename);
-            excelProcessingService.processAndSaveExcel(file, description);
+            Files.createDirectories(Paths.get(PUBLIC_DIR));
 
-            redirectAttributes.addFlashAttribute("success",
-                    "Файл '" + file.getOriginalFilename() + "' успешно загружен!");
+            // Удаляем старый файл
+            String oldFile = getCurrentFileName();
+            if (oldFile != null) {
+                Files.deleteIfExists(Paths.get(PUBLIC_DIR + oldFile));
+            }
 
+            // Сохраняем новый
+            Files.write(Paths.get(PUBLIC_DIR + filename), file.getBytes(),
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            // Обновляем мета-файл
+            Files.writeString(Paths.get(META_FILE), filename);
+
+            log.info("Excel файл обновлён: {}", filename);
+            redirectAttributes.addFlashAttribute("success", "Файл загружен: " + filename);
             return "redirect:/admin/excel";
 
-        } catch (IOException e) {
-            log.error("Ошибка IO при загрузке файла", e);
-            redirectAttributes.addAttribute("error", "Ошибка чтения файла: " + e.getMessage());
-            return "redirect:/admin/excel/upload";
         } catch (Exception e) {
-            log.error("Неожиданная ошибка при загрузке файла", e);
-            redirectAttributes.addAttribute("error",
-                    "Ошибка обработки: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+            log.error("Ошибка загрузки Excel", e);
+            redirectAttributes.addFlashAttribute("error", "Ошибка: " + e.getMessage());
             return "redirect:/admin/excel/upload";
         }
     }
 
-    @GetMapping("/excel/delete/{id}")
-    public String deleteExcelFile(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    @GetMapping("/excel/delete")
+    public String deleteExcelFile(RedirectAttributes redirectAttributes) {
         try {
-            excelFileRepo.deleteById(id);
-            redirectAttributes.addFlashAttribute("success", "Файл удален");
+            String currentFile = getCurrentFileName();
+            if (currentFile != null) {
+                Files.deleteIfExists(Paths.get(PUBLIC_DIR + currentFile));
+                Files.deleteIfExists(Paths.get(META_FILE));
+                redirectAttributes.addFlashAttribute("success", "Файл удалён");
+            } else {
+                redirectAttributes.addFlashAttribute("error", "Нет активного файла");
+            }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Ошибка удаления: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Ошибка: " + e.getMessage());
         }
         return "redirect:/admin/excel";
     }
 
-    @GetMapping("/excel/set-active/{id}")
-    public String setActiveFile(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    private String getCurrentFileName() {
         try {
-            // Сначала деактивируем все файлы
-            excelFileRepo.deactivateAll();
-
-            // Затем активируем выбранный файл
-            excelFileRepo.findById(id).ifPresent(file -> {
-                file.setActive(true);
-                excelFileRepo.save(file);
-            });
-
-            redirectAttributes.addFlashAttribute("success",
-                    "Файл установлен как активный. Теперь он отображается на сайте.");
-
-            log.info("Файл с ID {} установлен как активный", id);
-
-        } catch (Exception e) {
-            log.error("Ошибка при установке активного файла", e);
-            redirectAttributes.addFlashAttribute("error",
-                    "Ошибка: " + e.getMessage());
-        }
-        return "redirect:/admin/excel";
+            Path meta = Paths.get(META_FILE);
+            if (Files.exists(meta)) return Files.readString(meta).trim();
+        } catch (Exception ignored) {}
+        return null;
     }
 
+    // ===== CARDS =====
 
     @GetMapping("/cards/index")
     public String cardsPage(Model model) {
@@ -235,6 +195,4 @@ public class AdminController {
         model.addAttribute("cardCommand", new CreateCardsDto());
         return "fragments/card-form :: form";
     }
-
 }
-
