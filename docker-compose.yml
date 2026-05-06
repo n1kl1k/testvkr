@@ -47,7 +47,6 @@ services:
         condition: service_healthy
     volumes: 
       - ./uploads:/usr/share/nginx/html/uploads
-      - ./public:/usr/share/nginx/html 
     networks:
       - app-net
 
