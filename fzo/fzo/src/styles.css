@@ -430,6 +430,7 @@ body {
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .news-item:hover {
@@ -618,8 +619,8 @@ body {
   background: white;
   display: flex;
   width: 100%;
-  min-height: 200px;
-  max-height: 450px;
+  min-height: 400px;
+  max-height: 725px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
   border-radius: 20px;
@@ -1453,7 +1454,8 @@ footer {
   .news-date { margin-top: 8px; }
 
   /* Welcome */
-  .welcome-banner { padding: 28px 20px; }
+  .welcome-banner { padding: 28px 20px;
+  margin-top: 28px; }
   .welcome-banner h1 { font-size: 1.8em; }
 
   /* Links */
