@@ -1,4 +1,3 @@
-// Header.jsx
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles.css";
@@ -28,9 +27,9 @@ function Header() {
   const searchRef = useRef(null);
   const navigate = useNavigate();
 
-  // Фильтрация поиска
+  // Filter search results
   useEffect(() => {
-    if (searchQuery.trim() === "") {
+    if (!searchQuery.trim()) {
       setSearchResults([]);
       return;
     }
@@ -41,7 +40,7 @@ function Header() {
     setSearchResults(filtered.slice(0, 6));
   }, [searchQuery]);
 
-  // Закрыть поисковый дропдаун при клике вне
+  // Close search dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (searchRef.current && !searchRef.current.contains(e.target)) {
@@ -51,6 +50,12 @@ function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -70,31 +75,52 @@ function Header() {
     setMenuOpen(false);
   };
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-  const closeMenu = () => setMenuOpen(false);
+  const toggleMenu = () => setMenuOpen(prev => !prev);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setOpenDropdown(null);
+  };
 
   const toggleMobileDropdown = (idx) => {
-    setOpenDropdown(openDropdown === idx ? null : idx);
+    setOpenDropdown(prev => prev === idx ? null : idx);
   };
 
   return (
     <header className="header">
       <div className="header-container">
+
+        {/* Logo */}
         <Link to="/" className="logo-link" onClick={closeMenu}>
           <img src="/logo.JPG" alt="УГНТУ" className="logo" />
         </Link>
 
-        <div className={`burger ${menuOpen ? "active" : ""}`} onClick={toggleMenu}>
+        {/* Burger (mobile only) */}
+        <div
+          className={`burger ${menuOpen ? "active" : ""}`}
+          onClick={toggleMenu}
+          aria-label="Меню"
+          role="button"
+        >
           <span></span>
           <span></span>
           <span></span>
         </div>
 
+        {/* Navigation */}
         <nav className={`nav ${menuOpen ? "open" : ""}`}>
           <ul className="nav-menu">
-            <li><Link to="/" onClick={closeMenu}>Главная</Link></li>
+
+            <li>
+              <Link to="/" onClick={closeMenu}>Главная</Link>
+            </li>
+
             <li className={`dropdown ${openDropdown === 0 ? "open" : ""}`}>
-              <span className="dropdown-trigger" onClick={() => toggleMobileDropdown(0)}>Студенту ▼</span>
+              <button
+                className="dropdown-trigger"
+                onClick={() => toggleMobileDropdown(0)}
+              >
+                Студенту
+              </button>
               <ul className="dropdown-menu">
                 <li><a href="https://ams.rusoil.net/pcs/?w_mnews" onClick={closeMenu}>Личный кабинет</a></li>
                 <li><a href="https://lks.rusoil.net/schedule" onClick={closeMenu}>Расписание</a></li>
@@ -106,49 +132,72 @@ function Header() {
                 <li><Link to="/students/studcity" onClick={closeMenu}>Студгородок</Link></li>
               </ul>
             </li>
+
             <li className={`dropdown ${openDropdown === 1 ? "open" : ""}`}>
-              <span className="dropdown-trigger" onClick={() => toggleMobileDropdown(1)}>Абитуриенту ▼</span>
+              <button
+                className="dropdown-trigger"
+                onClick={() => toggleMobileDropdown(1)}
+              >
+                Абитуриенту
+              </button>
               <ul className="dropdown-menu">
                 <li><Link to="/abiturient/faq" onClick={closeMenu}>Вопросы к поступлению</Link></li>
                 <li><Link to="/abiturient/card" onClick={closeMenu}>Карточки специальностей</Link></li>
               </ul>
             </li>
+
             <li className={`dropdown ${openDropdown === 2 ? "open" : ""}`}>
-              <span className="dropdown-trigger" onClick={() => toggleMobileDropdown(2)}>О факультете ▼</span>
+              <button
+                className="dropdown-trigger"
+                onClick={() => toggleMobileDropdown(2)}
+              >
+                О факультете
+              </button>
               <ul className="dropdown-menu">
                 <li><Link to="/about/info" onClick={closeMenu}>Общая информация</Link></li>
                 <li><Link to="/about/sociallinks" onClick={closeMenu}>Соц. сети</Link></li>
               </ul>
             </li>
+
           </ul>
         </nav>
 
+        {/* Search */}
         <div className="search-wrapper" ref={searchRef}>
           <form onSubmit={handleSearchSubmit} className="search-form">
             <input
               type="text"
               placeholder="Поиск..."
               value={searchQuery}
-              onChange={(e) => { setSearchQuery(e.target.value); setShowSearchDropdown(true); }}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowSearchDropdown(true);
+              }}
               onFocus={() => setShowSearchDropdown(true)}
               className="search-input"
             />
             <button type="submit" className="search-button">🔍</button>
           </form>
+
           {showSearchDropdown && searchQuery && (
             <div className="search-dropdown">
-              {searchResults.length ? searchResults.map((res, i) => (
-                <div key={i} className="search-result" onClick={() => handleResultClick(res)}>
-                  <span className="result-icon">📄</span>
-                  <div>
-                    <strong>{res.title}</strong>
-                    <small>{res.external ? "внешняя ссылка" : "страница сайта"}</small>
+              {searchResults.length ? (
+                searchResults.map((res, i) => (
+                  <div key={i} className="search-result" onClick={() => handleResultClick(res)}>
+                    <span className="result-icon">📄</span>
+                    <div>
+                      <strong>{res.title}</strong>
+                      <small>{res.external ? "внешняя ссылка" : "страница сайта"}</small>
+                    </div>
                   </div>
-                </div>
-              )) : <div className="search-empty">😕 Ничего не найдено</div>}
+                ))
+              ) : (
+                <div className="search-empty">😕 Ничего не найдено</div>
+              )}
             </div>
           )}
         </div>
+
       </div>
     </header>
   );
