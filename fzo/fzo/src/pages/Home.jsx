@@ -20,7 +20,7 @@ function Home() {
           <div className="links-grid">
             
             <a href="https://ams.rusoil.net/pcs/?w_mnews" className="link-card">
-              <h3>Личный кабинет</h3>
+              <h3>Личный кабинетNNN</h3>
               <p>Доступ к учебным материалам и оценкам</p>
             </a>
 
