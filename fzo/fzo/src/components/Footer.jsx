@@ -1,4 +1,6 @@
 import "../styles.css";
+import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <footer>
@@ -10,15 +12,20 @@ function Footer() {
         </div>
 
         <div className="footer-section">
-            <h4>Факультет</h4>
-            <a href="about/info.html">Общая информация</a>
-            <a href="about/sociallinks.html">Социальные сети</a>
+          <h4>Факультет</h4>
+          <Link to="/about/info">Общая информация</Link>
+          <Link to="/about/sociallinks">Социальные сети</Link>
         </div>
+
         <div className="footer-section">
-            <h4>Студенту</h4>
-            <a href="students/timetable.html">График учебного процесса</a>
-            <a href="students/studcity.html">Студенческий городок</a>
+          <h4>Студенту</h4>
+          <Link to="/students/timetable">График учебного процесса</Link>
+          <Link to="/students/studcity">Студенческий городок</Link>
         </div>
+      </div>
+
+      <div className="footer-bottom">
+        <p>© {new Date().getFullYear()} Факультет ЗО УГНТУ</p>
       </div>
     </footer>
   );
