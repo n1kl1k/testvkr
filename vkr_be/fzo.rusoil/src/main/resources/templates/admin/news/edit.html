@@ -1,3 +1,7 @@
+<!-- ========================================================= -->
+<!-- ================= РЕДАКТИРОВАНИЕ НОВОСТИ ================ -->
+<!-- ========================================================= -->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,12 +9,8 @@
     <meta charset="UTF-8">
     <title>Редактировать новость</title>
 
-    <!-- QUILL 2 -->
-    <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css"
-          rel="stylesheet">
-
-    <!-- TABLE BETTER -->
-    <link href="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.css"
+    <!-- QUILL -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
           rel="stylesheet">
 
     <!-- KATEX -->
@@ -28,7 +28,7 @@
 
         .container {
             background: white;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 30px auto;
             padding: 30px;
             border-radius: 15px;
@@ -50,17 +50,17 @@
         }
 
         #editorShort {
-            height: 250px;
+            height: 300px;
             margin-bottom: 40px;
         }
 
         #editorFull {
-            height: 450px;
+            height: 500px;
             margin-bottom: 40px;
         }
 
         .ql-editor {
-            min-height: 200px;
+            min-height: 250px;
             font-size: 16px;
         }
 
@@ -73,6 +73,44 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 15px;
+        }
+
+        .table-controls {
+
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .table-controls input {
+
+            width: 90px;
+            padding: 8px;
+        }
+
+        .table-controls button {
+
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background: #2f5b8a;
+            color: white;
+            cursor: pointer;
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td, th {
+
+            border: 1px solid #999;
+            padding: 10px;
+            min-width: 100px;
         }
 
     </style>
@@ -91,18 +129,17 @@
           method="post"
           onsubmit="prepareData()">
 
-        <!-- CSRF -->
         <input type="hidden"
                name="_csrf"
                th:value="${_csrf.token}">
 
-        <!-- TITLE -->
         <input type="text"
                name="title"
                th:value="${news.title}"
                required>
 
-        <!-- SHORT TEXT -->
+        <!-- SHORT -->
+
         <input type="hidden"
                name="shortText"
                id="shortTextHidden">
@@ -111,11 +148,31 @@
             Краткий текст:
         </label>
 
+        <div class="table-controls">
+
+            <input type="number"
+                   id="rowsShort"
+                   min="1"
+                   value="3">
+
+            <input type="number"
+                   id="colsShort"
+                   min="1"
+                   value="3">
+
+            <button type="button"
+                    onclick="insertTable(shortQuill, 'rowsShort', 'colsShort')">
+                ➕ Таблица
+            </button>
+
+        </div>
+
         <div id="editorShort"
              th:data-shorttext="${news.shortText}">
         </div>
 
-        <!-- FULL TEXT -->
+        <!-- FULL -->
+
         <input type="hidden"
                name="fullText"
                id="fullTextHidden">
@@ -123,6 +180,25 @@
         <label class="editor-label">
             Полный текст:
         </label>
+
+        <div class="table-controls">
+
+            <input type="number"
+                   id="rowsFull"
+                   min="1"
+                   value="3">
+
+            <input type="number"
+                   id="colsFull"
+                   min="1"
+                   value="3">
+
+            <button type="button"
+                    onclick="insertTable(fullQuill, 'rowsFull', 'colsFull')">
+                ➕ Таблица
+            </button>
+
+        </div>
 
         <div id="editorFull"
              th:data-fulltext="${news.fullText}">
@@ -136,32 +212,10 @@
 
 </div>
 
-<!-- QUILL 2 -->
-<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
-
-<!-- TABLE BETTER -->
-<script src="https://cdn.jsdelivr.net/npm/quill-table-better@1/dist/quill-table-better.js"></script>
-
-<!-- KATEX -->
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 
 <script>
-
-    /*
-    ============================================
-    REGISTRATION
-    ============================================
-    */
-
-    Quill.register({
-        'modules/table-better': QuillTableBetter
-    }, true);
-
-    /*
-    ============================================
-    TOOLBAR
-    ============================================
-    */
 
     const toolbarOptions = [
 
@@ -187,16 +241,8 @@
 
         ['link', 'image', 'video', 'formula'],
 
-        ['table-better'],
-
         ['clean']
     ];
-
-    /*
-    ============================================
-    CONFIG
-    ============================================
-    */
 
     function makeConfig() {
 
@@ -205,55 +251,16 @@
             theme: 'snow',
 
             modules: {
-
-                toolbar: toolbarOptions,
-
-                table: false,
-
-                'table-better': {
-
-                    language: 'en',
-
-                    menus: [
-                        'column',
-                        'row',
-                        'merge',
-                        'table',
-                        'cell',
-                        'wrap',
-                        'copy',
-                        'delete'
-                    ]
-                },
-
-                keyboard: {
-                    bindings: QuillTableBetter.keyboardBindings
-                }
+                toolbar: toolbarOptions
             }
         };
     }
 
-    /*
-    ============================================
-    EDITORS
-    ============================================
-    */
+    const shortQuill =
+        new Quill('#editorShort', makeConfig());
 
-    const shortQuill = new Quill(
-        '#editorShort',
-        makeConfig()
-    );
-
-    const fullQuill = new Quill(
-        '#editorFull',
-        makeConfig()
-    );
-
-    /*
-    ============================================
-    LOAD HTML
-    ============================================
-    */
+    const fullQuill =
+        new Quill('#editorFull', makeConfig());
 
     const initialShortHtml =
         document.getElementById('editorShort')
@@ -271,11 +278,48 @@
         initialFullHtml
     );
 
-    /*
-    ============================================
-    SAVE HTML
-    ============================================
-    */
+    function insertTable(quill, rowsId, colsId) {
+
+        const rows =
+            parseInt(document.getElementById(rowsId).value);
+
+        const cols =
+            parseInt(document.getElementById(colsId).value);
+
+        if (!rows || !cols) {
+
+            alert('Введите количество строк и столбцов');
+            return;
+        }
+
+        const range =
+            quill.getSelection(true);
+
+        let tableHtml =
+            '<table border="1" style="border-collapse: collapse; width: 100%;">';
+
+        for (let r = 0; r < rows; r++) {
+
+            tableHtml += '<tr>';
+
+            for (let c = 0; c < cols; c++) {
+
+                tableHtml +=
+                    '<td contenteditable="true">' +
+                    '&nbsp;' +
+                    '</td>';
+            }
+
+            tableHtml += '</tr>';
+        }
+
+        tableHtml += '</table><p><br></p>';
+
+        quill.clipboard.dangerouslyPasteHTML(
+            range.index,
+            tableHtml
+        );
+    }
 
     function prepareData() {
 

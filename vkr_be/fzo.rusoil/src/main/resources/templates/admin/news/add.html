@@ -1,3 +1,7 @@
+<!-- ========================================================= -->
+<!-- ================= ДОБАВЛЕНИЕ НОВОСТИ ==================== -->
+<!-- ========================================================= -->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,7 +9,7 @@
     <meta charset="UTF-8">
     <title>Добавить новость</title>
 
-    <!-- QUILL 2 -->
+    <!-- QUILL -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
           rel="stylesheet">
 
@@ -24,7 +28,7 @@
 
         .container {
             background: white;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 30px auto;
             padding: 30px;
             border-radius: 15px;
@@ -46,17 +50,17 @@
         }
 
         #editorShort {
-            height: 250px;
+            height: 300px;
             margin-bottom: 40px;
         }
 
         #editorFull {
-            height: 450px;
+            height: 500px;
             margin-bottom: 40px;
         }
 
         .ql-editor {
-            min-height: 200px;
+            min-height: 250px;
             font-size: 16px;
         }
 
@@ -71,19 +75,42 @@
             font-size: 15px;
         }
 
-        .toolbar-buttons {
+        .table-controls {
+
+            display: flex;
+            gap: 10px;
             margin-bottom: 10px;
+            align-items: center;
         }
 
-        .toolbar-buttons button {
+        .table-controls input {
 
-            margin-right: 10px;
+            width: 90px;
+            padding: 8px;
+        }
+
+        .table-controls button {
+
             padding: 8px 14px;
             border: none;
             border-radius: 6px;
             background: #2f5b8a;
             color: white;
             cursor: pointer;
+        }
+
+        table {
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        td, th {
+
+            border: 1px solid #999;
+            padding: 10px;
+            min-width: 100px;
         }
 
     </style>
@@ -102,7 +129,6 @@
           method="post"
           onsubmit="prepareData()">
 
-        <!-- CSRF -->
         <input type="hidden"
                name="_csrf"
                th:value="${_csrf.token}">
@@ -113,7 +139,8 @@
                placeholder="Заголовок"
                required>
 
-        <!-- SHORT TEXT -->
+        <!-- SHORT -->
+
         <input type="hidden"
                name="shortText"
                id="shortTextHidden">
@@ -122,16 +149,31 @@
             Краткий текст:
         </label>
 
-        <div class="toolbar-buttons">
+        <div class="table-controls">
+
+            <input type="number"
+                   id="rowsShort"
+                   min="1"
+                   value="3"
+                   placeholder="Строки">
+
+            <input type="number"
+                   id="colsShort"
+                   min="1"
+                   value="3"
+                   placeholder="Столбцы">
+
             <button type="button"
-                    onclick="insertTable(shortQuill)">
+                    onclick="insertTable(shortQuill, 'rowsShort', 'colsShort')">
                 ➕ Таблица
             </button>
+
         </div>
 
         <div id="editorShort"></div>
 
-        <!-- FULL TEXT -->
+        <!-- FULL -->
+
         <input type="hidden"
                name="fullText"
                id="fullTextHidden">
@@ -140,11 +182,23 @@
             Полный текст:
         </label>
 
-        <div class="toolbar-buttons">
+        <div class="table-controls">
+
+            <input type="number"
+                   id="rowsFull"
+                   min="1"
+                   value="3">
+
+            <input type="number"
+                   id="colsFull"
+                   min="1"
+                   value="3">
+
             <button type="button"
-                    onclick="insertTable(fullQuill)">
+                    onclick="insertTable(fullQuill, 'rowsFull', 'colsFull')">
                 ➕ Таблица
             </button>
+
         </div>
 
         <div id="editorFull"></div>
@@ -157,19 +211,10 @@
 
 </div>
 
-<!-- QUILL -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-
-<!-- KATEX -->
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 
 <script>
-
-    /*
-    ============================================
-    TOOLBAR
-    ============================================
-    */
 
     const toolbarOptions = [
 
@@ -198,12 +243,6 @@
         ['clean']
     ];
 
-    /*
-    ============================================
-    CONFIG
-    ============================================
-    */
-
     function makeConfig() {
 
         return {
@@ -216,37 +255,31 @@
         };
     }
 
-    /*
-    ============================================
-    EDITORS
-    ============================================
-    */
+    const shortQuill =
+        new Quill('#editorShort', makeConfig());
 
-    const shortQuill = new Quill(
-        '#editorShort',
-        makeConfig()
-    );
+    const fullQuill =
+        new Quill('#editorFull', makeConfig());
 
-    const fullQuill = new Quill(
-        '#editorFull',
-        makeConfig()
-    );
+    function insertTable(quill, rowsId, colsId) {
 
-    /*
-    ============================================
-    TABLE INSERT
-    ============================================
-    */
+        const rows =
+            parseInt(document.getElementById(rowsId).value);
 
-    function insertTable(quill) {
+        const cols =
+            parseInt(document.getElementById(colsId).value);
+
+        if (!rows || !cols) {
+
+            alert('Введите количество строк и столбцов');
+            return;
+        }
 
         const range =
             quill.getSelection(true);
 
-        const rows = 3;
-        const cols = 3;
-
-        let tableHtml = '<table border="1" style="border-collapse: collapse; width: 100%;">';
+        let tableHtml =
+            '<table border="1" style="border-collapse: collapse; width: 100%;">';
 
         for (let r = 0; r < rows; r++) {
 
@@ -255,7 +288,9 @@
             for (let c = 0; c < cols; c++) {
 
                 tableHtml +=
-                    '<td style="padding:8px;">&nbsp;</td>';
+                    '<td contenteditable="true">' +
+                    '&nbsp;' +
+                    '</td>';
             }
 
             tableHtml += '</tr>';
@@ -268,12 +303,6 @@
             tableHtml
         );
     }
-
-    /*
-    ============================================
-    SAVE HTML
-    ============================================
-    */
 
     function prepareData() {
 
