@@ -66,10 +66,6 @@ function Modal({ isOpen, onClose, details, title }) {
                                                     <span className="plan-label">Платные места</span>
                                                     <span className="plan-value">{plan.paid ?? "—"}</span>
                                                 </div>
-                                                <div className="plan-item">
-                                                    <span className="plan-label">Проходной балл</span>
-                                                    <span className="plan-value">{plan.score ?? "—"}</span>
-                                                </div>
                                             </div>
                                         ))}
                                     </div>

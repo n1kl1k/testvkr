@@ -141,7 +141,7 @@ function Header() {
               </button>
               <ul className="dropdown-menu">
                 <li><Link to="/abiturient/faq" onClick={closeMenu}>Вопросы к поступлению</Link></li>
-                <li><Link to="/abiturient/card" onClick={closeMenu}>Карточки специальностей</Link></li>
+                <li><Link to="/abiturient/card" onClick={closeMenu}>Программы обучения</Link></li>
               </ul>
             </li>
 

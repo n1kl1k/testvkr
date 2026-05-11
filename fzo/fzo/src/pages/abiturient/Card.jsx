@@ -3,7 +3,7 @@ import CardList from "../../components/CardList";
 import Modal from "../../components/ModalItem";
 import "./cards.css";
 
-const LEVELS = ["Бакалавр", "Магистратура", "Специалитет"];
+const LEVELS = ["Бакалавриат", "Магистратура", "Специалитет"];
 
 function CardsPage() {
     const [cards, setCards] = useState([]);
@@ -26,7 +26,7 @@ function CardsPage() {
             .finally(() => setLoading(false));
     }, []);
 
-    const filteredCards = activeLevel === "Все"
+    const filteredCards = activeLevel === "<Бакалавриат>"
         ? cards
         : cards.filter((card) =>
             card.plans?.some((plan) => plan.score === activeLevel)
