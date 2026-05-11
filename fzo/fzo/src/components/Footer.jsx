@@ -7,7 +7,7 @@ function Footer() {
         <div className="footer-section">
           <h4>Контакты</h4>
           <p>📞 (347) 243-19-14</p>
-          <p>📧 fzo@ugntu.ru</p>
+          <p>📧 fzo@ruoil.net</p>
         </div>
 
         <div className="footer-section">

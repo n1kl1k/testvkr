@@ -212,8 +212,8 @@ const Info = () => {
                 <div className="contact-card email">
                   <h3>Электронная почта</h3>
                   <div className="contact-info">
-                    <a href="mailto:fzo@ugntu.ru" className="contact-link">
-                      fzo@ugntu.ru
+                    <a href="mailto:fzo@rusoil.net" className="contact-link">
+                      fzo@rusoil.net
                     </a>
                   </div>
                 </div>

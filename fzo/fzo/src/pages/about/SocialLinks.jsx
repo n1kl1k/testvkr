@@ -104,8 +104,8 @@ const SocialLinks = () => {
               <h3 className="contact-title">Другие способы связи</h3>
 
               <div className="contact-links">
-                <a href="mailto:info@ugntu.ru" className="contact-link email">
-                  info@ugntu.ru
+                <a href="mailto:fzo@rusoil.net" className="contact-link email">
+                  fzo@rusoil.net
                 </a>
 
                 <a href="tel:+73472400000" className="contact-link phone">

@@ -102,7 +102,23 @@
                             <input type="number" name="planPaid" th:value="${plan.paid}" class="form-control" placeholder="Платно">
                         </div>
                         <div class="col-sm-4">
-                            <input type="text" name="planScore" th:value="${plan.score}" class="form-control" placeholder="Баллы">
+                            <div class="d-flex flex-wrap gap-2 pt-1">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="planScore" value="Бакалавр"
+                                        th:checked="${plan.score == 'Бакалавр'}">
+                                    <label class="form-check-label">Бакалавр</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="planScore" value="Магистратура"
+                                        th:checked="${plan.score == 'Магистратура'}">
+                                    <label class="form-check-label">Магистратура</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="planScore" value="Специалитет"
+                                        th:checked="${plan.score == 'Специалитет'}">
+                                    <label class="form-check-label">Специалитет</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm-2">
                             <button type="button" class="btn btn-danger remove-row w-100">Удалить</button>
