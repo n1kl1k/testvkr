@@ -1,13 +1,15 @@
-// CardsPage.jsx
 import { useEffect, useState } from "react";
 import CardList from "../../components/CardList";
 import Modal from "../../components/ModalItem";
 import "./cards.css";
 
+const LEVELS = ["Бакалавр", "Магистратура", "Специалитет"];
+
 function CardsPage() {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [activeLevel, setActiveLevel] = useState("Все");
 
     const [selectedCardTitle, setSelectedCardTitle] = useState("");
     const [modalDetails, setModalDetails] = useState(null);
@@ -24,6 +26,12 @@ function CardsPage() {
             .finally(() => setLoading(false));
     }, []);
 
+    const filteredCards = activeLevel === "Все"
+        ? cards
+        : cards.filter((card) =>
+            card.plans?.some((plan) => plan.score === activeLevel)
+        );
+
     const handleCardSelect = (id) => {
         const card = cards.find((c) => c.cardId === id);
         if (!card) return;
@@ -38,9 +46,7 @@ function CardsPage() {
                 return res.json();
             })
             .then(setModalDetails)
-            .catch(() =>
-                setModalDetails({ error: "Ошибка загрузки данных" })
-            );
+            .catch(() => setModalDetails({ error: "Ошибка загрузки данных" }));
     };
 
     if (loading) return <p>Загрузка...</p>;
@@ -49,7 +55,20 @@ function CardsPage() {
     return (
         <>
             <h1 className="otstup">Направления</h1>
-            <CardList cards={cards} onCardSelect={handleCardSelect} />
+
+            <div className="level-filter">
+                {LEVELS.map((level) => (
+                    <button
+                        key={level}
+                        className={`level-btn ${activeLevel === level ? "active" : ""}`}
+                        onClick={() => setActiveLevel(level)}
+                    >
+                        {level}
+                    </button>
+                ))}
+            </div>
+
+            <CardList cards={filteredCards} onCardSelect={handleCardSelect} />
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
