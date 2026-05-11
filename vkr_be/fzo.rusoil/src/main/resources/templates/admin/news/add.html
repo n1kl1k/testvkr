@@ -167,6 +167,10 @@
                     onclick="insertTable(shortQuill, 'rowsShort', 'colsShort')">
                 ➕ Таблица
             </button>
+            <button type="button"
+                onclick="deleteSelectedTable(shortQuill)">
+                ❌ Удалить таблицу
+            </button>
 
         </div>
 
@@ -197,6 +201,10 @@
             <button type="button"
                     onclick="insertTable(fullQuill, 'rowsFull', 'colsFull')">
                 ➕ Таблица
+            </button>
+            <button type="button"
+                onclick="deleteSelectedTable(fullQuill)">
+                ❌ Удалить таблицу
             </button>
 
         </div>
@@ -313,6 +321,33 @@
             fullQuill.root.innerHTML;
     }
 
+function deleteSelectedTable(quill) {
+
+    const selection =
+        window.getSelection();
+
+    if (!selection.rangeCount) {
+
+        alert('Выделите таблицу');
+        return;
+    }
+
+    let node =
+        selection.anchorNode;
+
+    while (node) {
+
+        if (node.tagName === 'TABLE') {
+
+            node.remove();
+            return;
+        }
+
+        node = node.parentNode;
+    }
+
+    alert('Курсор должен находиться внутри таблицы');
+}
 </script>
 
 </body>
