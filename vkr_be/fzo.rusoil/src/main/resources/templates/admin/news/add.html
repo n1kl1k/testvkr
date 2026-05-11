@@ -246,11 +246,13 @@
         makeConfig()
     );
 
+    shortQuill.setText('\n');
+    fullQuill.setText('\n');
     // Кнопка таблицы (краткий текст)
     document
         .getElementById('insert-table-short')
         .addEventListener('click', function () {
-
+            shortQuill.focus();
             shortQuill
                 .getModule('better-table')
                 .insertTable(3, 3);
