@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <title>Документы — Админ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <style>
         body { background: #446693; font-family: sans-serif; margin: 0; }
-        .wrap { background: white; border-radius: 15px; padding: 30px;
-                margin: 30px auto; max-width: 960px; }
-        #editor { height: 320px; }
+        .wrap { background: white; border-radius: 15px; padding: 30px; margin: 30px auto; max-width: 960px; }
+        #editor { height: 400px; margin-bottom: 40px; }
+        .ql-editor { min-height: 350px; font-size: 15px; }
+        .table-controls { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+        .table-controls input { width: 90px; padding: 8px; }
+        .table-controls button {
+            padding: 8px 14px; border: none; border-radius: 6px;
+            background: #2f5b8a; color: white; cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="wrap">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Документы</h2>
@@ -22,7 +29,12 @@
 
     <table class="table table-bordered align-middle" id="docsTable">
         <thead class="table-dark">
-            <tr><th style="width:60px">#</th><th>Название</th><th>Файл</th><th style="width:120px">Действия</th></tr>
+            <tr>
+                <th style="width:60px">#</th>
+                <th>Название</th>
+                <th>Файл</th>
+                <th style="width:120px">Действия</th>
+            </tr>
         </thead>
         <tbody></tbody>
     </table>
@@ -38,18 +50,30 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="docId">
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Название</label>
                     <input type="text" id="docTitle" class="form-control">
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Порядок отображения</label>
                     <input type="number" id="docOrder" class="form-control" value="0">
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Описание / инструкция</label>
+
+                    <div class="table-controls">
+                        <input type="number" id="tableRows" min="1" value="3" placeholder="Строки">
+                        <input type="number" id="tableCols" min="1" value="3" placeholder="Столбцы">
+                        <button type="button" onclick="insertTable()">➕ Таблица</button>
+                        <button type="button" onclick="deleteSelectedTable()">❌ Удалить таблицу</button>
+                    </div>
+
                     <div id="editor"></div>
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Файл документа (.doc, .docx, .pdf и т.д.)</label>
                     <input type="file" id="docFile" class="form-control">
@@ -65,21 +89,57 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script>
     const quill = new Quill('#editor', {
         theme: 'snow',
         modules: {
             toolbar: [
-                [{ header: [1, 2, 3, false] }],
-                ['bold', 'italic', 'underline'],
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
+                [{ font: [] }],
+                [{ size: ['small', false, 'large', 'huge'] }],
+                ['bold', 'italic', 'underline', 'strike'],
                 [{ color: [] }, { background: [] }],
+                [{ script: 'sub' }, { script: 'super' }],
+                ['blockquote', 'code-block'],
                 [{ list: 'ordered' }, { list: 'bullet' }],
-                ['link'],
+                [{ indent: '-1' }, { indent: '+1' }],
+                [{ align: [] }],
+                ['link', 'image', 'video', 'formula'],
                 ['clean']
             ]
         }
     });
+
+    function insertTable() {
+        const rows = parseInt(document.getElementById('tableRows').value);
+        const cols = parseInt(document.getElementById('tableCols').value);
+        if (!rows || !cols) { alert('Введите количество строк и столбцов'); return; }
+
+        const range = quill.getSelection(true);
+        let tableHtml = '<table border="1" style="border-collapse:collapse;width:100%;">';
+        for (let r = 0; r < rows; r++) {
+            tableHtml += '<tr>';
+            for (let c = 0; c < cols; c++) {
+                tableHtml += '<td contenteditable="true">&nbsp;</td>';
+            }
+            tableHtml += '</tr>';
+        }
+        tableHtml += '</table><p><br></p>';
+        quill.clipboard.dangerouslyPasteHTML(range.index, tableHtml);
+    }
+
+    function deleteSelectedTable() {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) { alert('Выделите таблицу'); return; }
+        let node = selection.anchorNode;
+        while (node) {
+            if (node.tagName === 'TABLE') { node.remove(); return; }
+            node = node.parentNode;
+        }
+        alert('Курсор должен находиться внутри таблицы');
+    }
 
     let docs = [];
 
@@ -108,7 +168,6 @@
     }
 
     function openModal(id) {
-        // сброс
         document.getElementById('docId').value = '';
         document.getElementById('docTitle').value = '';
         document.getElementById('docOrder').value = '0';
