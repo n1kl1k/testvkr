@@ -196,7 +196,7 @@ public class AdminController {
         return "fragments/card-form :: form";
     }
 
-    @GetMapping("/admin/documents")
+    @GetMapping("/documents")
     public String documentsPage() {
         return "admin/admin-documents";
     }
