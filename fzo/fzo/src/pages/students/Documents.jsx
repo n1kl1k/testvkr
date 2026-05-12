@@ -1,65 +1,66 @@
-import "/src/styles.css";
+import { useEffect, useState } from "react";
 import "./documents.css";
 
 function Documents() {
-  return (
-    <div className="docs-page">
-      <div className="docs-card">
+    const [docs, setDocs] = useState([]);
+    const [openId, setOpenId] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-        <h1>Документы для студентов</h1>
+    useEffect(() => {
+        fetch("/api/documents")
+            .then(r => r.json())
+            .then(data => { setDocs(data); setLoading(false); })
+            .catch(() => setLoading(false));
+    }, []);
 
-        <div className="docs-section">
-          <h2>Основные права и обязанности обучающихся</h2>
+    const toggle = (id) => setOpenId(prev => prev === id ? null : id);
 
-          <p>
-            Перевод студентов:
-            <br />• из других вузов — с 25 июня по 07 июля
-            <br />• внутри УГНТУ — с 25 января по 15 февраля и с 25 июня по 07 июля
-          </p>
+    if (loading) return <div className="docs-page"><p style={{color:"white"}}>Загрузка...</p></div>;
 
-          <p>
-            Информацию о переводе на факультет заочного обучения можно получить здесь.
-          </p>
+    return (
+        <div className="docs-page">
+            <div className="docs-card">
+                <h1>Документы для студентов</h1>
+
+                <div className="docs-list">
+                    {docs.length === 0 && (
+                        <p style={{ color: "white" }}>Документы не найдены</p>
+                    )}
+                    {docs.map(doc => (
+                        <div key={doc.id} className={`doc-item ${openId === doc.id ? "doc-item--open" : ""}`}>
+                            <button
+                                className="doc-toggle"
+                                onClick={() => toggle(doc.id)}
+                            >
+                                <span>{doc.title}</span>
+                                <span className="doc-arrow">{openId === doc.id ? "▲" : "▼"}</span>
+                            </button>
+
+                            {openId === doc.id && (
+                                <div className="doc-body">
+                                    {doc.description && (
+                                        <div
+                                            className="doc-description ql-editor"
+                                            dangerouslySetInnerHTML={{ __html: doc.description }}
+                                        />
+                                    )}
+                                    {doc.fileName && (
+                                        
+                                          <a  href={`/api/documents/${doc.id}/file`}
+                                            className="doc-download"
+                                            download
+                                        >
+                                            📄 Скачать: {doc.fileName}
+                                        </a>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
-
-        <div className="docs-section">
-          <h2>Отчисление</h2>
-          <p>
-            Порядок отчисления и рекомендации для студентов доступны здесь.
-          </p>
-        </div>
-
-        <div className="docs-section">
-          <h2>Восстановление</h2>
-          <p>
-            Восстановление студентов проводится:
-            <br />• с 25 января по 15 февраля
-            <br />• с 20 августа по 10 сентября
-          </p>
-        </div>
-
-        <div className="docs-links">
-          <h2>Образцы заявлений</h2>
-
-          <div className="docs-grid">
-            <a href="/blank-zayavl-perevod-razn-napravl.doc">Перевод студента</a>
-            <a href="/Otchislenie-sob.doc">Отчисление</a>
-            <a href="/Vosstanovlenie-stud (1).doc">Восстановление</a>
-            <a href="/soglasie.doc">Персональные данные</a>
-            <a href="/Akadem-otp.doc">Академический отпуск</a>
-            <a href="/Akadem-vozvr.doc">Возврат из академа</a>
-            <a href="/zayavl-drug-vuz.doc">Перевод из вуза</a>
-            <a href="/zayavl-ind-plan.docx">Индивидуальный план</a>
-            <a href="/predost-grafika.doc">График обучения</a>
-            <a href="/zamena-fam-imya.doc">Смена ФИО</a>
-            <a href="/Perevod_dr.doc">Справка перевода</a>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Documents;

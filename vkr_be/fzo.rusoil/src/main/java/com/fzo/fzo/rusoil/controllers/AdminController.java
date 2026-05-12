@@ -195,4 +195,9 @@ public class AdminController {
         model.addAttribute("cardCommand", new CreateCardsDto());
         return "fragments/card-form :: form";
     }
+
+    @GetMapping("/admin/documents")
+    public String documentsPage() {
+        return "admin/admin-documents";
+    }
 }

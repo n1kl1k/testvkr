@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Документы — Админ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+    <style>
+        body { background: #446693; font-family: sans-serif; margin: 0; }
+        .wrap { background: white; border-radius: 15px; padding: 30px;
+                margin: 30px auto; max-width: 960px; }
+        #editor { height: 320px; }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="wrap">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Документы</h2>
+        <button class="btn btn-primary" onclick="openModal(null)">➕ Добавить</button>
+    </div>
+
+    <table class="table table-bordered align-middle" id="docsTable">
+        <thead class="table-dark">
+            <tr><th style="width:60px">#</th><th>Название</th><th>Файл</th><th style="width:120px">Действия</th></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- Модалка -->
+<div class="modal fade" id="docModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Документ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="docId">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Название</label>
+                    <input type="text" id="docTitle" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Порядок отображения</label>
+                    <input type="number" id="docOrder" class="form-control" value="0">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Описание / инструкция</label>
+                    <div id="editor"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Файл документа (.doc, .docx, .pdf и т.д.)</label>
+                    <input type="file" id="docFile" class="form-control">
+                    <small id="currentFile" class="text-muted mt-1 d-block"></small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="saveDoc()">💾 Сохранить</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ color: [] }, { background: [] }],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['link'],
+                ['clean']
+            ]
+        }
+    });
+
+    let docs = [];
+
+    function loadDocs() {
+        fetch('/api/documents')
+            .then(r => r.json())
+            .then(data => {
+                docs = data;
+                const tbody = document.querySelector('#docsTable tbody');
+                tbody.innerHTML = '';
+                data.forEach(d => {
+                    tbody.insertAdjacentHTML('beforeend', `
+                        <tr>
+                            <td>${d.sortOrder}</td>
+                            <td>${d.title}</td>
+                            <td>${d.fileName
+                                ? `<a href="/api/documents/${d.id}/file">${d.fileName}</a>`
+                                : '<span class="text-muted">—</span>'}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning me-1" onclick="openModal(${d.id})">✏️</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteDoc(${d.id})">🗑️</button>
+                            </td>
+                        </tr>`);
+                });
+            });
+    }
+
+    function openModal(id) {
+        // сброс
+        document.getElementById('docId').value = '';
+        document.getElementById('docTitle').value = '';
+        document.getElementById('docOrder').value = '0';
+        document.getElementById('docFile').value = '';
+        document.getElementById('currentFile').textContent = '';
+        quill.setContents([]);
+
+        if (id) {
+            const doc = docs.find(d => d.id === id);
+            document.getElementById('modalTitle').textContent = 'Редактировать документ';
+            document.getElementById('docId').value = id;
+            document.getElementById('docTitle').value = doc.title || '';
+            document.getElementById('docOrder').value = doc.sortOrder ?? 0;
+            quill.root.innerHTML = doc.description || '';
+            if (doc.fileName) {
+                document.getElementById('currentFile').textContent =
+                    'Текущий файл: ' + doc.fileName + ' (оставьте пустым чтобы не менять)';
+            }
+        } else {
+            document.getElementById('modalTitle').textContent = 'Новый документ';
+        }
+
+        new bootstrap.Modal(document.getElementById('docModal')).show();
+    }
+
+    function saveDoc() {
+        const id = document.getElementById('docId').value;
+        const title = document.getElementById('docTitle').value.trim();
+        if (!title) { alert('Введите название'); return; }
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('description', quill.root.innerHTML);
+        formData.append('sortOrder', document.getElementById('docOrder').value);
+
+        const file = document.getElementById('docFile').files[0];
+        if (file) formData.append('file', file);
+
+        fetch(id ? `/api/documents/${id}` : '/api/documents', {
+            method: id ? 'PUT' : 'POST',
+            body: formData
+        })
+        .then(r => { if (!r.ok) throw new Error(); })
+        .then(() => {
+            bootstrap.Modal.getInstance(document.getElementById('docModal')).hide();
+            loadDocs();
+        })
+        .catch(() => alert('Ошибка сохранения'));
+    }
+
+    function deleteDoc(id) {
+        if (!confirm('Удалить документ?')) return;
+        fetch(`/api/documents/${id}`, { method: 'DELETE' })
+            .then(() => loadDocs());
+    }
+
+    loadDocs();
+</script>
+</body>
+</html>

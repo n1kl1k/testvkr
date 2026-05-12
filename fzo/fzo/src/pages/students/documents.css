@@ -1,64 +1,81 @@
-.docs-page {
-  display: flex;
-  justify-content: center;
-  padding: 40px 20px;
-  min-height: 100%;
+.docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 24px;
 }
 
-.docs-card {
-  width: 100%;
-  max-width: 1500px;
-  background: white;
-  border-radius: 16px;
-  padding: 40px;
-  font-size: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+.doc-item {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
 }
 
-.docs-card h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-size: 28px;
+.doc-item--open {
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
-.docs-section {
-  margin-bottom: 30px;
+.doc-toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s;
 }
 
-.docs-section h2 {
-  margin-bottom: 10px;
-  color: #2c3e50;
+.doc-toggle:hover {
+    background: rgba(255, 255, 255, 0.14);
 }
 
-.docs-section p {
-  line-height: 1.6;
-  color: #444;
+.doc-item--open .doc-toggle {
+    background: rgba(255, 255, 255, 0.15);
 }
 
-.docs-links h2 {
-  margin-bottom: 20px;
+.doc-arrow {
+    font-size: 11px;
+    opacity: 0.6;
+    flex-shrink: 0;
+    margin-left: 12px;
 }
 
-/* Сетка ссылок */
-.docs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(750px, 1fr));
-  gap: 15px;
+.doc-body {
+    padding: 20px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Кнопки */
-.docs-grid a {
-  display: block;
-  padding: 14px;
-  background: #f0f4ff;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #2c3e50;
-  transition: 0.2s;
-  font-weight: 500;
+.doc-description {
+    color: white;
+    line-height: 1.75;
+    margin-bottom: 20px;
+    padding: 0 !important; /* сброс паддингов ql-editor */
 }
 
-.docs-grid a:hover {
-  background: #dce6ff;
-  transform: translateY(-2px);
+.doc-description a { color: #7ec8e3; }
+.doc-description ol,
+.doc-description ul { padding-left: 22px; }
+.doc-description p  { margin-bottom: 6px; }
+
+.doc-download {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: #1E3A5F;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s;
 }
+
+.doc-download:hover { background: #2a5280; color: white; }
