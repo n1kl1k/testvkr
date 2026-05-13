@@ -1,19 +1,36 @@
+.docs-page {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.docs-card {
+    width: 100%;
+    max-width: 900px;
+}
+
+.docs-card h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
 .docs-list {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: 24px;
 }
 
 .doc-item {
-    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     overflow: hidden;
-    transition: border-color 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.2s;
 }
 
 .doc-item--open {
-    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .doc-toggle {
@@ -22,9 +39,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px 20px;
-    background: rgba(255, 255, 255, 0.08);
+    background: #ffffff;
     border: none;
-    color: white;
+    color: #1E3A5F;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -33,37 +50,52 @@
 }
 
 .doc-toggle:hover {
-    background: rgba(255, 255, 255, 0.14);
+    background: #f0f4f8;
 }
 
 .doc-item--open .doc-toggle {
-    background: rgba(255, 255, 255, 0.15);
+    background: #e8f0fb;
+    border-bottom: 2px solid #1E3A5F;
 }
 
 .doc-arrow {
     font-size: 11px;
-    opacity: 0.6;
+    opacity: 0.5;
     flex-shrink: 0;
     margin-left: 12px;
+    color: #1E3A5F;
 }
 
 .doc-body {
-    padding: 20px 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 24px;
+    background: #ffffff;
+    border-top: 1px solid #e0e0e0;
 }
 
 .doc-description {
-    color: white;
+    color: #222;
     line-height: 1.75;
     margin-bottom: 20px;
-    padding: 0 !important; /* сброс паддингов ql-editor */
+    padding: 0 !important;
 }
 
-.doc-description a { color: #7ec8e3; }
+.doc-description a { color: #1E3A5F; }
 .doc-description ol,
 .doc-description ul { padding-left: 22px; }
 .doc-description p  { margin-bottom: 6px; }
+
+.doc-description table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+}
+
+.doc-description td,
+.doc-description th {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    color: #222;
+}
 
 .doc-download {
     display: inline-flex;
@@ -78,4 +110,54 @@
     transition: background 0.2s;
 }
 
-.doc-download:hover { background: #2a5280; color: white; }
+.doc-download:hover {
+    background: #2a5280;
+    color: white;
+}
+.docs-info-block {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    color: #222;
+}
+
+.docs-info-block h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E3A5F;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.docs-info-block h2:first-child {
+    margin-top: 0;
+}
+
+.docs-info-block p {
+    margin-bottom: 8px;
+    line-height: 1.7;
+}
+
+.docs-info-block ol {
+    padding-left: 22px;
+    margin-bottom: 10px;
+    line-height: 1.7;
+}
+
+.docs-info-block a {
+    color: #1E3A5F;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.docs-info-block a:hover {
+    color: #2a5280;
+}
+
+.docs-info-link {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+}
