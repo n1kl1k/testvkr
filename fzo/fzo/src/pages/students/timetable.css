@@ -1,15 +1,49 @@
+/* WRAPPER */
 .ui-wrapper {
+  position: relative;
   padding: 20px;
   background: #f1f4f8;
   min-height: 100vh;
   font-family: Inter, sans-serif;
 }
 
+/* TITLE */
 .title {
   margin-bottom: 16px;
+  margin-right: 160px;
   font-size: 20px;
   font-weight: 600;
   color: black;
+}
+
+/* DOWNLOAD BUTTON */
+.download-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #2c7da0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease;
+  z-index: 10;
+  font-size: 14px;
+}
+
+.download-btn:hover {
+  background: #1f5e7a;
+}
+
+.download-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
 }
 
 /* TOOLBAR */
@@ -41,13 +75,14 @@
   color: white;
 }
 
-/* TABLE */
+/* TABLE CONTAINER */
 .table-container {
   overflow: auto;
   background: white;
   border-radius: 10px;
 }
 
+/* TABLE */
 .data-table {
   border-collapse: collapse;
   table-layout: fixed;
@@ -60,110 +95,64 @@
   line-height: 1;
   color: #000;
   border: 1px solid #000;
+  vertical-align: middle;
+  text-align: center;
 }
 
+/* ПЕРВЫЕ ТРИ КОЛОНКИ (курс, факультет, группа) — задаются через <colgroup> в JSX */
+/* Переопределяем text-align для текстовых колонок */
+.data-table td:nth-child(1),
+.data-table td:nth-child(2),
+.data-table td:nth-child(3) {
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+}
 
-
-/* ШАПКА (выравнивание дат) */
+/* ШАПКА (строки 1-4): месяцы, даты, номера недель */
 .data-table tr:nth-child(1) td,
 .data-table tr:nth-child(2) td,
 .data-table tr:nth-child(3) td,
 .data-table tr:nth-child(4) td {
   font-size: 10px;
   font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
 }
 
-/* CONTENT */
+/* CELL CONTENT */
 .cell-content {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 100%;
 }
 
-/* ЦВЕТА */
-.cell-session { background: #00c853; }
-.cell-exam { background: #ff3d00; color: #fff; }
-.cell-gos { background: #ff6d00; }
-.cell-vkr { background: #7c4dff; color: #fff; }
-.cell-zn { background: #ff9100; }
-.cell-su { background: #e040fb; }
-.cell-practice-study { background: #d1c4e9; }
-.cell-practice-prod { background: #b39ddb; }
-.cell-nir { background: #a5d6a7; }
-.cell-holiday { background: #eeeeee; }
-.cell-holiday-red { background: #bdbdbd; }
-.cell-equal { background: #f5f5f5; }
+/* Для первых трёх колонок разрешаем перенос */
+.data-table td:nth-child(1) .cell-content,
+.data-table td:nth-child(2) .cell-content,
+.data-table td:nth-child(3) .cell-content {
+  white-space: normal;
+  word-break: break-word;
+}
 
-.loading, .error {
+/* ЦВЕТА ЯЧЕЕК */
+.cell-session        { background: #00c853; }
+.cell-exam           { background: #ff3d00; color: #fff; }
+.cell-gos            { background: #ff6d00; }
+.cell-vkr            { background: #7c4dff; color: #fff; }
+.cell-zn             { background: #ff9100; }
+.cell-su             { background: #e040fb; }
+.cell-practice-study { background: #d1c4e9; }
+.cell-practice-prod  { background: #b39ddb; }
+.cell-nir            { background: #a5d6a7; }
+.cell-holiday        { background: #eeeeee; }
+.cell-holiday-red    { background: #bdbdbd; }
+.cell-equal          { background: #f5f5f5; }
+
+/* СОСТОЯНИЯ */
+.loading,
+.error {
   text-align: center;
   padding: 40px;
-}
-/* Кнопка скачивания */
-.ui-wrapper {
-  position: relative;
-}
-
-.download-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #2c7da0;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: background 0.2s ease;
-  z-index: 10;
-  font-size: 14px;
-}
-
-.download-btn:hover {
-  background: #1f5e7a;
-}
-
-.download-btn:disabled {
-  background: #aaa;
-  cursor: not-allowed;
-}
-
-.title {
-  margin-right: 160px; /* чтобы текст не наезжал на кнопку */
-}
-
-/* ПЕРВЫЕ ТРИ КОЛОНКИ (курс, факультет, группа) */
-.data-table td:nth-child(1) {
-  width: 80px;
-  min-width: 80px;
-  max-width: 80px;
-}
-
-.data-table td:nth-child(2) {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-}
-
-.data-table td:nth-child(3) {
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
-  white-space: normal;      /* ← разрешаем перенос для длинных названий групп */
-}
-
-/* ВСЕ ОСТАЛЬНЫЕ (дни недели) */
-.data-table td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)) {
-  width: 28px;
-  min-width: 28px;
-  max-width: 28px;
-}.cell-content {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
 }
