@@ -62,17 +62,7 @@
   border: 1px solid #000;
 }
 
-/* ПЕРВАЯ КОЛОНКА */
-.data-table td:first-child {
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
-}
 
-/* ВСЕ ДНИ */
-.data-table td:not(:first-child) {
-  width: 36px;
-}
 
 /* ШАПКА (выравнивание дат) */
 .data-table tr:nth-child(1) td,
@@ -144,4 +134,36 @@
 
 .title {
   margin-right: 160px; /* чтобы текст не наезжал на кнопку */
+}
+
+/* ПЕРВЫЕ ТРИ КОЛОНКИ (курс, факультет, группа) */
+.data-table td:nth-child(1) {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.data-table td:nth-child(2) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.data-table td:nth-child(3) {
+  width: 160px;
+  min-width: 160px;
+  max-width: 160px;
+  white-space: normal;      /* ← разрешаем перенос для длинных названий групп */
+}
+
+/* ВСЕ ОСТАЛЬНЫЕ (дни недели) */
+.data-table td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)) {
+  width: 28px;
+  min-width: 28px;
+  max-width: 28px;
+}.cell-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
