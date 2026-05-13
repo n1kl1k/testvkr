@@ -6,14 +6,7 @@
 
 .docs-card {
     width: 100%;
-    max-width: 900px;
-}
-
-.docs-card h1 {
-    color: white;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 28px;
+    max-width: 1150px;
 }
 
 .docs-list {
@@ -64,6 +57,26 @@
     flex-shrink: 0;
     margin-left: 12px;
     color: #1E3A5F;
+    transition: transform 0.3s ease;
+}
+
+.doc-item--open .doc-arrow {
+    transform: rotate(180deg);
+}
+
+/* Анимация открытия/закрытия */
+.doc-body-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+}
+
+.doc-item--open .doc-body-wrapper {
+    grid-template-rows: 1fr;
+}
+
+.doc-body-inner {
+    overflow: hidden;
 }
 
 .doc-body {
@@ -114,24 +127,36 @@
     background: #2a5280;
     color: white;
 }
+
+/* Инфо-блок */
 .docs-info-block {
     background: #ffffff;
     border-radius: 12px;
-    padding: 24px 28px;
+    padding: 28px 32px;
     margin-bottom: 24px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     color: #222;
 }
 
+.docs-info-block h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1E3A5F;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
 .docs-info-block h2 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
     color: #1E3A5F;
     margin-top: 20px;
     margin-bottom: 8px;
 }
 
-.docs-info-block h2:first-child {
+.docs-info-block h2:first-of-type {
     margin-top: 0;
 }
 
