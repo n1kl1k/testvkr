@@ -140,7 +140,9 @@ const Info = () => {
               <h2 className="section-title">Декан факультета</h2>
               <div className="dean-card">
                 <div className="dean-photo-wrapper">
-                  {/* ✏️ Замените div ниже на <img src="путь/к/фото.jpg" alt="Декан" className="dean-photo-img" /> */}
+                  <div>
+                    <img src = "/Dekan.jpg" alt="Декан" className="dean-photo-img"/>
+                  </div>
                   <div className="dean-photo-placeholder">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" className="dean-avatar-icon">
                       <circle cx="40" cy="30" r="18" fill="#1E3A5F" opacity="0.35" />
@@ -150,16 +152,13 @@ const Info = () => {
                   </div>
                 </div>
                 <div className="dean-info">
-                  <div className="dean-name">Иванов Иван Иванович</div>
+                  <div className="dean-name">Альмухаметов Азат Ахатович</div>
                   <div className="dean-title">Декан факультета заочного обучения</div>
-                  <div className="dean-degree">Доктор технических наук, профессор</div>
+                  <div className="dean-degree">Кондидат технических наук, доцент</div>
                   <div className="dean-divider" />
-                  <p className="dean-bio">
-                    Руководит факультетом заочного обучения с 2010 года. Автор более 120 научных публикаций в области нефтяной инженерии и педагогики высшей школы. Под его руководством факультет значительно расширил спектр образовательных программ и установил партнёрские связи с ведущими предприятиями топливно-энергетического комплекса.
-                  </p>
                   <div className="dean-contacts">
                     <a href="mailto:dean.fzo@rusoil.net" className="dean-contact-link">
-                      <span className="dean-contact-icon">✉</span> dean.fzo@rusoil.net
+                      <span className="dean-contact-icon"></span> fzo@rusoil.net
                     </a>
                     <span className="dean-contact-link">
                       <span className="dean-contact-icon">☎</span> (347) 243-19-14
@@ -188,7 +187,7 @@ const Info = () => {
 
             {/* Программы */}
             <section className="content-section">
-              <h2 className="section-title">Образовательные программы 2025-2026</h2>
+              <h2 className="section-title">Образовательные программы</h2>
               <div className="programs-section">
                 <div className="programs-grid">
                   <div className="program-card">
@@ -249,9 +248,6 @@ const Info = () => {
               <div className="letters-grid">
                 {gratitudeLetters.map((letter) => (
                   <div key={letter.id} className="letter-card">
-                    <div className="letter-pdf-icon">
-                      <div className="letter-pdf-badge">PDF</div>
-                    </div>
                     <div className="letter-body">
                       <div className="letter-from">{letter.from}</div>
                       <div className="letter-year">{letter.year} г.</div>
@@ -261,14 +257,14 @@ const Info = () => {
                         className="letter-btn letter-btn--view"
                         onClick={() => setActivePdf(letter)}
                       >
-                        👁 Просмотр
+                        Просмотр
                       </button>
                       <a
                         href={letter.file}
                         download
                         className="letter-btn letter-btn--download"
                       >
-                        ⬇ Скачать
+                        Скачать
                       </a>
                     </div>
                   </div>
@@ -286,7 +282,7 @@ const Info = () => {
                 </div>
                 <div className="contact-card phone">
                   <h3>Телефоны</h3>
-                  <div className="contact-info"><p>(347) 243-19-14<br />(347) 243-19-71<br />(347) 242-42-18</p></div>
+                  <div className="contact-info"><p>(347) 243-19-14 (аудит. 1-218)<br />(347) 243-19-71 (аудит. 1-220)<br />(347) 242-42-18 (аудит. 1-212)</p></div>
                 </div>
                 <div className="contact-card email">
                   <h3>Электронная почта</h3>
