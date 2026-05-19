@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./info.css";
 
-// ✏️ Укажите пути к вашим PDF-файлам в массиве ниже.
-// Файлы можно положить в папку public/letters/ вашего проекта.
 const gratitudeLetters = [
   {
     id: 1,
@@ -24,7 +22,6 @@ const gratitudeLetters = [
   },
 ];
 
-/* ── PDF-модалка ── */
 const PdfModal = ({ letter, onClose }) => {
   useEffect(() => {
     const handleKey = (e) => { if (e.key === "Escape") onClose(); };
@@ -77,7 +74,6 @@ const PdfModal = ({ letter, onClose }) => {
   );
 };
 
-/* ── Основной компонент ── */
 const Info = () => {
   const [activePdf, setActivePdf] = useState(null);
 
@@ -126,7 +122,6 @@ const Info = () => {
 
           <div className="document-content">
 
-            {/* Основная задача */}
             <section className="content-section">
               <h2 className="section-title">Основная задача факультета</h2>
               <div className="mission-card">
@@ -134,31 +129,20 @@ const Info = () => {
                 <p>Современная идея «учение через всю жизнь» воплощается в широком спектре программ, по которым ведется обучение на всех уровнях подготовки: СПО, бакалавриат, специалитет, магистратура на платной и бюджетной основе.</p>
               </div>
             </section>
-
-            {/* Декан факультета */}
             <section className="content-section">
               <h2 className="section-title">Декан факультета</h2>
               <div className="dean-card">
                 <div className="dean-photo-wrapper">
-                  <div>
-                    <img src = "/Dekan.jpg" alt="Декан" className="dean-photo-img"/>
-                  </div>
-                  <div className="dean-photo-placeholder">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none" className="dean-avatar-icon">
-                      <circle cx="40" cy="30" r="18" fill="#1E3A5F" opacity="0.35" />
-                      <ellipse cx="40" cy="68" rx="26" ry="16" fill="#1E3A5F" opacity="0.25" />
-                    </svg>
-                    <span className="dean-photo-label">Фото декана</span>
-                  </div>
+                  <img src="/Dekan.jpg" alt="Декан" className="dean-photo-img" />
                 </div>
                 <div className="dean-info">
                   <div className="dean-name">Альмухаметов Азат Ахатович</div>
                   <div className="dean-title">Декан факультета заочного обучения</div>
-                  <div className="dean-degree">Кондидат технических наук, доцент</div>
+                  <div className="dean-degree">Кандидат технических наук, доцент</div>
                   <div className="dean-divider" />
                   <div className="dean-contacts">
-                    <a href="mailto:dean.fzo@rusoil.net" className="dean-contact-link">
-                      <span className="dean-contact-icon"></span> fzo@rusoil.net
+                    <a href="mailto:fzo@rusoil.net" className="dean-contact-link">
+                      <span className="dean-contact-icon">✉</span> fzo@rusoil.net
                     </a>
                     <span className="dean-contact-link">
                       <span className="dean-contact-icon">☎</span> (347) 243-19-14
@@ -168,13 +152,11 @@ const Info = () => {
               </div>
             </section>
 
-            {/* Юбилей */}
             <div className="anniversary-banner">
               <div className="anniversary-text">65-летний юбилей ФЗО</div>
               <div className="anniversary-subtext">В 2025 году факультет заочного обучения отмечает 65 лет успешной работы</div>
             </div>
 
-            {/* Статистика */}
             <section className="content-section">
               <h2 className="section-title">Наши достижения</h2>
               <div className="stats-grid">
@@ -185,7 +167,6 @@ const Info = () => {
               </div>
             </section>
 
-            {/* Программы */}
             <section className="content-section">
               <h2 className="section-title">Образовательные программы</h2>
               <div className="programs-section">
@@ -225,7 +206,6 @@ const Info = () => {
               </div>
             </section>
 
-            {/* Цель */}
             <section className="content-section">
               <h2 className="section-title">Стратегическая цель</h2>
               <div className="goal-section">
@@ -234,7 +214,6 @@ const Info = () => {
               </div>
             </section>
 
-            {/* Приоритет */}
             <section className="content-section">
               <h2 className="section-title">Приоритетное направление</h2>
               <div className="mission-card">
@@ -242,7 +221,6 @@ const Info = () => {
               </div>
             </section>
 
-            {/* Благодарственные письма */}
             <section className="content-section">
               <h2 className="section-title">Благодарственные письма</h2>
               <div className="letters-grid">
@@ -272,7 +250,6 @@ const Info = () => {
               </div>
             </section>
 
-            {/* Контакты */}
             <section className="contacts-section">
               <h2 className="section-title">Контакты</h2>
               <div className="contacts-grid">
