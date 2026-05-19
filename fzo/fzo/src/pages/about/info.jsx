@@ -8,19 +8,19 @@ const gratitudeLetters = [
     id: 1,
     from: "МодульНефтеГазИнжиниринг",
     year: "2025",
-    file: "/public/МодульНефтеГазИнжиниринг.pdf",
+    file: "/МодульНефтеГазИнжиниринг.pdf",
   },
   {
     id: 2,
     from: "Компенсатор",
     year: "2025",
-    file: "/public/NPP-Kompensator.pdf",
+    file: "/NPP-Kompensator.pdf",
   },
   {
     id: 3,
     from: "КранСервисПроект",
     year: "2025",
-    file: "/public/bp_KranServisProekt.jpg",
+    file: "/bp_KranServisProekt.jpg",
   },
 ];
 
@@ -291,13 +291,6 @@ const Info = () => {
                 <div className="contact-card email">
                   <h3>Электронная почта</h3>
                   <div className="contact-info"><a href="mailto:fzo@rusoil.net" className="contact-link">fzo@rusoil.net</a></div>
-                </div>
-                <div className="contact-card social">
-                  <h3>Социальные сети</h3>
-                  <div className="contact-info">
-                    <a href="#" className="contact-link">ФЗО ВКонтакте</a><br />
-                    <a href="/" className="contact-link">Сайт факультета</a>
-                  </div>
                 </div>
               </div>
             </section>

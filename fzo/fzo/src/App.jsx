@@ -37,9 +37,9 @@ function App() {
             <Route path="/about/info" element={<Info/>}/>
             <Route path="/about/sociallinks" element={<SocialLinks/>}/>
 
-            <Route path="*" element={<h1>404 — Страница не найдена</h1>} />
-
             <Route path="/search" element={<SearchPage />} />
+
+            <Route path="*" element={<h1>404 — Страница не найдена</h1>} />
           </Routes>
         </main>
 
