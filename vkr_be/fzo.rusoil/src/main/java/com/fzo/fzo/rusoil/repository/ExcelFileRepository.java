@@ -13,11 +13,11 @@ import java.util.Optional;
 @Repository
 public interface ExcelFileRepository extends JpaRepository<ExcelFile, Long> {
     Optional<ExcelFile> findFirstByOrderByUploadDateDesc();
-    Optional<ExcelFile> findByActiveTrue(); // Найти активный файл
-    Optional<ExcelFile> findFirstByActiveTrue(); // Найти первый активный файл
+    Optional<ExcelFile> findByActiveTrue(); 
+    Optional<ExcelFile> findFirstByActiveTrue(); 
     Optional<ExcelFile> findFirstByOrderByIdDesc();
     @Modifying
     @Transactional
     @Query("UPDATE ExcelFile e SET e.active = false WHERE e.active = true")
-    void deactivateAll(); // Деактивировать все файлы
+    void deactivateAll(); 
 }

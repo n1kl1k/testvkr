@@ -18,12 +18,12 @@ public class Document {
     private String title;
 
     @Column(columnDefinition = "TEXT")
-    private String description; // HTML-текст (из Quill)
+    private String description;
 
-    private String fileName;   // оригинальное имя файла
+    private String fileName;  
     private String filePath;
-    @Column(name = "sort_order")   // путь на диске
-    private Integer sortOrder =0; // порядок сортировки
+    @Column(name = "sort_order")   
+    private Integer sortOrder =0; 
 
     private LocalDateTime createdAt = LocalDateTime.now();
 }

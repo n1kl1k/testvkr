@@ -1,162 +1,382 @@
-.library-body{
-    background: none;
-}
+.library-body { background: none; }
+
 .document-wrapper {
-    flex: 1;
-    padding: 30px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+  flex: 1;
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .document-container {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-    margin-top: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  margin-top: 20px;
 }
 
 .document-header {
-    padding: 25px 40px;
-    text-align: center;
-    border-bottom: 3px solid #fff;
+  padding: 25px 40px;
+  text-align: center;
+  border-bottom: 3px solid #fff;
 }
 
 .document-title {
-    color: #fff;
-    font-size: 32px;
-    font-weight: bold;
-    margin: 0;
+  color: #fff;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
 }
 
-.document-content {
-    padding: 40px;
-}
+.document-content { padding: 40px; }
 
 .section-title {
-    color: #1E3A5F;
-    font-size: 24px;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #1E3A5F;
+  color: #1E3A5F;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #1E3A5F;
 }
 
 .mission-card {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    border-radius: 15px;
-    padding: 30px;
-    border: 2px solid #1E3A5F;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 15px;
+  padding: 30px;
+  border: 2px solid #1E3A5F;
 }
-.mission-card p {
-    color: black;
-}
+.mission-card p { color: black; }
 
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
 .stat-card {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
 }
 
-.stat-number {
-    font-size: 36px;
-    font-weight: bold;
-    color: #1E3A5F;
-}
+.stat-number { font-size: 36px; font-weight: bold; color: #1E3A5F; }
 
 .programs-section {
-    background: rgba(255, 243, 205, 0.3);
-    border-radius: 15px;
-    padding: 30px;
+  background: rgba(255, 243, 205, 0.3);
+  border-radius: 15px;
+  padding: 30px;
 }
 
 .programs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
-.program-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-}
-.program-card h4 {
-    color:black;
-}
+.program-card { background: white; padding: 20px; border-radius: 10px; }
+.program-card h4 { color: black; }
 
-.program-list {
-    list-style: none;
-    padding: 0;
-}
+.program-list { list-style: none; padding: 0; }
+.program-list li { padding: 8px 0; color: black; }
+.programs-extra p { margin-top: 5px; color: black; }
 
-.program-list li {
-    padding: 8px 0;
-    color:black;
-}
-.programs-extra p{
-    margin-top: 5px;
-    color: black;
-}
 .anniversary-banner {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    color: white;
-    margin: 20px;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  color: white;
+  margin: 20px;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
 }
 
 .goal-section {
-    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
-    border-radius: 15px;
-    padding: 30px;
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border-radius: 15px;
+  padding: 30px;
 }
+.goal-section p { color: black; }
 
-.goal-section p{
-    color: black;
-}
-.contacts-section {
-    background: #f8f9fa;
-    border-radius: 15px;
-
-}
+.contacts-section { background: #f8f9fa; border-radius: 15px; }
 
 .contacts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.contact-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    color: black;
-}
+.contact-card { background: white; padding: 20px; border-radius: 10px; color: black; }
 
-.contact_info p{
-    color:black;
-}
 .scroll-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    background: #1E3A5F;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  background: #1E3A5F;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
 }
-.content-section{
-    margin-bottom: 20px;
+
+.content-section { margin-bottom: 20px; }
+
+/* ── Декан ── */
+.dean-card {
+  display: flex;
+  gap: 30px;
+  background: linear-gradient(135deg, #e8eef5 0%, #d0dce9 100%);
+  border: 2px solid #1E3A5F;
+  border-radius: 16px;
+  padding: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.dean-photo-placeholder {
+  width: 180px;
+  height: 220px;
+  background: #c8d8e8;
+  border-radius: 12px;
+  border: 3px solid #1E3A5F;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Реальное фото — раскомментируйте когда добавите файл:
+.dean-photo-img {
+  width: 180px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid #1E3A5F;
+  display: block;
+  flex-shrink: 0;
+}
+*/
+
+.dean-avatar-icon { width: 80px; height: 80px; opacity: 0.5; }
+.dean-photo-label { font-size: 13px; color: #1E3A5F; opacity: 0.7; font-style: italic; }
+
+.dean-info { flex: 1; min-width: 220px; }
+.dean-name { font-size: 22px; font-weight: bold; color: #1E3A5F; margin-bottom: 4px; }
+.dean-title { font-size: 15px; color: #2c5282; font-weight: 600; margin-bottom: 4px; }
+.dean-degree { font-size: 14px; color: #4a6a8a; margin-bottom: 12px; }
+
+.dean-divider {
+  height: 2px;
+  background: #1E3A5F;
+  opacity: 0.2;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.dean-bio { font-size: 14px; color: #333; line-height: 1.7; margin-bottom: 16px; }
+
+.dean-contacts { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.dean-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #1E3A5F;
+  text-decoration: none;
+  background: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #1E3A5F;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.dean-contact-link:hover { background: #1E3A5F; color: white; }
+.dean-contact-icon { font-size: 16px; }
+
+/* ── Карточки писем ── */
+.letters-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.letter-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: white;
+  border: 1.5px solid #d0dce9;
+  border-radius: 12px;
+  padding: 16px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.letter-card:hover {
+  border-color: #1E3A5F;
+  box-shadow: 0 3px 10px rgba(30, 58, 95, 0.1);
+}
+
+.letter-pdf-icon { flex-shrink: 0; }
+
+.letter-pdf-badge {
+  background: #c0392b;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  padding: 5px 9px;
+  border-radius: 6px;
+}
+
+.letter-body { flex: 1; min-width: 0; }
+.letter-from { font-size: 15px; font-weight: 700; color: #1E3A5F; }
+.letter-year { font-size: 13px; color: #7a8fa6; margin-top: 2px; }
+
+.letter-actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+
+.letter-btn {
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #1E3A5F;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+.letter-btn--view {
+  background: #1E3A5F;
+  color: white;
+}
+.letter-btn--view:hover { background: #162d4a; }
+.letter-btn--download {
+  background: white;
+  color: #1E3A5F;
+}
+.letter-btn--download:hover { background: #1E3A5F; color: white; }
+
+/* ── PDF Модалка ── */
+.pdf-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeOverlay 0.2s ease;
+}
+
+@keyframes fadeOverlay {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.pdf-modal {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 900px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideModal 0.25s ease;
+}
+
+@keyframes slideModal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.pdf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1.5px solid #d0dce9;
+  background: #f4f7fb;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pdf-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1E3A5F;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pdf-modal-badge {
+  background: #c0392b;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.pdf-modal-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pdf-ctrl-btn {
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #1E3A5F;
+  background: white;
+  color: #1E3A5F;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.pdf-ctrl-btn:hover { background: #1E3A5F; color: white; }
+
+.pdf-close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid #d0dce9;
+  background: white;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+.pdf-close-btn:hover { background: #c0392b; color: white; border-color: #c0392b; }
+
+.pdf-modal-body { flex: 1; overflow: hidden; }
+
+.pdf-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .dean-card { flex-direction: column; align-items: center; }
+  .dean-info { width: 100%; }
+  .letter-card { flex-direction: column; align-items: flex-start; }
+  .letter-actions { width: 100%; }
+  .letter-btn { flex: 1; text-align: center; }
+  .pdf-modal { height: 95vh; border-radius: 12px; }
 }

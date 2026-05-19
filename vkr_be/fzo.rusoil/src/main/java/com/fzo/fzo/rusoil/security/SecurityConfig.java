@@ -26,27 +26,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> {})
-                // Отключаем CSRF для упрощения загрузки файлов
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/admin/excel/upload")
                         .ignoringRequestMatchers("/api/**")
                 )
                 .authorizeHttpRequests(auth -> auth
-                        // Разрешаем доступ к API и загрузке файлов
                         .requestMatchers("/admin/excel/**").hasRole("ADMIN")
-                        .requestMatchers("/api/excel/**").permitAll() // или .hasRole("ADMIN")
+                        .requestMatchers("/api/excel/**").permitAll() 
                         .requestMatchers("/uploads/**").permitAll()
-
-                        // Разрешаем статические ресурсы
                         .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
-
-                        // Разрешаем главную страницу
                         .requestMatchers("/", "/index").permitAll()
-
-                        // Админские страницы требуют роли ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-
-                        // Все остальные запросы разрешены (или добавьте .authenticated() для защиты)
                         .anyRequest().permitAll()
                 )
                 .formLogin(login -> login
@@ -69,9 +59,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Рекомендую использовать BCrypt для продакшена
-        // return new BCryptPasswordEncoder();
-        return NoOpPasswordEncoder.getInstance(); // пароль хранится в открытом виде
+        return NoOpPasswordEncoder.getInstance(); 
     }
 
     @Bean

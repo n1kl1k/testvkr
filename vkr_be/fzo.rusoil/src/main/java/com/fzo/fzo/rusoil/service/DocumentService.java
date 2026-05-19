@@ -40,7 +40,6 @@ public class DocumentService {
                 Path dir = Paths.get(UPLOAD_DIR);
                 Files.createDirectories(dir);
 
-                // удаляем старый файл
                 if (doc.getFilePath() != null) {
                     Files.deleteIfExists(Paths.get(doc.getFilePath()));
                 }

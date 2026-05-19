@@ -313,7 +313,6 @@ public class ExcelProcessingService {
 
             for (int j = 0; j < row.size(); j++) {
                 String value = row.get(j);
-                // Экранируем специальные символы JSON
                 String escaped = value
                         .replace("\\", "\\\\")
                         .replace("\"", "\\\"")

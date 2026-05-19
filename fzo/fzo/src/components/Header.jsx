@@ -40,7 +40,6 @@ function Header() {
     setSearchResults(filtered.slice(0, 6));
   }, [searchQuery]);
 
-  // Close search dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (searchRef.current && !searchRef.current.contains(e.target)) {

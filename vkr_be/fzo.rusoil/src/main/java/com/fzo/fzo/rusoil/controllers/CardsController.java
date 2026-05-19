@@ -52,8 +52,7 @@ public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile fi
     try {
         String uploadDir = "/app/uploads/cards/";
         log.info("Начинаем загрузку файла. Dir: {}", uploadDir);
-        
-        // Создаём папку, если её нет
+
         Files.createDirectories(Paths.get(uploadDir));
         
         String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
