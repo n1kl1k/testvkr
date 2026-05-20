@@ -380,5 +380,6 @@
   .letter-btn { flex: 1; text-align: center; }
   .pdf-modal { height: 95vh; border-radius: 12px; }
   .programs-grid{grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));}
-  .goal-section p{font-size: 18px;}
+  .goal-section p{font-size: 14px;}
+  .mission-card p{font-size: 14px   ;}
 }
