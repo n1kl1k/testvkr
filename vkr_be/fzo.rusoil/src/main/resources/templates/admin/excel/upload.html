@@ -11,11 +11,11 @@
 
 <div class="container mt-5">
     <div class="card p-4" style="max-width:600px; margin:auto;">
-        <h4>📊 Загрузить календарный график</h4>
+        <h4> Загрузить календарный график</h4>
         <hr>
 
         <div th:if="${param.error}" class="alert alert-danger">
-            ❌ <span th:text="${param.error}"></span>
+             <span th:text="${param.error}"></span>
         </div>
         <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
 
