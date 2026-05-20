@@ -123,7 +123,6 @@
 
 .content-section { margin-bottom: 20px; }
 
-/* ── Декан ── */
 .dean-card {
   display: flex;
   gap: 30px;
@@ -380,6 +379,6 @@
   .letter-actions { width: 100%; }
   .letter-btn { flex: 1; text-align: center; }
   .pdf-modal { height: 95vh; border-radius: 12px; }
-  .program-card{grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));}
+  .programs-grid{grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));}
   .goal-section p{font-size: 18px;}
 }
