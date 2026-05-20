@@ -123,7 +123,6 @@ function Header() {
               <ul className="dropdown-menu">
                 <li><a href="https://ams.rusoil.net/pcs/?w_mnews" onClick={closeMenu}>Личный кабинет</a></li>
                 <li><a href="https://lks.rusoil.net/schedule" onClick={closeMenu}>Расписание</a></li>
-                <li><Link to="/students/timetable" onClick={closeMenu}>График уч. процесса</Link></li>
                 <li><Link to="/students/bible" onClick={closeMenu}>Библиотека</Link></li>
                 <li><Link to="/students/documents" onClick={closeMenu}>Документы</Link></li>
                 <li><a href="https://oiledu.ru/" onClick={closeMenu}>OILEDU</a></li>
