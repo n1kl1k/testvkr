@@ -1,7 +1,7 @@
 function Modal({ isOpen, onClose, details, title }) {
     if (!isOpen) return null;
 
-    console.log("Modal details:", details); // для отладки
+    console.log("Modal details:", details);
 
     return (
         <div className="modal active" onClick={onClose}>
@@ -17,15 +17,13 @@ function Modal({ isOpen, onClose, details, title }) {
 
                     {details && !details.error && (
                         <>
-                            {/* Описание */}
                             <div className="modal-section">
-                                <h3 className="section-title">📄 Описание</h3>
+                                <h3 className="section-title">Описание</h3>
                                 <p className="opisanie">{details.additionalInfo || "Нет описания"}</p>
                             </div>
 
-                            {/* Деятельность */}
                             <div className="modal-section">
-                                <h3 className="section-title">⚡ Деятельность</h3>
+                                <h3 className="section-title">Деятельность</h3>
                                 {details.activities && details.activities.length > 0 ? (
                                     <ul className="feature-list">
                                         {details.activities.map((a, i) => (
@@ -37,9 +35,8 @@ function Modal({ isOpen, onClose, details, title }) {
                                 )}
                             </div>
 
-                            {/* Партнёры */}
                             <div className="modal-section">
-                                <h3 className="section-title">🤝 Партнёры</h3>
+                                <h3 className="section-title">Партнёры</h3>
                                 {details.partners && details.partners.length > 0 ? (
                                     <div className="companies-grid">
                                         {details.partners.map((p, i) => (
@@ -51,9 +48,8 @@ function Modal({ isOpen, onClose, details, title }) {
                                 )}
                             </div>
 
-                            {/* План приёма */}
                             <div className="modal-section">
-                                <h3 className="section-title">📊 План приёма</h3>
+                                <h3 className="section-title"> План приёма</h3>
                                 {details.plans && details.plans.length > 0 ? (
                                     <div className="admission-plans">
                                         {details.plans.map((plan, idx) => (

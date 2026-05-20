@@ -43,7 +43,7 @@
   padding: 30px;
   border: 2px solid #1E3A5F;
 }
-.mission-card p { color: black; }
+.mission-card p { color: black; font-size: 24px;}
 
 .stats-grid {
   display: grid;
@@ -85,6 +85,7 @@
   color: white;
   margin: 20px;
   padding: 30px;
+  font-size: 24px;
   border-radius: 15px;
   text-align: center;
 }
@@ -94,7 +95,7 @@
   border-radius: 15px;
   padding: 30px;
 }
-.goal-section p { color: black; }
+.goal-section p { color: black; font-size: 24px; }
 
 .contacts-section { background: #f8f9fa; border-radius: 15px; }
 
@@ -148,7 +149,7 @@
   flex-shrink: 0;
 }
 
-/* Реальное фото — раскомментируйте когда добавите файл:
+
 .dean-photo-img {
   width: 180px;
   height: 220px;
@@ -158,7 +159,7 @@
   display: block;
   flex-shrink: 0;
 }
-*/
+
 
 .dean-avatar-icon { width: 80px; height: 80px; opacity: 0.5; }
 .dean-photo-label { font-size: 13px; color: #1E3A5F; opacity: 0.7; font-style: italic; }

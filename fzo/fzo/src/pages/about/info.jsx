@@ -142,10 +142,10 @@ const Info = () => {
                   <div className="dean-divider" />
                   <div className="dean-contacts">
                     <a href="mailto:fzo@rusoil.net" className="dean-contact-link">
-                      <span className="dean-contact-icon">✉</span> fzo@rusoil.net
+                      <span className="dean-contact-icon"></span> fzo@rusoil.net
                     </a>
                     <span className="dean-contact-link">
-                      <span className="dean-contact-icon">☎</span> (347) 243-19-14
+                      <span className="dean-contact-icon"></span> (347) 243-19-14
                     </span>
                   </div>
                 </div>
