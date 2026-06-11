@@ -9,7 +9,7 @@ function CardsPage() {
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [activeLevel, setActiveLevel] = useState("Все");
+    const [activeLevel, setActiveLevel] = useState("Бакалавриат");
 
     const [selectedCardTitle, setSelectedCardTitle] = useState("");
     const [modalDetails, setModalDetails] = useState(null);
