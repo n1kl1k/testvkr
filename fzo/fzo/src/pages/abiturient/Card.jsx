@@ -3,7 +3,7 @@ import CardList from "../../components/CardList";
 import Modal from "../../components/ModalItem";
 import "./cards.css";
 
-const LEVELS = ["Бакалавриат", "Магистратура", "Специалитет"];
+const LEVELS = ["Бакалавриат", "Магистратура", "Специалитет", "СПО"];
 
 function CardsPage() {
     const [cards, setCards] = useState([]);
