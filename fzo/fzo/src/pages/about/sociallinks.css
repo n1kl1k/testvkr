@@ -164,7 +164,7 @@
         }
 
         .social-card.vk .social-link { background: linear-gradient(135deg, #4C75A3 0%, #5B7FAD 100%); }
-        .social-card.telegram .social-link { background: linear-gradient(135deg, #0088cc 0%, #00A2E8 100%); }
+        .social-card.telegram .social-link { background: linear-gradient(to right, #6a11cb, #2575fc); }
         .social-card.youtube .social-link { background: linear-gradient(135deg, #FF0000 0%, #FF3333 100%); }
         .social-card.rutube .social-link { background: linear-gradient(135deg, #FF3333 0%, #FF6666 100%); }
 
@@ -255,9 +255,6 @@
             margin-right: 10px;
             font-size: 20px;
         }
-
-        .contact-link.email::before { content: '📧'; }
-        .contact-link.phone::before { content: '📞'; }
 
         /* Кнопка наверх */
         .scroll-top {

@@ -77,8 +77,10 @@ const SocialLinks = () => {
                   <p className="social-description">
                     Быстрые новости и важные объявления в удобном формате.
                   </p>
-                  <a href="t.me/fzo_ugntu" className="social-link">
-                    Перейти
+                  <a className="social-link">
+                    +7(347)243-19-14
+                    243-19-71,
+                    242-42-18.
                   </a>
                 </div>
               </div>
@@ -104,12 +106,14 @@ const SocialLinks = () => {
               <h3 className="contact-title">Другие способы связи</h3>
 
               <div className="contact-links">
-                <a href="mailto:fzo@rusoil.net" className="contact-link email">
+                <a href="mailto:fzo@rusoil.net" className="contact-link">
                   fzo@rusoil.net
                 </a>
 
-                <a href="tel:+73472400000" className="contact-link phone">
-                  +7 (347) 240-00-00
+                <a href="tel:+73472400000" className="contact-link">
+                  Тел.(факс): +7 (347) 243-19-14 (ауд. 1-218)
+                  Тел.(факс): +7 (347) 242-42-18 (ауд. 1-212)
+                  Тел.(факс): +7 (347) 243-19-71 (ауд. 1-220)
                 </a>
               </div>
             </div>

@@ -92,14 +92,14 @@
 
             <!-- Планы (планы приёма) -->
             <div class="mb-2">
-                <label>План приёма (бюджет, платно, баллы)</label>
+                <label>План приёма (платно, бюджет, баллы)</label>
                 <div class="plans-container">
                     <div th:each="plan : *{plans}" class="row mb-2 g-2">
                         <div class="col-sm-3">
-                            <input type="number" name="planBudget" th:value="${plan.budget}" class="form-control" placeholder="Бюджет">
+                            <input type="number" name="planBudget" th:value="${plan.budget}" class="form-control" placeholder="Платно">
                         </div>
                         <div class="col-sm-3">
-                            <input type="number" name="planPaid" th:value="${plan.paid}" class="form-control" placeholder="Платно">
+                            <input type="number" name="planPaid" th:value="${plan.paid}" class="form-control" placeholder="Бюджет">
                         </div>
                         <div class="col-sm-4">
                             <div class="d-flex flex-wrap gap-2 pt-1">
