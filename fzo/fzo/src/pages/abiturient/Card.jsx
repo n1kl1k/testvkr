@@ -69,6 +69,17 @@ function CardsPage() {
             </div>
 
             <CardList cards={filteredCards} onCardSelect={handleCardSelect} />
+
+            {activeLevel === "Специалитет" && (
+            <p className="prep-note">
+                * — дистанционное обучение составляет 3 (три) семестра.
+            </p>
+            )}
+            {activeLevel === "Магистратура" && (
+            <p className="prep-note">
+                * - дистанционное обучение составляет 2 (два)семестра.
+            </p>
+            )}
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
