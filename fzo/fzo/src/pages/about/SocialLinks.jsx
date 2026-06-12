@@ -45,7 +45,7 @@ const SocialLinks = () => {
       <div className="social-wrapper">
         <div className="social-container">
           <div className="social-header">
-            <h1 className="social-title">Социальные сети УГНТУ</h1>
+            <h1 className="social-title">Социальные сети Факультета заочного обучения</h1>
             <p className="social-subtitle">
               Будьте в курсе последних новостей и событий университета
             </p>
@@ -71,7 +71,7 @@ const SocialLinks = () => {
 
               <div className="social-card telegram">
                 <div className="social-card-header">
-                  <h3 className="social-card-title">Telegram</h3>
+                  <h3 className="social-card-title">MAX</h3>
                 </div>
                 <div className="social-card-body">
                   <p className="social-description">
