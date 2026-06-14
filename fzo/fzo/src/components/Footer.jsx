@@ -6,8 +6,8 @@ function Footer() {
       <div className="footer-content">
         <div className="footer-section">
           <h4>Контакты</h4>
-          <p>📞 (347) 243-19-14</p>
-          <p>📧 fzo@ruoil.net</p>
+          <p>+7 (347) 243-19-14</p>
+          <p>dot-fzo@mail.ru</p>
         </div>
 
         <div className="footer-section">
@@ -24,7 +24,7 @@ function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>© {new Date().getFullYear()} Факультет ЗО УГНТУ</p>
+        <p>© {new Date().getFullYear()} Факультет заочного обучения УГНТУ</p>
       </div>
     </footer>
   );

@@ -141,11 +141,11 @@ const Info = () => {
                   <div className="dean-degree">Кандидат технических наук, доцент</div>
                   <div className="dean-divider" />
                   <div className="dean-contacts">
-                    <a href="mailto:fzo@rusoil.net" className="dean-contact-link">
-                      <span className="dean-contact-icon"></span> fzo@rusoil.net
+                    <a href="mailto:dot-fzo@mail.ru" className="dean-contact-link">
+                      <span className="dean-contact-icon"></span> dot-fzo@mail.ru
                     </a>
                     <span className="dean-contact-link">
-                      <span className="dean-contact-icon"></span> (347) 243-19-14
+                      <span className="dean-contact-icon"></span> +7 (347) 243-19-14
                     </span>
                   </div>
                 </div>
@@ -263,7 +263,7 @@ const Info = () => {
                 </div>
                 <div className="contact-card email">
                   <h3>Электронная почта</h3>
-                  <div className="contact-info"><a href="mailto:fzo@rusoil.net" className="contact-link">fzo@rusoil.net</a></div>
+                  <div className="contact-info"><a href="mailto:dot-fzo@mail.ru" className="contact-link">dot-fzo@mail.ru</a></div>
                 </div>
               </div>
             </section>

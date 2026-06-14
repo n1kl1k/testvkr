@@ -60,16 +60,12 @@ function Faq() {
                 <h3>Хотите узнать больше? Свяжитесь с нами!</h3>
 
                 <div className="contact-links">
-                  <a href="mailto:fzo@rusoil.net" className="contact-link email">
-                    fzo@rusoil.net
+                  <a href="dot-fzo@mail.ru" className="contact-link email">
+                    dot-fzo@mail.ru
                   </a>
 
-                  <a href="tel:+78005514528" className="contact-link">
-                    8 (800) 55-14-528
-                  </a>
-
-                  <a href="https://t.me/pkrusoil" className="contact-link telegram">
-                    @pkrusoil
+                  <a href="tel:+73472431914" className="contact-link">
+                    +7(347) 243-19-14
                   </a>
 
                   <a href="https://t.me/pkrusoil_news" className="contact-link telegram">
