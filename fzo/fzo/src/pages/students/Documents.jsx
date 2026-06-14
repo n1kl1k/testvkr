@@ -72,7 +72,7 @@ function Documents() {
                         Форма справки, выдаваемой студенту при переводе в другой вуз:
                     </p>
                     <a href="Perevod_dr.doc" className="doc-download" download>
-                        Форма справки
+                        Скачать форму справки
                     </a>
                 </div>
 

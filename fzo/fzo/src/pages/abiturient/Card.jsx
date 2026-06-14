@@ -80,6 +80,16 @@ function CardsPage() {
                 * - дистанционное обучение составляет 2 (два)семестра.
             </p>
             )}
+            {activeLevel === "Бакалавриат" && (
+            <p className="prep-note">
+                 
+            </p>
+            )}
+            {activeLevel === "СПО" && (
+            <p className="prep-note">
+                 
+            </p>
+            )}
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
