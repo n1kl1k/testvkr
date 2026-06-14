@@ -47,7 +47,7 @@ const SocialLinks = () => {
           <div className="social-header">
             <h1 className="social-title">Социальные сети Факультета заочного обучения</h1>
             <p className="social-subtitle">
-              Будьте в курсе последних новостей и событий университета
+              Будьте в курсе последних новостей и событий факультета
             </p>
           </div>
 
@@ -60,7 +60,7 @@ const SocialLinks = () => {
                 </div>
                 <div className="social-card-body">
                   <p className="social-description">
-                    Официальная группа университета. Новости, мероприятия,
+                    Официальная группа факультета. Новости, мероприятия,
                     фотографии и общение со студентами.
                   </p>
                   <a href="https://vk.com/fzo_ugntu" className="social-link">
@@ -91,7 +91,7 @@ const SocialLinks = () => {
                 </div>
                 <div className="social-card-body">
                   <p className="social-description">
-                    Видео о жизни университета, лекции и мероприятия.
+                    Видео о жизни факультета, лекции и мероприятия.
                   </p>
                   <a href="https://www.youtube.com/@%D0%A4%D0%97%D0%9E%D0%A3%D0%93%D0%9D%D0%A2%D0%A3" className="social-link">
                     Смотреть
