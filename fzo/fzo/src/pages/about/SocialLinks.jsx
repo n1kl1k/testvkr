@@ -106,11 +106,11 @@ const SocialLinks = () => {
               <h3 className="contact-title">Другие способы связи</h3>
 
               <div className="contact-links">
-                <a href="dot-fzo@mail.ru" className="contact-link">
+                <a className="contact-link">
                   dot-fzo@mail.ru
                 </a>
 
-                <a href="tel:+73472400000" className="contact-link">
+                <a className="contact-link">
                   Тел.(факс): +7 (347) 243-19-14 (ауд. 1-218)<br/>
                   Тел.(факс): +7 (347) 242-42-18 (ауд. 1-212)<br/>
                   Тел.(факс): +7 (347) 243-19-71 (ауд. 1-220)
