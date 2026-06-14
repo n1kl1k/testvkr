@@ -122,6 +122,10 @@
     font-weight: 600;
     transition: background 0.2s;
 }
+.docs-info-block a.doc-download {
+    color: white;
+    text-decoration: none;
+}
 
 .doc-download:hover {
     background: #2a5280;
