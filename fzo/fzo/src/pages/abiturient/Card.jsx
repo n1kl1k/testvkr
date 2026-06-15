@@ -87,9 +87,9 @@ function CardsPage() {
                     <div className="admission-contacts__item">
                         <div>
                             <div className="admission-contacts__label">Адрес</div>
-                            <span className="admission-contacts__value">ул. Первомайская 14,
-                            корпус УГНТУ №8 (бывший ДК Орджоникидзе),
-                            г. Уфа, Республика Башкортостан,
+                            <span className="admission-contacts__value">ул. Первомайская 14,<br/>
+                            корпус УГНТУ №8 (бывший ДК Орджоникидзе),<br/>
+                            г. Уфа, Республика Башкортостан,<br/>
                             Россия, 450064, каб. 301, 308
                             </span>
                         </div>
