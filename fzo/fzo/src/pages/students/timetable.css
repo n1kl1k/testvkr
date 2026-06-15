@@ -1,164 +1,131 @@
-.ui-wrapper {
-  padding: 20px;
-  background: #f1f4f8;
-  min-height: 100vh;
-  font-family: Inter, sans-serif;
+.tt-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 20px;
 }
 
-.title {
-  margin-bottom: 16px;
-  font-size: 20px;
-  font-weight: 600;
-  color: black;
+.tt-title {
+    text-align: center;
+    color: #fff;
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 32px;
 }
 
-/* TOOLBAR */
-.toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
+.tt-empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
 }
 
-.toolbar input,
-.toolbar select {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.tt-loading,
+.tt-error {
+    text-align: center;
+    padding: 60px 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
 }
 
-/* LEGEND */
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+.tt-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.legend-item {
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  color: white;
+.tt-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-left: 4px solid #dee2e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
 }
 
-/* TABLE */
-.table-container {
-  overflow: auto;
-  background: white;
-  border-radius: 10px;
+.tt-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.data-table {
-  border-collapse: collapse;
-  table-layout: fixed;
+.tt-card--active {
+    border-left-color: #198754;
 }
 
-/* ЯЧЕЙКИ */
-.data-table td {
-  padding: 2px;
-  font-size: 11px;
-  line-height: 1;
-  color: #000;
-  border: 1px solid #000;
+.tt-card__icon {
+    font-size: 28px;
+    flex-shrink: 0;
 }
 
-
-
-/* ШАПКА (выравнивание дат) */
-.data-table tr:nth-child(1) td,
-.data-table tr:nth-child(2) td,
-.data-table tr:nth-child(3) td,
-.data-table tr:nth-child(4) td {
-  font-size: 10px;
-  font-weight: 600;
+.tt-card__info {
+    flex: 1;
+    min-width: 0;
 }
 
-/* CONTENT */
-.cell-content {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.tt-card__name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1E3A5F;
+    margin: 0 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* ЦВЕТА */
-.cell-session { background: #00c853; }
-.cell-exam { background: #ff3d00; color: #fff; }
-.cell-gos { background: #ff6d00; }
-.cell-vkr { background: #7c4dff; color: #fff; }
-.cell-zn { background: #ff9100; }
-.cell-su { background: #e040fb; }
-.cell-practice-study { background: #d1c4e9; }
-.cell-practice-prod { background: #b39ddb; }
-.cell-nir { background: #a5d6a7; }
-.cell-holiday { background: #eeeeee; }
-.cell-holiday-red { background: #bdbdbd; }
-.cell-equal { background: #f5f5f5; }
-
-.loading, .error {
-  text-align: center;
-  padding: 40px;
-}
-/* Кнопка скачивания */
-.ui-wrapper {
-  position: relative;
+.tt-card__desc {
+    font-size: 13px;
+    color: #555;
+    margin: 0 0 3px;
 }
 
-.download-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #2c7da0;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: background 0.2s ease;
-  z-index: 10;
-  font-size: 14px;
+.tt-card__date {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
 }
 
-.download-btn:hover {
-  background: #1f5e7a;
+.tt-card__badge {
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    flex-shrink: 0;
 }
 
-.download-btn:disabled {
-  background: #aaa;
-  cursor: not-allowed;
+.tt-card__btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    background: #1E3A5F;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
 }
 
-.title {
-  margin-right: 160px; /* чтобы текст не наезжал на кнопку */
+.tt-card__btn:hover {
+    background: #2c4a76;
+    color: #fff;
 }
 
-/* ПЕРВЫЕ ТРИ КОЛОНКИ (курс, факультет, группа) */
-.data-table td:nth-child(1) {
-  width: 80px;
-  min-width: 80px;
-  max-width: 80px;
-}
+@media (max-width: 600px) {
+    .tt-card {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 
-.data-table td:nth-child(2) {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-}
+    .tt-card__btn {
+        width: 100%;
+        justify-content: center;
+    }
 
-.data-table td:nth-child(3) {
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
-  white-space: normal;      /* ← разрешаем перенос для длинных названий групп */
-}
-
-/* ВСЕ ОСТАЛЬНЫЕ (дни недели) */
-.data-table td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)) {
-  width: 28px;
-  min-width: 28px;
-  max-width: 28px;
+    .tt-card__name {
+        white-space: normal;
+    }
 }

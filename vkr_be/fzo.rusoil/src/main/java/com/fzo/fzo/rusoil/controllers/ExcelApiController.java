@@ -1,21 +1,62 @@
 package com.fzo.fzo.rusoil.controllers;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fzo.fzo.rusoil.model.ExcelFile;
+import com.fzo.fzo.rusoil.repository.ExcelFileRepository;
+import java.util.List;
+import java.util.Map;
+import org.springframework.data.domain.Sort;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
 import java.nio.file.*;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/excel")
 public class ExcelApiController {
 
     private static final String UPLOAD_DIR = "/app/public/";
     private static final String META_FILE = "/app/public/.current-excel-name";
+    private final ExcelFileRepository excelFileRepo;
 
+    @GetMapping("/list")
+    public ResponseEntity<List<Map<String, Object>>> listFiles() {
+        return ResponseEntity.ok(
+            excelFileRepo.findAll(Sort.by(Sort.Direction.DESC, "uploadDate"))
+                .stream()
+                .map(f -> {
+                    Map<String, Object> m = new java.util.LinkedHashMap<>();
+                    m.put("id", f.getId());
+                    m.put("originalFileName", f.getOriginalFileName());
+                    m.put("description", f.getDescription());
+                    m.put("uploadDate", f.getUploadDate().toString());
+                    m.put("active", f.getActive());
+                    return m;
+                })
+                .toList()
+        );
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long id) throws IOException {
+        ExcelFile file = excelFileRepo.findById(id).orElseThrow();
+        Path path = Paths.get("/app/public/" + file.getOriginalFileName());
+        Resource resource = new UrlResource(path.toUri());
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + file.getOriginalFileName() + "\"")
+            .body(resource);
+    }
     @PostMapping("/upload")
     public ResponseEntity<String> uploadExcel(@RequestParam("file") MultipartFile file) {
         try {
