@@ -18,8 +18,8 @@ function Footer() {
 
         <div className="footer-section">
           <h4>Студенту</h4>
-          <Link to="/students/timetable">График учебного процесса</Link>
-          <Link to="/students/studcity">Студенческий городок</Link>
+          <Link to="/students/documents">Документы</Link>
+          <Link to="/students/bible">Библиоткета</Link>
         </div>
       </div>
 
