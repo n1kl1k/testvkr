@@ -56,51 +56,46 @@ function CardsPage() {
         <>
             <h1 className="otstup">Направления</h1>
 
-            <div className="level-filter">
-                {LEVELS.map((level) => (
-                    <button
-                        key={level}
-                        className={`level-btn ${activeLevel === level ? "active" : ""}`}
-                        onClick={() => setActiveLevel(level)}
-                    >
-                        {level}
-                    </button>
-                ))}
-            </div>
-
             <div className="admission-contacts">
                 <div className="admission-contacts__inner">
-                    <div className="admission-contacts__item">
-                        <div>
+
+                    <div className="admission-contacts__filters">
+                        {LEVELS.map((level) => (
+                            <button
+                                key={level}
+                                className={`level-btn admission-level-btn ${activeLevel === level ? "active" : ""}`}
+                                onClick={() => setActiveLevel(level)}
+                            >
+                                {level}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="admission-contacts__divider-h" />
+
+                    <div className="admission-contacts__grid">
+                        <div className="admission-contacts__item">
                             <div className="admission-contacts__label">Телефон</div>
                             <a href="tel:88005514528" className="admission-contacts__value">8 (800) 55-14-528</a>
                         </div>
-                    </div>
-                    <div className="admission-contacts__divider" />
-                    <div className="admission-contacts__item">
-                        <div>
+                        <div className="admission-contacts__item">
                             <div className="admission-contacts__label">Email</div>
                             <a href="mailto:pkugntu@mail.ru" className="admission-contacts__value">pkugntu@mail.ru</a>
                         </div>
-                    </div>
-                    <div className="admission-contacts__divider" />
-                    <div className="admission-contacts__item">
-                        <div>
+                        <div className="admission-contacts__item">
                             <div className="admission-contacts__label">Адрес</div>
-                            <span className="admission-contacts__value">ул. Первомайская 14,<br/>
-                            корпус УГНТУ №8 (бывший ДК Орджоникидзе),<br/>
-                            г. Уфа, Республика Башкортостан,<br/>
-                            Россия, 450064, каб. 301, 308
+                            <span className="admission-contacts__value">
+                                ул. Первомайская 14, корпус УГНТУ №8,<br/>
+                                г. Уфа, Республика Башкортостан, 450064,<br/>
+                                каб. 301, 308
                             </span>
                         </div>
-                    </div>
-                    <div className="admission-contacts__divider" />
-                    <div className="admission-contacts__item">
-                        <div>
+                        <div className="admission-contacts__item">
                             <div className="admission-contacts__label">Режим работы</div>
-                            <span className="admission-contacts__value">Пн–Пт: 10:00 – 17:00 (обеденный перерыв 13:00 - 14:00)</span>
+                            <span className="admission-contacts__value">Пн–Пт: 10:00 – 17:00<br/>(обед 13:00 – 14:00)</span>
                         </div>
                     </div>
+
                 </div>
             </div>
             <CardList cards={filteredCards} onCardSelect={handleCardSelect} />
