@@ -268,49 +268,38 @@
 }
 
 .admission-contacts__inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #fff;
+    border: 1px solid #e8edf2;
     border-radius: 16px;
-    padding: 18px 32px;
-    backdrop-filter: blur(8px);
+    padding: 20px 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
 }
 
 .admission-contacts__item {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 24px;
-}
-
-.admission-contacts__divider {
-    width: 1px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.25);
-    flex-shrink: 0;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .admission-contacts__label {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
+    color: #888;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 2px;
 }
 
 .admission-contacts__value {
     font-size: 14px;
     font-weight: 600;
-    color: #fff;
+    color: #1E3A5F;
     text-decoration: none;
+    line-height: 1.4;
 }
 
 a.admission-contacts__value:hover {
-    color: #FFE484;
+    color: #2a5280;
     text-decoration: underline;
 }
 
