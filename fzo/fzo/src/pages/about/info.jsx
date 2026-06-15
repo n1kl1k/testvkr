@@ -18,7 +18,7 @@ const gratitudeLetters = [
     id: 3,
     from: "КранСервисПроект",
     year: "2025",
-    file: "/bp_KranServisProekt.jpg",
+    file: "/bp_KranServisProekt.pdf",
   },
 ];
 
@@ -141,8 +141,8 @@ const Info = () => {
                   <div className="dean-degree">Кандидат технических наук, доцент</div>
                   <div className="dean-divider" />
                   <div className="dean-contacts">
-                    <a href="mailto:dot-fzo@mail.ru" className="dean-contact-link">
-                      <span className="dean-contact-icon"></span> dot-fzo@mail.ru
+                    <a href="mailto:fzo@rusoil.net" className="dean-contact-link">
+                      <span className="dean-contact-icon"></span> fzo@rusoil.net
                     </a>
                     <span className="dean-contact-link">
                       <span className="dean-contact-icon"></span> +7 (347) 243-19-14

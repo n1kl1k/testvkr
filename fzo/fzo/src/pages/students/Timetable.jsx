@@ -43,7 +43,6 @@ export default function Timetable() {
                             <p className="tt-card__name">
                                 {file.description || file.originalFileName}
                             </p>
-                            <p className="tt-card__date">Загружен: {formatDate(file.uploadDate)}</p>
                         </div>
 
                         <a
