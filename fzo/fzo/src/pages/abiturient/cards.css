@@ -312,7 +312,7 @@ a.admission-contacts__value:hover {
     }
 
     .admission-contacts__divider {
-        width: 100%;
+        width: 20%;
         height: 1px;
         margin: 4px 0;
     }
