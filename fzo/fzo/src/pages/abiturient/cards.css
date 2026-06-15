@@ -237,7 +237,7 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin: 20px 0 30px;
+    margin: 20px 0 12px;
     flex-wrap: wrap;
 }
 
@@ -263,7 +263,7 @@
 }
 .admission-contacts {
     max-width: 1400px;
-    margin: 0 auto 28px;
+    margin: 0 auto 20px;
     padding: 0 20px;
 }
 
@@ -271,10 +271,10 @@
     background: #fff;
     border: 1px solid #e8edf2;
     border-radius: 16px;
-    padding: 20px 32px;
+    padding: 14px 24px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 8px;
+    gap: 6px;
 }
 
 .admission-contacts__item {

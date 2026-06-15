@@ -1,13 +1,19 @@
 package com.fzo.fzo.rusoil.controllers;
 
 import com.fzo.fzo.rusoil.dto.CreateCardsDto;
+import com.fzo.fzo.rusoil.model.ExcelFile;
 import com.fzo.fzo.rusoil.model.News;
 import com.fzo.fzo.rusoil.repository.CardsRepository;
+import com.fzo.fzo.rusoil.repository.ExcelFileRepository;
 import com.fzo.fzo.rusoil.repository.NewsRepository;
 import com.fzo.fzo.rusoil.service.CardsService;
 import com.fzo.fzo.rusoil.service.EmailService;
+import com.fzo.fzo.rusoil.service.ExcelProcessingService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +35,8 @@ public class AdminController {
     private final CardsRepository cardsRepo;
     private final CardsService cardsService;
     private final EmailService emailService;
+    private final ExcelFileRepository excelFileRepo;
+    private final ExcelProcessingService excelProcessingService;
 
     @GetMapping("/index")
     public String index() {
@@ -100,7 +108,8 @@ public class AdminController {
 
     @GetMapping("/excel")
     public String excelManager(Model model) {
-        model.addAttribute("currentFile", getCurrentFileName());
+        model.addAttribute("files", excelFileRepo.findAll(
+                Sort.by(Sort.Direction.DESC, "uploadDate")));
         return "admin/excel/index";
     }
 
@@ -111,74 +120,101 @@ public class AdminController {
 
     @PostMapping("/excel/upload")
     public String uploadExcelFile(@RequestParam("file") MultipartFile file,
-                                  RedirectAttributes redirectAttributes) {
+                                  @RequestParam(value = "description", required = false) String description,
+                                  RedirectAttributes ra) {
         try {
             if (file.isEmpty()) {
-                redirectAttributes.addFlashAttribute("error", "Файл пустой");
+                ra.addFlashAttribute("error", "Файл пустой");
                 return "redirect:/admin/excel/upload";
             }
 
             String filename = file.getOriginalFilename();
             if (filename == null || filename.isEmpty()) {
-                redirectAttributes.addFlashAttribute("error", "Имя файла отсутствует");
+                ra.addFlashAttribute("error", "Имя файла отсутствует");
                 return "redirect:/admin/excel/upload";
             }
 
             String lower = filename.toLowerCase();
             if (!lower.endsWith(".xlsx") && !lower.endsWith(".xls") && !lower.endsWith(".csv")) {
-                redirectAttributes.addFlashAttribute("error", "Только .xlsx, .xls или .csv");
+                ra.addFlashAttribute("error", "Только .xlsx, .xls или .csv");
                 return "redirect:/admin/excel/upload";
             }
 
+            // Сохраняем физически
             Files.createDirectories(Paths.get(PUBLIC_DIR));
-
-            // Удаляем старый файл
-            String oldFile = getCurrentFileName();
-            if (oldFile != null) {
-                Files.deleteIfExists(Paths.get(PUBLIC_DIR + oldFile));
-            }
-
-            // Сохраняем новый
             Files.write(Paths.get(PUBLIC_DIR + filename), file.getBytes(),
                     StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
 
-            // Обновляем мета-файл
-            Files.writeString(Paths.get(META_FILE), filename);
+            // Сохраняем в БД
+            excelProcessingService.processAndSaveExcel(file, description);
 
-            log.info("Excel файл обновлён: {}", filename);
-            redirectAttributes.addFlashAttribute("success", "Файл загружен: " + filename);
+            // Если это первый файл — сразу делаем активным
+            if (excelFileRepo.count() == 1) {
+                excelFileRepo.findFirstByOrderByUploadDateDesc().ifPresent(f -> {
+                    f.setActive(true);
+                    excelFileRepo.save(f);
+                    try { Files.writeString(Paths.get(META_FILE), f.getOriginalFileName()); }
+                    catch (Exception ignored) {}
+                });
+            }
+
+            ra.addFlashAttribute("success", "Файл загружен: " + filename);
             return "redirect:/admin/excel";
 
         } catch (Exception e) {
             log.error("Ошибка загрузки Excel", e);
-            redirectAttributes.addFlashAttribute("error", "Ошибка: " + e.getMessage());
+            ra.addFlashAttribute("error", "Ошибка: " + e.getMessage());
             return "redirect:/admin/excel/upload";
         }
     }
 
-    @GetMapping("/excel/delete")
-    public String deleteExcelFile(RedirectAttributes redirectAttributes) {
+    @PostMapping("/excel/activate/{id}")
+    public String activateFile(@PathVariable Long id, RedirectAttributes ra) {
         try {
-            String currentFile = getCurrentFileName();
-            if (currentFile != null) {
-                Files.deleteIfExists(Paths.get(PUBLIC_DIR + currentFile));
-                Files.deleteIfExists(Paths.get(META_FILE));
-                redirectAttributes.addFlashAttribute("success", "Файл удалён");
-            } else {
-                redirectAttributes.addFlashAttribute("error", "Нет активного файла");
-            }
+            excelFileRepo.deactivateAll();
+            ExcelFile file = excelFileRepo.findById(id).orElseThrow();
+            file.setActive(true);
+            excelFileRepo.save(file);
+            Files.writeString(Paths.get(META_FILE), file.getOriginalFileName());
+            ra.addFlashAttribute("success", "Активный график: " + file.getOriginalFileName());
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Ошибка: " + e.getMessage());
+            log.error("Ошибка активации", e);
+            ra.addFlashAttribute("error", "Ошибка: " + e.getMessage());
         }
         return "redirect:/admin/excel";
     }
 
-    private String getCurrentFileName() {
+    @PostMapping("/excel/delete/{id}")
+    public String deleteFile(@PathVariable Long id, RedirectAttributes ra) {
         try {
-            Path meta = Paths.get(META_FILE);
-            if (Files.exists(meta)) return Files.readString(meta).trim();
-        } catch (Exception ignored) {}
-        return null;
+            ExcelFile file = excelFileRepo.findById(id).orElseThrow();
+            boolean wasActive = Boolean.TRUE.equals(file.getActive());
+
+            Files.deleteIfExists(Paths.get(PUBLIC_DIR + file.getOriginalFileName()));
+            excelFileRepo.deleteById(id);
+
+            // Если удалили активный — назначаем следующий
+            if (wasActive) {
+                excelFileRepo.findFirstByOrderByUploadDateDesc().ifPresentOrElse(
+                    next -> {
+                        next.setActive(true);
+                        excelFileRepo.save(next);
+                        try { Files.writeString(Paths.get(META_FILE), next.getOriginalFileName()); }
+                        catch (Exception ignored) {}
+                    },
+                    () -> {
+                        try { Files.deleteIfExists(Paths.get(META_FILE)); }
+                        catch (Exception ignored) {}
+                    }
+                );
+            }
+
+            ra.addFlashAttribute("success", "Файл удалён");
+        } catch (Exception e) {
+            log.error("Ошибка удаления", e);
+            ra.addFlashAttribute("error", "Ошибка: " + e.getMessage());
+        }
+        return "redirect:/admin/excel";
     }
 
     // ===== CARDS =====
