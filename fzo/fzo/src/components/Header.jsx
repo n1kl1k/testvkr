@@ -125,6 +125,7 @@ function Header() {
                 <li><a href="https://lks.rusoil.net/schedule" onClick={closeMenu}>Расписание</a></li>
                 <li><Link to="/students/bible" onClick={closeMenu}>Библиотека</Link></li>
                 <li><Link to="/students/documents" onClick={closeMenu}>Документы</Link></li>
+                <li><Link to="/students/timetable" onClick={closeMenu}>Графики учебного процесса</Link></li>
                 <li><a href="https://oiledu.ru/" onClick={closeMenu}>OILEDU</a></li>
                 <li><Link to="/students/studcity" onClick={closeMenu}>Студгородок</Link></li>
               </ul>
