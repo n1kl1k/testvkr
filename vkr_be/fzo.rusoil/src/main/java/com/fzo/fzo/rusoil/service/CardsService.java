@@ -178,7 +178,7 @@ public class CardsService {
         return card;
     }
 
-    // 👉 А ВОТ ТУТ вызываешь
+   
     @Transactional
     public Cards saveCards(CreateCardsDto dto) {
 
@@ -211,13 +211,11 @@ public class CardsService {
         ai.setTitle(dto.getAdditionalTitle());
         ai.setInfo(dto.getAdditionalInfo());
 
-        // ❗ ВАЖНО: очищаем старые данные
         ai.getActivityList().clear();
         ai.getPartnersList().clear();
         ai.getPlanList().clear();
         ai.getRequirmentsList().clear();
 
-        // ❗ и заново добавляем
         if (dto.getActivities() != null) {
             dto.getActivities().forEach(a -> {
                 Activity act = new Activity();

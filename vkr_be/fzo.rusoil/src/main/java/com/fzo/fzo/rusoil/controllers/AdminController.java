@@ -97,7 +97,6 @@ public class AdminController {
         return "redirect:/admin/news/index";
     }
 
-    // ===== EXCEL (без БД) =====
 
     @GetMapping("/excel")
     public String excelManager(Model model) {
