@@ -274,7 +274,7 @@
     padding: 20px 32px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
+    gap: 8px;
 }
 
 .admission-contacts__item {
