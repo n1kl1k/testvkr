@@ -60,8 +60,8 @@ function Faq() {
                 <h3>Хотите узнать больше? Свяжитесь с нами!</h3>
 
                 <div className="contact-links">
-                  <a href="dot-fzo@mail.ru" className="contact-link email">
-                    dot-fzo@mail.ru
+                  <a href="fzo@rusoil.net" className="contact-link email">
+                    fzo@rusoil.net
                   </a>
 
                   <a href="tel:+73472431914" className="contact-link">

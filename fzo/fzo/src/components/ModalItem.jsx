@@ -18,12 +18,12 @@ function Modal({ isOpen, onClose, details, title }) {
                     {details && !details.error && (
                         <>
                             <div className="modal-section">
-                                <h3 className="section-title">Описание</h3>
+                                <h3 className="section-title">Чему научат</h3>
                                 <p className="opisanie">{details.additionalInfo || "Нет описания"}</p>
                             </div>
 
                             <div className="modal-section">
-                                <h3 className="section-title">Деятельность</h3>
+                                <h3 className="section-title">Кем работать</h3>
                                 {details.activities && details.activities.length > 0 ? (
                                     <ul className="feature-list">
                                         {details.activities.map((a, i) => (
@@ -36,7 +36,7 @@ function Modal({ isOpen, onClose, details, title }) {
                             </div>
 
                             <div className="modal-section">
-                                <h3 className="section-title">Партнёры</h3>
+                                <h3 className="section-title">Где работать</h3>
                                 {details.partners && details.partners.length > 0 ? (
                                     <div className="companies-grid">
                                         {details.partners.map((p, i) => (

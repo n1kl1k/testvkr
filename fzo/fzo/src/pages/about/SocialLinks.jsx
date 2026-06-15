@@ -77,10 +77,8 @@ const SocialLinks = () => {
                   <p className="social-description">
                     Быстрые новости и важные объявления в удобном формате.
                   </p>
-                  <a className="social-link">
-                    +7(347)243-19-14<br />
-                    243-19-71,<br/>
-                    242-42-18.
+                  <a href="https://max.ru/join/pcpKPlLhdbvf5o_EB4egirIl9reXViwBg1hnjVjY5vc" className="social-link">
+                    Перейти
                   </a>
                 </div>
               </div>
@@ -107,7 +105,7 @@ const SocialLinks = () => {
 
               <div className="contact-links">
                 <a className="contact-link">
-                  dot-fzo@mail.ru
+                  fzo@rusoil.net
                 </a>
 
                 <a className="contact-link">

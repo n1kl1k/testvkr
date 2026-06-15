@@ -16,10 +16,10 @@ function CardItem({ item, onOpenModal }) {
                 <h4 className="card-title">{item.title}</h4>
 
                 <div className="card_info">
-                    <p><b>Профиль:</b> {item.profile || "—"}</p>
-                    <p><b>Кафедра:</b> {item.graduating || "—"}</p>
-                    <p><b>Контакты:</b> {item.contacts || "—"}</p>
-                    <p><b>Срок:</b> {item.duration || "—"}</p>
+                    <p><b>Профиль: </b> {item.profile || "—"}</p>
+                    <p><b>Кафедра: </b> {item.graduating || "—"}</p>
+                    <p><b>Контакты: </b> {item.contacts || "—"}</p>
+                    <p><b>Срок: </b> {item.duration || "—"}</p>
                 </div>
 
                 <button

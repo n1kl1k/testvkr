@@ -3,7 +3,7 @@ import CardList from "../../components/CardList";
 import Modal from "../../components/ModalItem";
 import "./cards.css";
 
-const LEVELS = ["Бакалавриат", "Магистратура", "Специалитет", "СПО"];
+const LEVELS = ["Бакалавриат", "Специалитет", "Магистратура", "СПО"];
 
 function CardsPage() {
     const [cards, setCards] = useState([]);
@@ -68,6 +68,41 @@ function CardsPage() {
                 ))}
             </div>
 
+            <div className="admission-contacts">
+                <div className="admission-contacts__inner">
+                    <div className="admission-contacts__item">
+                        <div>
+                            <div className="admission-contacts__label">Телефон</div>
+                            <a href="tel:88005514528" className="admission-contacts__value">8 (800) 55-14-528</a>
+                        </div>
+                    </div>
+                    <div className="admission-contacts__divider" />
+                    <div className="admission-contacts__item">
+                        <div>
+                            <div className="admission-contacts__label">Email</div>
+                            <a href="mailto:pkugntu@mail.ru" className="admission-contacts__value">pkugntu@mail.ru</a>
+                        </div>
+                    </div>
+                    <div className="admission-contacts__divider" />
+                    <div className="admission-contacts__item">
+                        <div>
+                            <div className="admission-contacts__label">Адрес</div>
+                            <span className="admission-contacts__value">ул. Первомайская 14,
+                            корпус УГНТУ №8 (бывший ДК Орджоникидзе),
+                            г. Уфа, Республика Башкортостан,
+                            Россия, 450064, каб. 301, 308
+                            </span>
+                        </div>
+                    </div>
+                    <div className="admission-contacts__divider" />
+                    <div className="admission-contacts__item">
+                        <div>
+                            <div className="admission-contacts__label">Режим работы</div>
+                            <span className="admission-contacts__value">Пн–Пт: 10:00 – 17:00 (обеденный перерыв 13:00 - 14:00)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <CardList cards={filteredCards} onCardSelect={handleCardSelect} />
 
             {activeLevel === "Специалитет" && (
