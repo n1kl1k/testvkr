@@ -9,7 +9,11 @@ export default function Timetable() {
     useEffect(() => {
         fetch("/api/excel/list")
             .then(r => { if (!r.ok) throw new Error("Ошибка загрузки"); return r.json(); })
-            .then(data => { setFiles(data); setLoading(false); })
+            .then(data => {
+                const sorted = [...data].sort((a, b) => b.active - a.active);
+                setFiles(sorted);
+                setLoading(false);
+            })
             .catch(e => { setError(e.message); setLoading(false); });
     }, []);
 
@@ -34,26 +38,20 @@ export default function Timetable() {
             <div className="tt-list">
                 {files.map(file => (
                     <div key={file.id} className={`tt-card ${file.active ? "tt-card--active" : ""}`}>
-                        <div className="tt-card__icon">📅</div>
 
                         <div className="tt-card__info">
-                            <p className="tt-card__name">{file.originalFileName}</p>
-                            {file.description && (
-                                <p className="tt-card__desc">{file.description}</p>
-                            )}
+                            <p className="tt-card__name">
+                                {file.description || file.originalFileName}
+                            </p>
                             <p className="tt-card__date">Загружен: {formatDate(file.uploadDate)}</p>
                         </div>
-
-                        {file.active && (
-                            <span className="tt-card__badge">Активный</span>
-                        )}
 
                         <a
                             href={`/api/excel/download/${file.id}`}
                             className="tt-card__btn"
                             download
                         >
-                            📥 Скачать
+                            Скачать
                         </a>
                     </div>
                 ))}
