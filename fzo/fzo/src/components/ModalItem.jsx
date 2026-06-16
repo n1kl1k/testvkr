@@ -19,7 +19,9 @@ function Modal({ isOpen, onClose, details, title }) {
                         <>
                             <div className="modal-section">
                                 <h3 className="section-title">Чему научат</h3>
-                                <p className="opisanie">{details.additionalInfo || "Нет описания"}</p>
+                                <p className="opisanie" style={{ whiteSpace: "pre-line" }}>
+                                    {details.additionalInfo || "Нет описания"}
+                                </p>
                             </div>
 
                             <div className="modal-section">
