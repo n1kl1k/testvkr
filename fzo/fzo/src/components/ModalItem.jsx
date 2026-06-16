@@ -47,6 +47,30 @@ function Modal({ isOpen, onClose, details, title }) {
                                     <p className="no-data">Нет данных</p>
                                 )}
                             </div>
+                            
+                            <div className="modal-section">
+                                <h3 className="modal-section-title">Для поступления: </h3>
+                                {details.requirements && details.requirements.length > 0 ? (
+                                    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                                        <thead>
+                                            <tr>
+                                                <th style={{ textAlign: "left", padding: "8px 12px", borderBottom: "2px solid #e0e0e0", color: "#1E3A5F", fontSize: "13px" }}>Базовый план</th>
+                                                <th style={{ textAlign: "left", padding: "8px 12px", borderBottom: "2px solid #e0e0e0", color: "#1E3A5F", fontSize: "13px" }}>СПО план</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {details.requirements.map((req, idx) => (
+                                                <tr key={idx}>
+                                                    <td style={{ padding: "8px 12px", borderBottom: "1px solid #f0f0f0", fontSize: "14px" }}>{req.basePlan }</td>
+                                                    <td style={{ padding: "8px 12px", borderBottom: "1px solid #f0f0f0", fontSize: "14px" }}>{req.spoPlan }</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <p className="no-data">Нет данных</p>
+                                )}
+                            </div>
 
                             <div className="modal-section">
                                 <h3 className="section-title"> План приёма</h3>
