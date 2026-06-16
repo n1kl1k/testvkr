@@ -62,4 +62,4 @@ const staticIndex = [
     }))
 ];
 
-export default staticIndex;
+export default searchIndex;
