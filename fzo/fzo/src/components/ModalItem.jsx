@@ -59,8 +59,8 @@ function Modal({ isOpen, onClose, details, title }) {
                                         <table style={{ width: "100%", borderCollapse: "collapse" }}>
                                             <thead>
                                                 <tr>
-                                                    {hasBase && <th style={{ textAlign: "left", padding: "8px 12px", borderBottom: "2px solid #e0e0e0", color: "#1E3A5F", fontSize: "13px" }}>Базовый план</th>}
-                                                    {hasSpo  && <th style={{ textAlign: "left", padding: "8px 12px", borderBottom: "2px solid #e0e0e0", color: "#1E3A5F", fontSize: "13px" }}>СПО план</th>}
+                                                    {hasBase && <th style={{ textAlign: "left", padding: "8px 12px", borderBottom: "2px solid #e0e0e0", color: "#1E3A5F", fontSize: "13px" }}>На базе среднего полного образования</th>}
+                                                    {hasSpo  && <th style={{ textAlign: "left", padding: "8px 12px", borderBottom: "2px solid #e0e0e0", color: "#1E3A5F", fontSize: "13px" }}>На базе среднего профессионального (или высшего) образования</th>}
                                                 </tr>
                                             </thead>
                                             <tbody>
