@@ -26,37 +26,37 @@ function extractBibleText(data) {
 
 const staticIndex = [
     {
-        path: "../students/timetable",
+        path: "/students/timetable",
         name: "Календарный учебный график",
         content: "календарный учебный график расписание сессия экзамен каникулы практика скачать"
     },
     {
-        path: "../about/info",
+        path: "/about/info",
         name: "О факультете",
         content: "факультет заочного обучения декан альмухаметов история достижения выпускники бакалавриат магистратура специалитет спо контакты адрес телефон"
     },
     {
-        path: "../about/sociallinks",
+        path: "/about/sociallinks",
         name: "Социальные сети",
         content: "вконтакте vk telegram youtube социальные сети контакты группа факультет"
     },
     {
-        path: "../students/documents",
+        path: "/students/documents",
         name: "Документы",
         content: "документы студентов перевод отчисление восстановление справка академический отпуск студенческий билет"
     },
     {
-        path: "../abiturient/cards",
+        path: "/abiturient/cards",
         name: "Направления подготовки",
         content: "направления специальности бакалавриат магистратура специалитет спо поступление план приёма бюджет платно"
     },
     {
-        path: "../about/bible",
+        path: "/about/bible",
         name: "Правила пользования библиотекой",
         content: extractBibleText(bibleData)
     },
-    ...faqData.map((item, i) => ({
-        path: "../abiturient/faq",
+    ...faqData.map((item) => ({
+        path: "/abiturient/faq",
         name: `FAQ: ${item.question.slice(0, 60)}...`,
         content: item.question + " " + item.answer.replace(/<[^>]+>/g, "")
     }))
