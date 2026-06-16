@@ -40,11 +40,14 @@ export default function Search() {
         if (!q.trim()) { setResults([]); return; }
 
         const q_lower = q.toLowerCase();
+        console.log("Индекс:", index);
+        console.log("Ищем:", q_lower);
         const seen = new Set();
         const found = index.filter(page => {
             const matches =
                 page.name.toLowerCase().includes(q_lower) ||
                 page.content.toLowerCase().includes(q_lower);
+            console.log(page.name, "->", matches);
             const key = page.path + page.name;
             if (matches && !seen.has(key)) {
                 seen.add(key);
