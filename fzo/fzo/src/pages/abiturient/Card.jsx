@@ -92,7 +92,7 @@ function CardsPage() {
                         </div>
                         <div className="admission-contacts__item">
                             <div className="admission-contacts__label">Режим работы</div>
-                            <span className="admission-contacts__value">Пн–Пт: 10:00 – 17:00<br/>(обед 13:00 – 14:00)</span>
+                            <span className="admission-contacts__value">Пн–Пт: 10:00 – 17:00<br/>(обед 13:00 – 14:00)<br/>Приём документов начинается с 20 июня</span>
                         </div>
                     </div>
 
