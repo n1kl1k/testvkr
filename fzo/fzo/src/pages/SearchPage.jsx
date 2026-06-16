@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import staticIndex from "../../data/searchIndex";
+import staticIndex from "../../data/searchIndex.js";
 
 export default function Search() {
     const [query, setQuery] = useState("");
