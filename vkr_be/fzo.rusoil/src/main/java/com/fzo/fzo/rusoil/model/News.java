@@ -15,10 +15,10 @@ public class News {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Lob
+
     @Column(columnDefinition = "TEXT")
     private String shortText;
-    @Lob
+
     @Column(columnDefinition = "TEXT")
     private String fullText;
     private LocalDate date = LocalDate.now();
