@@ -5,17 +5,17 @@ import "../styles.css";
 const searchablePages = [
   { title: "Главная", path: "/", keywords: "главная основная" },
   { title: "Личный кабинет", path: "https://ams.rusoil.net/pcs/?w_mnews", external: true, keywords: "кабинет личный аккаунт" },
-  { title: "Расписание", path: "https://lks.rusoil.net/schedule", external: true, keywords: "расписание пары" },
-  { title: "График учебного процесса", path: "/students/timetable", keywords: "график учебный процесс" },
-  { title: "Библиотека УГНТУ", path: "/students/bible", keywords: "библиотека книги" },
-  { title: "Документы", path: "/students/documents", keywords: "документы бланки" },
-  { title: "Студенческие олимпиады", path: "https://rusoil.net/ru/page/studencheskie-olimpiady", external: true, keywords: "олимпиады" },
-  { title: "Платформа OILEDU", path: "https://oiledu.ru/", external: true, keywords: "oiledu обучение" },
-  { title: "Студенческий городок", path: "/students/studcity", keywords: "городок общежитие" },
-  { title: "Вопросы к поступлению", path: "/abiturient/faq", keywords: "поступление вопросы абитуриенту" },
-  { title: "Карточки специальностей", path: "/abiturient/card", keywords: "специальности карточки направления" },
-  { title: "Общая информация", path: "/about/info", keywords: "факультет информация" },
-  { title: "Соц. сети", path: "/about/sociallinks", keywords: "соцсети социальные сети" },
+  { title: "Расписание", path: "https://lks.rusoil.net/schedule", external: true, keywords: "расписание пары занятия" },
+  { title: "График учебного процесса", path: "/students/timetable", keywords: "график учебный процесс календарный сессия экзамен каникулы практика скачать" },
+  { title: "Библиотека УГНТУ", path: "/students/bible", keywords: "библиотека книги правила пользования читальный зал абонемент" },
+  { title: "Документы", path: "/students/documents", keywords: "документы бланки перевод отчисление восстановление справка академический отпуск студенческий билет" },
+  { title: "Студенческие олимпиады", path: "https://rusoil.net/ru/page/studencheskie-olimpiady", external: true, keywords: "олимпиады соревнования конкурс" },
+  { title: "Платформа OILEDU", path: "https://oiledu.ru/", external: true, keywords: "oiledu обучение дистанционное платформа" },
+  { title: "Студенческий городок", path: "/students/studcity", keywords: "городок общежитие схема корпус здание" },
+  { title: "Вопросы к поступлению", path: "/abiturient/faq", keywords: "поступление вопросы абитуриент егэ баллы бюджет целевое олимпиада математика стипендия контракт" },
+  { title: "Программы обучения", path: "/abiturient/card", keywords: "специальности карточки направления бакалавриат магистратура специалитет спо план приёма платно бюджет" },
+  { title: "Общая информация", path: "/about/info", keywords: "факультет информация декан история достижения выпускники контакты адрес телефон заочное обучение" },
+  { title: "Соц. сети", path: "/about/sociallinks", keywords: "соцсети социальные сети вконтакте vk telegram youtube группа" },
 ];
 
 function Header() {
