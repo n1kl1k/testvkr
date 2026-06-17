@@ -1085,53 +1085,145 @@ body {
 }
 
 
-/* ==========================================
-   FOOTER
-   ========================================== */
-footer {
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.footer {
   width: 100%;
   background: #1E3A5F;
   font-size: 14px;
   border-top-left-radius: 60px;
   border-top-right-radius: 60px;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
   margin-top: auto;
   color: white;
 }
 
+/* ─── Grid ────────────────────────────────────────────────────── */
 .footer-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 30px;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
   padding: 40px 40px 20px;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.footer-section h4 {
-  margin-bottom: 16px;
-  font-size: 1.1em;
-  color: rgba(224,230,237,0.8);
+@media (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-section--contacts {
+    grid-column: 1 / -1;
+  }
 }
 
-.footer-section p,
-.footer-section a {
-  margin-bottom: 8px;
+@media (max-width: 560px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+  .footer-section--contacts {
+    grid-column: auto;
+  }
+}
+
+/* ─── Heading ─────────────────────────────────────────────────── */
+.footer-heading {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(224, 230, 237, 0.55);
+}
+
+/* ─── Links ───────────────────────────────────────────────────── */
+.footer-link {
   display: block;
+  margin-bottom: 8px;
   color: white;
   text-decoration: none;
   font-size: 14px;
-  transition: color 0.3s;
+  transition: color 0.2s;
+}
+.footer-link:hover {
+  color: rgba(224, 230, 237, 0.7);
 }
 
-.footer-section a:hover { color: rgba(224,230,237,0.75); }
+/* ─── Main contact line ───────────────────────────────────────── */
+.contacts-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-bottom: 14px;
+}
+.contact-main-link {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+.contact-main-link:hover {
+  color: rgba(224, 230, 237, 0.7);
+}
 
+/* ─── Hint ────────────────────────────────────────────────────── */
+.contacts-hint {
+  margin: 0 0 12px;
+  font-size: 11px;
+  color: rgba(224, 230, 237, 0.45);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ─── Contact list ────────────────────────────────────────────── */
+.contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contact-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(224, 230, 237, 0.9);
+  line-height: 1.4;
+}
+
+.contact-meta {
+  font-size: 11px;
+  color: rgba(224, 230, 237, 0.5);
+  line-height: 1.5;
+}
+
+.contact-link {
+  color: rgba(224, 230, 237, 0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.contact-link:hover {
+  color: white;
+}
+
+/* ─── Bottom bar ──────────────────────────────────────────────── */
 .footer-bottom {
   text-align: center;
   padding: 16px 20px;
-  border-top: 1px solid rgba(255,255,255,0.12);
-  color: rgba(224,230,237,0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(224, 230, 237, 0.5);
   font-size: 13px;
+}
+.footer-bottom p {
+  margin: 0;
 }
 
 
