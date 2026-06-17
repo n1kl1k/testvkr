@@ -1101,34 +1101,40 @@ body {
 /* ─── Grid ────────────────────────────────────────────────────── */
 .footer-content {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px;
-  padding: 40px 40px 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px 60px;
+  padding: 48px 48px 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-@media (max-width: 900px) {
+/* Contacts block spans full width on its own row */
+.footer-section--contacts {
+  grid-column: 1 / -1;
+  padding-bottom: 24px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
   .footer-content {
     grid-template-columns: 1fr 1fr;
+    padding: 32px 24px 16px;
+    gap: 28px 32px;
   }
   .footer-section--contacts {
     grid-column: 1 / -1;
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 400px) {
   .footer-content {
     grid-template-columns: 1fr;
-  }
-  .footer-section--contacts {
-    grid-column: auto;
   }
 }
 
 /* ─── Heading ─────────────────────────────────────────────────── */
 .footer-heading {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1136,7 +1142,13 @@ body {
   color: rgba(224, 230, 237, 0.55);
 }
 
-/* ─── Links ───────────────────────────────────────────────────── */
+/* ─── Generic text & links ────────────────────────────────────── */
+.footer-text {
+  margin: 0 0 6px;
+  color: white;
+  font-size: 14px;
+}
+
 .footer-link {
   display: block;
   margin-bottom: 8px;
@@ -1149,69 +1161,12 @@ body {
   color: rgba(224, 230, 237, 0.7);
 }
 
-/* ─── Main contact line ───────────────────────────────────────── */
-.contacts-main {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 20px;
-  margin-bottom: 14px;
-}
-.contact-main-link {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.2s;
-}
-.contact-main-link:hover {
-  color: rgba(224, 230, 237, 0.7);
-}
-
-/* ─── Hint ────────────────────────────────────────────────────── */
-.contacts-hint {
-  margin: 0 0 12px;
-  font-size: 11px;
-  color: rgba(224, 230, 237, 0.45);
-  font-style: italic;
-  line-height: 1.5;
-}
-
-/* ─── Contact list ────────────────────────────────────────────── */
-.contacts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.contact-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 0.5px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.contact-label {
+/* ─── Contacts body text ──────────────────────────────────────── */
+.contacts-body {
+  margin: 14px 0 0;
   font-size: 12px;
-  font-weight: 500;
-  color: rgba(224, 230, 237, 0.9);
-  line-height: 1.4;
-}
-
-.contact-meta {
-  font-size: 11px;
-  color: rgba(224, 230, 237, 0.5);
-  line-height: 1.5;
-}
-
-.contact-link {
-  color: rgba(224, 230, 237, 0.7);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.contact-link:hover {
-  color: white;
+  line-height: 1.9;
+  color: rgba(224, 230, 237, 0.65);
 }
 
 /* ─── Bottom bar ──────────────────────────────────────────────── */
