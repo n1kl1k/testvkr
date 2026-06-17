@@ -74,6 +74,12 @@ function Documents() {
                     <a href="/Perevod_dr.doc" className="doc-download">
                         Скачать форму справки
                     </a>
+                    <p>
+                        Согласие на обработку персональных данных
+                    </p>
+                    <a href="/soglasie (1).doc" className="doc-download">
+                        Скачать согласие
+                    </a>
                 </div>
 
                 {/* Список документов */}
