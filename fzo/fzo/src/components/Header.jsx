@@ -154,6 +154,7 @@ function Header() {
               <ul className="dropdown-menu">
                 <li><Link to="/about/info" onClick={closeMenu}>Общая информация</Link></li>
                 <li><Link to="/about/sociallinks" onClick={closeMenu}>Соц. сети</Link></li>
+                <li><Link to="/about/contacts" onClick={closeMenu}>Контакты</Link></li>
               </ul>
             </li>
 

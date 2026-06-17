@@ -1,0 +1,111 @@
+.contacts-page {
+  padding: 48px 24px 64px;
+}
+
+.contacts-page__inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* ─── Title ───────────────────────────────────────────────────── */
+.contacts-page__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1E3A5F;
+  margin: 0 0 32px;
+}
+
+/* ─── Main contacts ───────────────────────────────────────────── */
+.contacts-page__main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 40px;
+  padding: 20px 24px;
+  background: #f4f7fb;
+  border-left: 4px solid #1E3A5F;
+  border-radius: 0 8px 8px 0;
+  margin-bottom: 40px;
+}
+
+.contacts-page__main-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contacts-page__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #7a8fa6;
+  font-weight: 600;
+}
+
+.contacts-page__value {
+  font-size: 15px;
+  color: #1E3A5F;
+  font-weight: 500;
+}
+
+/* ─── Block ───────────────────────────────────────────────────── */
+.contacts-page__block-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1E3A5F;
+  margin: 0 0 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dce6f0;
+}
+
+/* ─── List ────────────────────────────────────────────────────── */
+.contacts-page__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contacts-page__item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 16px;
+  background: #f9fbfd;
+  border: 1px solid #dce6f0;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.contacts-page__item:hover {
+  border-color: #1E3A5F;
+  box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
+}
+
+.contacts-page__item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a2e45;
+  line-height: 1.4;
+}
+
+.contacts-page__item-name::first-letter {
+  text-transform: uppercase;
+}
+
+.contacts-page__item-meta {
+  font-size: 12.5px;
+  color: #5a7290;
+  line-height: 1.5;
+}
+
+@media (max-width: 520px) {
+  .contacts-page__title {
+    font-size: 1.5rem;
+  }
+  .contacts-page__main {
+    flex-direction: column;
+    gap: 14px;
+  }
+}

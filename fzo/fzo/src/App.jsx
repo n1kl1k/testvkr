@@ -13,6 +13,7 @@ import Card from "./pages/abiturient/Card"
 
 import Info from "./pages/about/info";
 import SocialLinks from "./pages/about/SocialLinks";
+import Contacts from "./pages/about/Contacts";
 
 import SearchPage from "./pages/SearchPage";
 
@@ -36,6 +37,7 @@ function App() {
 
             <Route path="/about/info" element={<Info/>}/>
             <Route path="/about/sociallinks" element={<SocialLinks/>}/>
+            <Route path="/about/contacts" element={<Contacts/>}/>
 
             <Route path="/search" element={<SearchPage />} />
 
