@@ -11,7 +11,7 @@
 .contacts-page__title {
   font-size: 2rem;
   font-weight: 700;
-  color: #1E3A5F;
+  color: #ffffff;
   margin: 0 0 32px;
 }
 
@@ -51,7 +51,7 @@
 .contacts-page__block-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #1E3A5F;
+  color: #ffffff;
   margin: 0 0 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid #dce6f0;
